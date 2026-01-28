@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flappy Bird – Dark Mode</title>
+<style>
+    body {
+        margin: 0;
+        background: #0f172a;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-family: Arial, sans-serif;
+        color: #e5e7eb;
+    }
+
+    .container {
+        position: relative;
+    }
+
+    canvas {
+        background: #020617;
+        border: 2px solid #38bdf8;
+        display: block;
+    }
+
+    .back-btn {
+        position: absolute;
+        top: -45px;
+        left: 0;
+        padding: 8px 14px;
+        background: #1e293b;
+        color: #e5e7eb;
+        border: 1px solid #38bdf8;
+        cursor: pointer;
+        border-radius: 6px;
+        font-size: 14px;
+    }
+
+    .back-btn:hover {
+        background: #38bdf8;
+        color: #020617;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+    <button class="back-btn" onclick="goBack()">⬅ Back</button>
+    <canvas id="game" width="400" height="500"></canvas>
+</div>
+
+<script>
+const canvas = document.getElementById("game");
+const ctx = canvas.getContext("2d");
+
+let birdY = 250;
+let velocity = 0;
+let gravity = 0.5;
+let jump = -8;
+
+let pipeX = 400;
+let pipeGap = 130;
+let pipeTop = Math.random() * 200 + 50;
+
+let score = 0;
+let gameOver = false;
+
+function resetGame() {
+    birdY = 250;
+    velocity = 0;
+    pipeX = 400;
+    pipeTop = Math.random() * 200 + 50;
+    score = 0;
+    gameOver = false;
+}
+
+document.addEventListener("keydown", e => {
+    if (e.code === "Space" && !gameOver) velocity = jump;
+    if (e.key.toLowerCase() === "r") resetGame();
+});
+
+function drawBird() {
+    ctx.fillStyle = "#fde047";
+    ctx.fillRect(50, birdY, 20, 20);
+}
+
+function drawPipes() {
+    ctx.fillStyle = "#22c55e";
+    ctx.fillRect(pipeX, 0, 40, pipeTop);
+    ctx.fillRect(pipeX, pipeTop + pipeGap, 40, canvas.height);
+}
+
+function update() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    if (!gameOver) {
+        velocity += gravity;
+        birdY += velocity;
+        pipeX -= 2;
+
+        if (pipeX < -40) {
+            pipeX = 400;
+            pipeTop = Math.random() * 200 + 50;
+            score++;
+        }
+
+        // Collision
+        if (
+            birdY < 0 || birdY > canvas.height ||
+            (50 + 20 > pipeX && 50 < pipeX + 40 &&
+            (birdY < pipeTop || birdY + 20 > pipeTop + pipeGap))
+        ) {
+            gameOver = true;
+        }
+    }
+
+    drawBird();
+    drawPipes();
+
+    ctx.fillStyle = "#e5e7eb";
+    ctx.font = "20px Arial";
+    ctx.fillText("Score: " + score, 10, 25);
+
+    if (gameOver) {
+        ctx.fillText("GAME OVER", 135, 230);
+        ctx.fillText("Press R to Restart", 105, 260);
+    }
+
+    requestAnimationFrame(update);
+}
+
+function goBack() {
+    // Works for _blank tab
+    window.close();
+    // Fallback
+    history.back();
+}
+
+update();
+</script>
+
+</body>
+</html>

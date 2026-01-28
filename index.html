@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Miguel Carlos B. Ponday | Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header>
+    <div class="header-wrap">
+        <h1>Miguel Carlos B. Ponday</h1>
+        <nav>
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#projects">Projects</a>
+            <a href="#certs">Certifications</a>
+            <a href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
+
+<div class="hero">
+    <img src="assets/MIGZ.jpg" alt="Profile">
+    <h2>IT Student Portfolio</h2>
+    <p>Learning • Building • Improving</p>
+</div>
+
+<section id="about">
+    <h2 class="section-title">About Me</h2>
+    <div class="card about">
+        <p>
+            Hi! I’m Miguel Carlos B. Ponday, an Information Technology student with a strong passion for web development and modern technologies. I enjoy creating projects that continuously enhance my skills, challenge my creativity, and prepare me for a successful career in the IT industry.
+        </p>
+    </div>
+</section>
+
+<section id="skills">
+    <h2 class="section-title">Skills</h2>
+    <div class="card skills">
+        <span>HTML</span>
+        <span>CSS</span>
+        <span>JavaScript</span>
+        <span>Python</span>
+        <span>Git & GitHub</span>
+    </div>
+</section>
+
+<section id="projects">
+    <h2 class="section-title">Projects</h2>
+    <div class="projects">
+        <div class="card project-card">
+            <h3>Simple Game Project</h3>
+            <p>A browser-based game using HTML, CSS, and JavaScript.</p>
+            <a href="GAME.html" target="_blank">View Project →</a>
+        </div>
+    </div>
+</section>
+
+</section>
+
+ <div class="game-container">
+        <h1>🐍 SNAKE</h1>
+        <div class="score-board">
+            Score: <span id="score">0</span>
+        </div>
+        <div style="position: relative;">
+            <canvas id="gameCanvas" width="500" height="500"></canvas>
+            <div id="gameOverScreen">
+                <h2>GAME OVER!</h2>
+                <p>Final Score: <span id="finalScore">0</span></p>
+                <button class="restart-btn" onclick="restartGame()">PLAY AGAIN</button>
+            </div>
+        </div>
+ 
+        <!-- Mobile Control Buttons -->
+        <div class="mobile-controls">
+            <button class="control-btn up" id="btnUp">▲</button>
+            <button class="control-btn left" id="btnLeft">◄</button>
+            <div class="control-btn center">🐍</div>
+            <button class="control-btn right" id="btnRight">►</button>
+            <button class="control-btn down" id="btnDown">▼</button>
+        </div>
+ 
+        <div class="keyboard-controls">
+            <p><strong>Desktop:</strong> Arrow Keys or WASD</p>
+            <p><strong>Mobile:</strong> Use buttons above</p>
+        </div>
+    </div>
+ 
+    <script src="assets/script.js"></script>
+<section id="certs">
+    <h2 class="section-title">Certifications</h2>
+    <div class="certs">
+        <div class="card cert-icon-card">
+            <div class="cert-icon">
+                <img src="credly.jpg" alt="Cisco Certificate">
+            </div>
+            <h3>Cisco Networking Academy</h3>
+            <a href="https://www.credly.com/badges/da494229-467c-4b7c-8071-e180366914ba/public_url?" target="_blank">
+                View Certificate →
+            </a>
+        </div>
+    </div>
+</section>
+
+
+<section id="contact">
+    <h2 class="section-title">Contact</h2>
+    <div class="card contact">
+        <p>Email: miggycarlos7@gmail.com</p>
+        <p>GitHub: <a href="https://github.com/migggyyysofine" target="_blank">github.com/migggyyysofine</a></p>
+    </div>
+</section>
+
+<footer>
+    © 2026 Miguel Carlos 
+</footer>
+
+</body>
+</html>
