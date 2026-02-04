@@ -1,19 +1,49 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Contact Us</title>
+<meta charset="UTF-8">
+<title>Contact</title>
 <link rel="stylesheet" href="../css/style.css">
 <script src="../script/main.js" defer></script>
 </head>
 <body>
 
-<h1>Citizen Feedback</h1>
+<header>
+  <h1>City Government of Bacoor</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="departments.html">Departments</a>
+    <a href="services.html">Services</a>
+    <a href="announcements.html">Announcements</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+<button class="back-btn" onclick="history.back()">← Back</button>
+<img src="../CSS/logo.jpg" class="page-img fade-in">
 
-<form onsubmit="saveFeedback(); return false;">
-  <input type="text" id="citizenName" placeholder="Your Name">
-  <textarea id="message" placeholder="Your Message"></textarea>
-  <button type="submit">Send</button>
-</form>
+<section class="intro slide-up">
+  <h2>Contact Us</h2>
+  <p>If you have questions, feedback, or requests, feel free to reach out to the City Government of Bacoor. You can use the form below or contact us directly using the information provided.</p>
+</section>
+
+<section class="card slide-up contact-info">
+  <h3>Contact Information</h3>
+  <p><strong>Phone:</strong> +63 123 456 7890</p>
+  <p><strong>Email:</strong> info@bacoor.gov.ph</p>
+  <p><strong>Office Address:</strong> Bacoor City Hall, Bacoor, Cavite</p>
+</section>
+
+<section class="card slide-up">
+  <h3>Send Us a Message</h3>
+  <form onsubmit="saveFeedback(); return false;">
+    <input type="text" id="citizenName" placeholder="Your Full Name" required>
+    <input type="email" id="citizenEmail" placeholder="Your Email Address" required>
+    <textarea id="message" placeholder="Type your message here..." required></textarea>
+    <button type="submit">Send</button>
+    <p id="formMsg"></p>
+  </form>
+</section>
 
 </body>
 </html>

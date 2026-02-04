@@ -1,32 +1,73 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>Public Services</title>
+<meta charset="UTF-8">
+<title>Services</title>
 <link rel="stylesheet" href="../css/style.css">
 <script src="../script/main.js" defer></script>
 </head>
 <body>
 
-<h1>Online Service Request</h1>
+<header>
+  <h1>City Government of Bacoor</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="departments.html">Departments</a>
+    <a href="services.html">Services</a>
+    <a href="announcements.html">Announcements</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+<button class="back-btn" onclick="history.back()">← Back</button>
 
-<form onsubmit="return validateForm()">
-  <label>Name:</label>
-  <input type="text" id="name"><br>
+<img src="../CSS/serve.jpg" class="page-img fade-in">
 
-  <label>Email:</label>
-  <input type="email" id="email"><br>
+<section class="intro slide-up">
+  <h2>Our Services</h2>
+  <p>The City Government of Bacoor provides a variety of services to support citizens, businesses, and community needs. Use the form below to submit requests or inquiries about our services.</p>
+</section>
 
-  <label>Service Needed:</label>
-  <select id="service">
-    <option>Business Permit</option>
-    <option>Barangay Clearance</option>
-    <option>Health Service</option>
-  </select><br>
+<section class="card slide-up">
+  <h2>Available Services</h2>
+  <ul>
+    <li>
+      <strong>Business Permit</strong> – Apply for or renew your business permits to legally operate in the city.
+    </li>
+    <li>
+      <strong>Barangay Clearance</strong> – Request clearances needed for residency, employment, or other official transactions.
+    </li>
+    <li>
+      <strong>Health Services</strong> – Access medical check-ups, vaccinations, and other public health programs.
+    </li>
+    <li>
+      <strong>Social Assistance</strong> – Aid programs for families and individuals in need, including livelihood support.
+    </li>
+    <li>
+      <strong>Tourism Assistance</strong> – Information and assistance for local tourism activities and events.
+    </li>
+  </ul>
+</section>
 
-  <button type="submit">Submit</button>
-</form>
+<section class="card slide-up">
+  <h2>Submit a Request</h2>
+  <form onsubmit="return validateForm()">
+    <input type="text" id="name" placeholder="Full Name" required>
+    <input type="email" id="email" placeholder="Email Address" required>
 
-<p id="formMsg"></p>
+    <select id="service" required>
+      <option value="">Select a Service</option>
+      <option value="Business Permit">Business Permit</option>
+      <option value="Barangay Clearance">Barangay Clearance</option>
+      <option value="Health Service">Health Service</option>
+      <option value="Social Assistance">Social Assistance</option>
+      <option value="Tourism Assistance">Tourism Assistance</option>
+    </select>
+
+    <button type="submit">Submit Request</button>
+    <p id="formMsg"></p>
+  </form>
+</section>
 
 </body>
 </html>

@@ -3,13 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <title>Bacoor City LGU</title>
-<link rel="stylesheet" href="../css/style.css">
-<script src="../script/main.js" defer></script>
+
+<!-- FIXED PATHS (MATCH YOUR FOLDERS) -->
+<link rel="stylesheet" href="../CSS/style.css">
+<script src="../SCRIPT/script.js" defer></script>
 </head>
 <body>
 
 <header>
-  <h1>City Government of Bacoor</h1>
+  <div class="header-left">
+    <img src="../CSS/logo.jpg" class="logo">
+    <h1>City Government of Bacoor</h1>
+  </div>
+
   <nav>
     <a href="index.html">Home</a>
     <a href="about.html">About</a>
@@ -20,18 +26,28 @@
   </nav>
 </header>
 
-<section class="hero">
-  <h2>Welcome to Bacoor City</h2>
-  <p>Providing transparent and efficient public service.</p>
+<section class="hero fade-in">
+  <img src="../CSS/bacoor 2.jpg" class="hero-img">
+
+  <div class="hero-text">
+    <h2>Welcome to Bacoor City</h2>
+    <p>Transparent, responsive, and citizen-focused governance.</p>
+  </div>
 </section>
 
-<section>
-  <h3>Latest Announcements</h3>
-  <ul id="announcementList"></ul>
+<!-- 🔥 B A C O O R E Ñ O   Q U O T E S  🔥 -->
+<section class="card slide-up quote-section">
+  <h2 class="quote-title">Bacooreño Pride</h2>
+
+  <p class="quote-text">
+    “Dito sa Bacoor, ang kaunlaran ay para sa lahat.”
+  </p>
+
+  <!-- You can change this text anytime -->
 </section>
 
 <div id="modal" class="modal">
-  <div class="modal-content">
+  <div class="modal-content zoom-in">
     <span class="close" onclick="closeModal()">&times;</span>
     <p id="modalText"></p>
   </div>

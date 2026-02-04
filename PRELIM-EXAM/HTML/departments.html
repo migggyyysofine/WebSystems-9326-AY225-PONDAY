@@ -1,23 +1,69 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+<meta charset="UTF-8">
 <title>Departments</title>
 <link rel="stylesheet" href="../css/style.css">
 <script src="../script/main.js" defer></script>
 </head>
 <body>
 
-<h1>City Departments</h1>
+<header>
+  <h1>City Government of Bacoor</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="about.html">About</a>
+    <a href="departments.html">Departments</a>
+    <a href="services.html">Services</a>
+    <a href="announcements.html">Announcements</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+</header>
+<button class="back-btn" onclick="history.back()">← Back</button>
 
-<input type="text" id="searchDept" placeholder="Search department..." onkeyup="filterDepartments()">
+<img src="../CSS/depart.jpg" class="page-img fade-in">
 
-<ul id="deptList">
-  <li>Mayor's Office</li>
-  <li>Health Office</li>
-  <li>Engineering Office</li>
-  <li>Social Welfare Office</li>
-  <li>Tourism Office</li>
-</ul>
+<section class="intro slide-up">
+  <h2>Our Departments</h2>
+  <p>The City Government of Bacoor is committed to providing excellent services to its citizens through various specialized departments. Explore the departments below to know their roles and how they can assist you.</p>
+</section>
+
+<section class="card slide-up">
+  <input type="text" id="searchDept" placeholder="Search department..." onkeyup="filterDepartments()">
+
+  <ul id="deptList">
+    <li>
+      <strong>Mayor's Office</strong><br>
+      Oversees city operations, implements policies, and manages public administration. <br>
+      Contact: mayor@bacoor.gov.ph | +63 123 456 7890
+    </li>
+    <li>
+      <strong>Health Office</strong><br>
+      Provides public health services, medical programs, and health education. <br>
+      Contact: health@bacoor.gov.ph | +63 123 456 7891
+    </li>
+    <li>
+      <strong>Engineering Office</strong><br>
+      Handles city infrastructure, road maintenance, and public construction projects. <br>
+      Contact: engineering@bacoor.gov.ph | +63 123 456 7892
+    </li>
+    <li>
+      <strong>Social Welfare Office</strong><br>
+      Supports vulnerable populations through social programs, aid, and community development. <br>
+      Contact: socialwelfare@bacoor.gov.ph | +63 123 456 7893
+    </li>
+    <li>
+      <strong>Tourism Office</strong><br>
+      Promotes local tourism, organizes events, and enhances the city’s cultural attractions. <br>
+      Contact: tourism@bacoor.gov.ph | +63 123 456 7894
+    </li>
+  </ul>
+</section>
+
+<section class="card slide-up">
+  <h2>Quick Links</h2>
+  <p>Need to contact a department quickly? Use our <a href="contact.html">Contact Page</a> to send inquiries or schedule appointments.</p>
+</section>
 
 </body>
 </html>
