@@ -161,26 +161,6 @@ footer {
   margin-top: 30px;
 }
 
-/* BUTTONS */
-.back-container {
-      width: 90%;
-      max-width: 900px;
-      margin: 20px auto; /* centers on page */
-    }
-
-    .back-btn {
-      padding: 8px 16px;
-      background: #003366; /* professional blue */
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .back-btn:hover {
-      background: #0055aa; /* hover effect */
-    }
 /* ANIMATIONS */
 .fade-in {
   animation: fadeIn 1.5s ease-in;
@@ -214,4 +194,27 @@ footer {
   margin: 0 auto;       /* horizontally centers the image */
   max-width: 100%;      /* keeps it responsive */
   height: auto;         /* maintains aspect ratio */
+}
+/* Navbar styles */
+.navbar ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 20px;
+  background-color: #4B0082; /* Example color */
+  padding: 10px 20px;
+}
+
+.navbar ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.navbar ul li a.active {
+  text-decoration: underline;
+}
+
+.navbar ul li a:hover {
+  color: #FF0000;
 }
