@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blizzard · live scraper | interactive interface</title>
+    <title>Blizzard · live scraper | click title to visit</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
@@ -496,7 +496,6 @@
             background: rgba(30, 70, 110, 0.9);
             transform: scale(1.01) translateY(-2px);
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            cursor: pointer;
         }
 
         .game-table tbody tr:hover td {
@@ -509,6 +508,14 @@
             font-size: 1rem;
             position: relative;
             display: inline-block;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .game-title-cell:hover {
+            color: #ffffff;
+            text-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
+            transform: translateX(2px);
         }
 
         .game-title-cell::after {
@@ -522,7 +529,7 @@
             transition: width 0.3s ease;
         }
 
-        tr:hover .game-title-cell::after {
+        .game-title-cell:hover::after {
             width: 100%;
         }
 
@@ -641,6 +648,22 @@
             0%, 100% { opacity: 0.6; }
             50% { opacity: 1; }
         }
+        
+        /* Tooltip style */
+        .game-title-cell[title]:hover::before {
+            content: attr(title);
+            position: absolute;
+            bottom: 100%;
+            left: 0;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            white-space: nowrap;
+            z-index: 1000;
+            pointer-events: none;
+        }
     </style>
 </head>
 <body>
@@ -657,7 +680,7 @@
                 <i class="fab fa-blizzard-b"></i> 
                 <span>BLIZZARD <span style="font-weight:300;">scraper</span></span>
             </div>
-            <div class="badge"><i class="far fa-keyboard"></i> live extraction · interactive ui</div>
+            <div class="badge"><i class="far fa-keyboard"></i> click game title to visit website</div>
         </div>
     </header>
 
@@ -694,7 +717,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="col-title">GAME TITLE</th>
+                        <th class="col-title">GAME TITLE (click to visit)</th>
                         <th class="col-release">RELEASE</th>
                         <th class="col-features">FEATURES</th>
                         <th class="col-platform">PLATFORM</th>
@@ -883,19 +906,47 @@
                         ? `<span class="not-available-cell">${escapeHtml(g.publisherInfo)}</span>` 
                         : escapeHtml(g.publisherInfo);
 
+                    // Make the game title clickable with a tooltip
                     rowsHtml += `
                     <tr>
-                        <td class="game-title-cell">${escapeHtml(g.gameTitle)}</td>
+                        <td><span class="game-title-cell" title="Click to visit Blizzard website" data-game-title="${escapeHtml(g.gameTitle)}">${escapeHtml(g.gameTitle)}</span></td>
                         <td>${releaseCell}</td>
                         <td class="feature-cell">${featureCell}</td>
                         <td class="platform-cell">${platformCell}</td>
                         <td>${devCell}</td>
                         <td>${pubCell}</td>
-                        <td><i class="fab fa-blizzard-b" style="color: #6dc7ff; opacity: 0.5; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.transform='scale(1.2)'" onmouseout="this.style.opacity='0.5'; this.style.transform='scale(1)'"></i></td>
+                        <td><i class="fab fa-blizzard-b" style="color: #6dc7ff; opacity: 0.5;"></i></td>
                     </tr>`;
                 });
                 tableBody.innerHTML = rowsHtml;
             }
+
+            // ****** CLICK HANDLER FOR GAME TITLE ******
+            tableBody.addEventListener('click', function(e) {
+                // Find if the clicked element (or its parent) is the game-title-cell
+                const titleElement = e.target.closest('.game-title-cell');
+                if (!titleElement) return; // not a game title click
+
+                // Get the game title (optional, for reference)
+                const gameTitle = titleElement.dataset.gameTitle || 'Game';
+                
+                // Get the base URL from input
+                let targetUrl = baseUrlInput.value.trim();
+                
+                // Validate and use fallback if needed
+                if (!isValidBlizzardUrl(targetUrl)) {
+                    targetUrl = 'https://www.blizzard.com/games';
+                }
+                
+                // Open the website in a new tab - DIRECT, NO CONFIRMATION
+                window.open(targetUrl, '_blank');
+                
+                // Optional: show a small visual feedback (but no confirmation)
+                titleElement.style.color = '#ffffff';
+                setTimeout(() => {
+                    titleElement.style.color = '#7fd4ff';
+                }, 200);
+            });
 
             // scrape simulation
             async function handleScrape() {
@@ -919,7 +970,7 @@
 
                 await new Promise(r => setTimeout(r, 700));
 
-                // fresh generation every time – absolutely no hardcoded list stored globally
+                // fresh generation every time
                 gamesData = generateLiveScrapeResult();
 
                 searchInput.value = '';
