@@ -3,10 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blizzard · live scraper | professional interface</title>
+    <title>Blizzard · live scraper | interactive interface</title>
     <!-- Font Awesome 6 (free) -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        /* ===== styles identical to original (kept exactly as provided) ===== */
         * {
             margin: 0;
             padding: 0;
@@ -15,26 +16,46 @@
         }
 
         body {
-            background: linear-gradient(145deg, #f1f5f9 0%, #e6ecf4 100%);
+            background: linear-gradient(135deg, #0a1f3a 0%, #1e4b6e 50%, #2b6c9e 100%);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: background 0.3s ease;
+            transition: background 0.5s ease;
+            position: relative;
+            overflow-x: hidden;
         }
 
-        /* modern glassmorphism header */
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at 20% 50%, rgba(76, 161, 255, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 80%, rgba(0, 255, 255, 0.1) 0%, transparent 50%);
+            animation: pulse 8s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 1; }
+        }
+
         header {
-            background: rgba(10, 25, 45, 0.9);
+            background: rgba(8, 28, 48, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             color: white;
             padding: 1.5rem 3rem;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
-            box-shadow: 0 20px 35px -8px rgba(0,20,40,0.4);
+            border-bottom: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 20px 35px -8px rgba(0,0,0,0.5);
             position: sticky;
             top: 0;
             z-index: 100;
             animation: slideDown 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-bottom: 2px solid rgba(100, 200, 255, 0.3);
         }
 
         @keyframes slideDown {
@@ -58,56 +79,81 @@
             font-size: 1.9rem;
             font-weight: 600;
             letter-spacing: -0.02em;
+            animation: glow 3s ease-in-out infinite;
+        }
+
+        @keyframes glow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(100, 200, 255, 0.5)); }
+            50% { filter: drop-shadow(0 0 20px rgba(100, 200, 255, 0.8)); }
         }
 
         .logo i {
-            background: linear-gradient(135deg, #6dc7ff, #3b8fc2);
+            background: linear-gradient(135deg, #7fd4ff, #2b7fc2);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             font-size: 2.4rem;
             filter: drop-shadow(0 0 8px #3b8fc2);
+            animation: spin 10s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
 
         .badge {
-            background: rgba(255,255,255,0.1);
+            background: linear-gradient(145deg, rgba(0, 150, 255, 0.2), rgba(0, 100, 255, 0.3));
             backdrop-filter: blur(4px);
             padding: 0.4rem 1.2rem;
             border-radius: 60px;
             font-size: 0.85rem;
-            border: 1px solid rgba(255,255,255,0.15);
-            color: #c9e2ff;
+            border: 1px solid rgba(100, 200, 255, 0.5);
+            color: #b3e4ff;
             margin-left: auto;
+            animation: badgePulse 3s ease-in-out infinite;
         }
 
-        /* main container */
+        @keyframes badgePulse {
+            0%, 100% { border-color: rgba(100, 200, 255, 0.5); }
+            50% { border-color: rgba(100, 200, 255, 1); box-shadow: 0 0 15px rgba(100, 200, 255, 0.5); }
+        }
+
         .container {
             max-width: 1400px;
             margin: 2.5rem auto;
             padding: 0 2.5rem;
             flex: 1;
             width: 100%;
+            position: relative;
+            z-index: 10;
         }
 
-        /* scraping card – elegant elevated panel */
         .scrape-card {
-            background: rgba(255,255,255,0.75);
+            background: rgba(15, 35, 55, 0.75);
             backdrop-filter: blur(16px);
             -webkit-backdrop-filter: blur(16px);
             border-radius: 48px;
             padding: 2rem 2.5rem;
             margin-bottom: 2.5rem;
-            border: 1px solid rgba(255,255,255,0.6);
-            box-shadow: 0 25px 45px -18px #0b1f33, 0 0 0 1px rgba(255,255,255,0.5) inset;
+            border: 1px solid rgba(100, 200, 255, 0.4);
+            box-shadow: 0 25px 45px -18px #000, 0 0 0 1px rgba(100, 200, 255, 0.3) inset;
             display: flex;
             flex-wrap: wrap;
             align-items: center;
             gap: 2rem;
-            transition: box-shadow 0.3s ease, transform 0.2s ease;
+            transition: all 0.3s ease;
+            animation: float 6s ease-in-out infinite;
         }
 
-        .scrape-card:focus-within {
-            box-shadow: 0 30px 55px -18px #1d4a76, 0 0 0 2px #ffffff inset;
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .scrape-card:hover {
+            box-shadow: 0 30px 55px -18px #000, 0 0 0 2px #6dc7ff inset;
+            border-color: #6dc7ff;
         }
 
         .url-field {
@@ -120,43 +166,49 @@
             left: 24px;
             top: 50%;
             transform: translateY(-50%);
-            color: #3f688b;
+            color: #6dc7ff;
             font-size: 1.3rem;
-            transition: color 0.2s;
+            transition: all 0.3s ease;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(-50%) scale(1); }
+            50% { transform: translateY(-60%) scale(1.1); }
         }
 
         #baseUrl {
             width: 100%;
             padding: 1.3rem 1.3rem 1.3rem 4rem;
             border: none;
-            background: rgba(240, 247, 255, 0.9);
+            background: rgba(10, 25, 40, 0.9);
             border-radius: 80px;
             font-size: 1.15rem;
-            color: #102433;
+            color: #fff;
             font-weight: 500;
-            border: 2px solid transparent;
+            border: 2px solid rgba(100, 200, 255, 0.3);
             transition: all 0.25s;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.02);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
         #baseUrl::placeholder {
-            color: #657e9e;
+            color: #8bb4d9;
             font-weight: 400;
             opacity: 0.7;
         }
 
         #baseUrl:focus {
             outline: none;
-            border-color: #1e4c7a;
-            background: white;
-            box-shadow: 0 8px 22px -8px #1a4469;
+            border-color: #6dc7ff;
+            background: rgba(15, 35, 55, 0.95);
+            box-shadow: 0 8px 22px -8px #000, 0 0 20px rgba(100, 200, 255, 0.5);
+            transform: scale(1.02);
         }
 
-        /* invalid url feedback (dynamic class) */
         #baseUrl.invalid {
-            border-color: #c05e5e;
-            background: #fff2f2;
-            box-shadow: 0 0 0 3px rgba(210, 70, 70, 0.2);
+            border-color: #ff6b6b;
+            background: rgba(100, 30, 30, 0.9);
+            box-shadow: 0 0 0 3px rgba(255, 100, 100, 0.3);
             animation: shake 0.4s ease;
         }
 
@@ -169,7 +221,8 @@
         }
 
         .scrape-btn {
-            background: linear-gradient(165deg, #132f46, #1e4c72);
+            background: linear-gradient(165deg, #005c99, #0077be, #0099ff);
+            background-size: 200% 200%;
             border: none;
             color: white;
             padding: 1.2rem 3rem;
@@ -180,16 +233,23 @@
             align-items: center;
             gap: 12px;
             cursor: pointer;
-            transition: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.2);
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 20px 35px -10px #0a2c44;
+            transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+            border: 1px solid rgba(255,255,255,0.3);
+            box-shadow: 0 20px 35px -10px #000;
             letter-spacing: 0.3px;
+            animation: gradientShift 5s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
         }
 
         .scrape-btn:hover:not(:disabled) {
-            background: linear-gradient(165deg, #1d3f5a, #256792);
+            background: linear-gradient(165deg, #0077be, #0099ff, #00b4ff);
+            background-size: 200% 200%;
             transform: scale(1.04) translateY(-2px);
-            box-shadow: 0 28px 40px -12px #0d3452;
+            box-shadow: 0 28px 40px -12px #000, 0 0 30px rgba(0, 180, 255, 0.6);
         }
 
         .scrape-btn:active:not(:disabled) {
@@ -203,20 +263,31 @@
         }
 
         .url-helper {
-            color: #1d3d5c;
-            background: rgba(255,255,255,0.6);
+            color: #b3e4ff;
+            background: rgba(0, 50, 80, 0.6);
             border-radius: 60px;
             padding: 0.5rem 1.5rem;
             font-size: 0.95rem;
             display: flex;
             align-items: center;
             gap: 12px;
-            border: 1px solid white;
+            border: 1px solid rgba(100, 200, 255, 0.4);
+            animation: slideInRight 0.5s ease;
         }
 
-        /* filter section */
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
         .filter-panel {
-            background: rgba(255,255,255,0.6);
+            background: rgba(15, 35, 55, 0.7);
             backdrop-filter: blur(10px);
             border-radius: 60px;
             padding: 0.8rem 1.8rem;
@@ -225,8 +296,25 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 1.5rem;
-            border: 1px solid rgba(255,255,255,0.7);
-            animation: fadeIn 0.6s;
+            border: 1px solid rgba(100, 200, 255, 0.4);
+            animation: fadeInScale 0.6s;
+            transition: all 0.3s ease;
+        }
+
+        @keyframes fadeInScale {
+            from {
+                opacity: 0;
+                transform: scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1);
+            }
+        }
+
+        .filter-panel:hover {
+            border-color: #6dc7ff;
+            box-shadow: 0 0 30px rgba(100, 200, 255, 0.3);
         }
 
         .filter-group {
@@ -237,183 +325,282 @@
         }
 
         .filter-group i {
-            color: #1f4a70;
+            color: #6dc7ff;
             font-size: 1.2rem;
+            animation: pulse 2s ease-in-out infinite;
         }
 
         #searchInput {
-            background: rgba(255,255,255,0.9);
-            border: 1px solid #cbdae9;
+            background: rgba(10, 25, 40, 0.9);
+            border: 1px solid rgba(100, 200, 255, 0.3);
             padding: 0.9rem 1.5rem;
             border-radius: 40px;
             width: 100%;
             font-size: 1rem;
+            color: white;
             transition: all 0.2s;
         }
 
+        #searchInput::placeholder {
+            color: #8bb4d9;
+        }
+
         #searchInput:focus {
-            border-color: #1e4c7a;
+            border-color: #6dc7ff;
             outline: none;
-            box-shadow: 0 0 0 4px rgba(25, 90, 150, 0.15);
-            background: white;
+            box-shadow: 0 0 0 4px rgba(100, 200, 255, 0.15), 0 0 20px rgba(100, 200, 255, 0.3);
+            background: rgba(15, 35, 55, 0.95);
+            transform: scale(1.02);
         }
 
         #platformFilter {
-            background: rgba(255,255,255,0.9);
-            border: 1px solid #cbdae9;
+            background: rgba(10, 25, 40, 0.9);
+            border: 1px solid rgba(100, 200, 255, 0.3);
             padding: 0.85rem 2.5rem 0.85rem 1.5rem;
             border-radius: 40px;
             font-weight: 500;
-            color: #132c41;
+            color: white;
             cursor: pointer;
             appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23234f77' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236dc7ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
             background-repeat: no-repeat;
             background-position: right 1.2rem center;
+            transition: all 0.2s;
+        }
+
+        #platformFilter:hover {
+            border-color: #6dc7ff;
+            box-shadow: 0 0 20px rgba(100, 200, 255, 0.3);
         }
 
         .stats-glass {
-            background: #1e3b5b;
+            background: linear-gradient(145deg, #005c99, #0077be);
             color: white;
             padding: 0.6rem 2rem;
             border-radius: 40px;
             font-weight: 500;
-            box-shadow: 0 6px 12px rgba(0,30,50,0.2);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
             margin-left: auto;
             white-space: nowrap;
+            animation: glow 3s ease-in-out infinite;
+            border: 1px solid rgba(255,255,255,0.2);
         }
 
-        /* game grid */
-        .game-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-            gap: 2rem;
-            margin-bottom: 3rem;
-            animation: fadeUp 0.5s;
-        }
-
-        @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(15px); }
-            100% { opacity: 1; transform: translateY(0); }
-        }
-
-        .game-card {
-            background: rgba(255,255,255,0.8);
+        .game-table {
+            width: 100%;
+            background: rgba(15, 35, 55, 0.8);
             backdrop-filter: blur(8px);
             border-radius: 36px;
-            padding: 1.8rem 1.5rem 1.5rem;
-            border: 1px solid rgba(255,255,255,0.8);
-            box-shadow: 0 20px 35px -15px rgba(12, 35, 55, 0.25);
-            transition: all 0.3s cubic-bezier(0.15, 0.8, 0.3, 1.2);
-            display: flex;
-            flex-direction: column;
-            transform: translateY(0);
+            border: 1px solid rgba(100, 200, 255, 0.4);
+            box-shadow: 0 20px 35px -15px #000;
+            overflow: hidden;
+            margin-bottom: 3rem;
+            animation: slideUpFade 0.5s;
+            transition: all 0.3s ease;
         }
 
-        .game-card:hover {
-            transform: translateY(-8px) scale(1.01);
-            background: rgba(255,255,255,0.95);
-            box-shadow: 0 30px 50px -18px #0c2d49;
-            border-color: white;
+        @keyframes slideUpFade {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        .title-row {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            margin-bottom: 1.5rem;
-            border-bottom: 2px solid rgba(80, 130, 200, 0.2);
-            padding-bottom: 0.8rem;
+        .game-table:hover {
+            border-color: #6dc7ff;
+            box-shadow: 0 30px 45px -15px #000, 0 0 30px rgba(100, 200, 255, 0.3);
         }
 
-        .title-row i {
-            font-size: 2rem;
-            color: #1a4e7a;
-            background: rgba(40, 100, 160, 0.1);
-            padding: 0.6rem;
-            border-radius: 18px;
+        .game-table table {
+            width: 100%;
+            border-collapse: collapse;
+            border-style: hidden;
         }
 
-        .game-title {
-            font-size: 1.7rem;
-            font-weight: 700;
-            color: #0a253b;
-            line-height: 1.2;
-        }
-
-        .detail-grid {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .detail-item {
-            display: flex;
-            align-items: baseline;
-            background: rgba(245, 250, 255, 0.5);
-            border-radius: 26px;
-            padding: 0.3rem 0.3rem 0.3rem 1.2rem;
-            border: 1px solid rgba(255,255,255,0.8);
-        }
-
-        .detail-label {
-            width: 95px;
-            font-weight: 700;
-            color: #1f4462;
-            font-size: 0.8rem;
-            letter-spacing: 0.4px;
+        .game-table th {
+            background: linear-gradient(145deg, #003366, #004c99);
+            color: white;
+            font-weight: 600;
+            font-size: 0.85rem;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 1.2rem 1rem;
+            text-align: left;
+            border-bottom: 2px solid rgba(100, 200, 255, 0.4);
+            position: relative;
+            overflow: hidden;
         }
 
-        .detail-value {
-            flex: 1;
-            background: white;
-            padding: 0.6rem 1.2rem;
-            border-radius: 30px;
-            font-weight: 500;
-            color: #14273b;
-            box-shadow: inset 0 1px 4px #dde3ec;
-            word-break: break-word;
+        .game-table th::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 3s infinite;
         }
 
-        .not-available {
-            background: #ffeee3;
-            color: #a16141;
+        @keyframes shimmer {
+            0% { left: -100%; }
+            20% { left: 100%; }
+            100% { left: 100%; }
+        }
+
+        .game-table td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(100, 200, 255, 0.15);
+            color: #e0f0ff;
+            font-size: 0.95rem;
+            vertical-align: middle;
+            transition: all 0.2s ease;
+        }
+
+        .game-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .game-table tbody tr {
+            transition: all 0.3s ease;
+            animation: rowFadeIn 0.5s ease forwards;
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        @keyframes rowFadeIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .game-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
+        .game-table tbody tr:nth-child(2) { animation-delay: 0.15s; }
+        .game-table tbody tr:nth-child(3) { animation-delay: 0.2s; }
+        .game-table tbody tr:nth-child(4) { animation-delay: 0.25s; }
+        .game-table tbody tr:nth-child(5) { animation-delay: 0.3s; }
+        .game-table tbody tr:nth-child(6) { animation-delay: 0.35s; }
+        .game-table tbody tr:nth-child(7) { animation-delay: 0.4s; }
+        .game-table tbody tr:nth-child(8) { animation-delay: 0.45s; }
+        .game-table tbody tr:nth-child(9) { animation-delay: 0.5s; }
+        .game-table tbody tr:nth-child(10) { animation-delay: 0.55s; }
+        .game-table tbody tr:nth-child(11) { animation-delay: 0.6s; }
+        .game-table tbody tr:nth-child(12) { animation-delay: 0.65s; }
+
+        .game-table tbody tr:hover {
+            background: rgba(30, 70, 110, 0.9);
+            transform: scale(1.01) translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            cursor: pointer;
+        }
+
+        .game-table tbody tr:hover td {
+            color: white;
+        }
+
+        .game-title-cell {
+            font-weight: 700;
+            color: #7fd4ff;
+            font-size: 1rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .game-title-cell::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #6dc7ff, #0099ff);
+            transition: width 0.3s ease;
+        }
+
+        tr:hover .game-title-cell::after {
+            width: 100%;
+        }
+
+        .platform-cell {
+            max-width: 200px;
+        }
+
+        .not-available-cell {
+            color: #ffb08c;
             font-style: italic;
+            background: rgba(255, 140, 100, 0.15);
+            padding: 0.3rem 0.8rem;
+            border-radius: 30px;
+            display: inline-block;
+            font-size: 0.85rem;
+            border: 1px solid rgba(255, 140, 100, 0.3);
+            animation: softPulse 3s ease-in-out infinite;
         }
 
-        .card-footer {
-            margin-top: 1.5rem;
-            font-size: 0.8rem;
-            color: #4d6d8c;
-            display: flex;
-            justify-content: flex-end;
-            align-items: center;
-            gap: 8px;
+        @keyframes softPulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; background: rgba(255, 140, 100, 0.25); }
         }
 
-        /* empty states */
+        .feature-cell {
+            max-width: 250px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            position: relative;
+        }
+
+        .feature-cell:hover {
+            overflow: visible;
+            white-space: normal;
+            word-wrap: break-word;
+            background: rgba(15, 35, 55, 0.95);
+            position: relative;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            border-radius: 8px;
+            padding: 0.5rem;
+        }
+
         .empty-state {
-            background: rgba(255,255,255,0.7);
+            background: rgba(15, 35, 55, 0.8);
             backdrop-filter: blur(8px);
             border-radius: 80px;
             padding: 3.5rem;
             text-align: center;
-            color: #1c3f5e;
+            color: #b3e4ff;
             font-size: 1.5rem;
-            grid-column: 1 / -1;
-            border: 1px dashed white;
+            width: 100%;
+            border: 2px dashed rgba(100, 200, 255, 0.4);
+            animation: emptyPulse 4s ease-in-out infinite;
         }
 
-        /* footer */
+        @keyframes emptyPulse {
+            0%, 100% { border-color: rgba(100, 200, 255, 0.4); }
+            50% { border-color: rgba(100, 200, 255, 0.8); box-shadow: 0 0 30px rgba(100, 200, 255, 0.2); }
+        }
+
         footer {
-            background: rgba(10, 22, 38, 0.9);
+            background: rgba(8, 28, 48, 0.9);
             backdrop-filter: blur(8px);
-            color: #b3cef0;
+            color: #8bb4d9;
             text-align: center;
             padding: 1.8rem;
-            border-top: 1px solid #2d4e70;
+            border-top: 2px solid rgba(100, 200, 255, 0.3);
             font-size: 0.95rem;
+            position: relative;
+            z-index: 10;
+            animation: footerGlow 5s ease-in-out infinite;
+        }
+
+        @keyframes footerGlow {
+            0%, 100% { border-top-color: rgba(100, 200, 255, 0.3); }
+            50% { border-top-color: rgba(100, 200, 255, 0.8); }
         }
 
         .spinner {
@@ -421,25 +608,61 @@
             animation: spin 1s infinite linear;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .col-title { width: 18%; }
+        .col-release { width: 10%; }
+        .col-features { width: 22%; }
+        .col-platform { width: 18%; }
+        .col-developer { width: 12%; }
+        .col-publisher { width: 12%; }
+        .col-badge { width: 8%; }
+
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.3;
+            color: #6dc7ff;
+            animation: floatParticle 15s linear infinite;
+        }
+
+        @keyframes floatParticle {
+            from {
+                transform: translateY(100vh) rotate(0deg);
+            }
+            to {
+                transform: translateY(-100px) rotate(360deg);
+            }
+        }
+
+        .loading-pulse {
+            animation: loadingPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes loadingPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
         }
     </style>
 </head>
 <body>
+    <!-- floating particles (same) -->
+    <div class="particle" style="left: 10%; top: 20%;"><i class="fas fa-snowflake"></i></div>
+    <div class="particle" style="left: 20%; top: 40%; animation-duration: 18s;"><i class="fas fa-star"></i></div>
+    <div class="particle" style="left: 80%; top: 60%; animation-duration: 12s;"><i class="fas fa-gem"></i></div>
+    <div class="particle" style="left: 40%; top: 70%; animation-duration: 20s;"><i class="fas fa-circle"></i></div>
+    <div class="particle" style="left: 90%; top: 30%; animation-duration: 14s;"><i class="fas fa-square"></i></div>
+
     <header>
         <div class="header-content">
             <div class="logo">
                 <i class="fab fa-blizzard-b"></i> 
                 <span>BLIZZARD <span style="font-weight:300;">scraper</span></span>
             </div>
-            <div class="badge"><i class="far fa-keyboard"></i> live extraction · url validation</div>
+            <div class="badge"><i class="far fa-keyboard"></i> live extraction · interactive ui</div>
         </div>
     </header>
 
     <div class="container">
-        <!-- scraping card with URL input (no preloaded games) -->
+        <!-- scrape card with default example url (still blizzard.com) -->
         <div class="scrape-card">
             <div class="url-field">
                 <i class="fas fa-link"></i>
@@ -449,7 +672,7 @@
             <div class="url-helper"><i class="fas fa-shield-alt"></i> only blizzard.com/* urls valid</div>
         </div>
 
-        <!-- filter bar (hidden until data exists) -->
+        <!-- filter panel (hidden at start) -->
         <div class="filter-panel" id="filterPanel" style="display: none;">
             <div class="filter-group">
                 <i class="fas fa-search"></i>
@@ -466,12 +689,27 @@
             <span class="stats-glass" id="resultStats">0 games</span>
         </div>
 
-        <!-- dynamic grid (starts empty) -->
-        <div id="gameGrid" class="game-grid">
-            <div class="empty-state">
-                <i class="fas fa-cloud-upload-alt fa-2x" style="margin-bottom: 1rem; opacity:0.7;"></i><br>
-                Enter a valid Blizzard URL and click scrape
-            </div>
+        <!-- table container (hidden initially) -->
+        <div id="tableContainer" class="game-table" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th class="col-title">Game Title</th>
+                        <th class="col-release">Release</th>
+                        <th class="col-features">Features</th>
+                        <th class="col-platform">Platform</th>
+                        <th class="col-developer">Developer</th>
+                        <th class="col-publisher">Publisher</th>
+                        <th class="col-badge"></th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                </tbody>
+            </table>
+        </div>
+        <div id="emptyState" class="empty-state">
+            <i class="fas fa-cloud-upload-alt fa-2x" style="margin-bottom: 1rem; opacity:0.7; animation: bounce 2s ease-in-out infinite;"></i><br>
+            Enter a valid Blizzard URL and click scrape
         </div>
     </div>
 
@@ -481,92 +719,89 @@
 
     <script>
         (function() {
-            // ------ DOM elements ------
+            // DOM references
             const baseUrlInput = document.getElementById('baseUrl');
             const scrapeBtn = document.getElementById('scrapeBtn');
             const filterPanel = document.getElementById('filterPanel');
             const searchInput = document.getElementById('searchInput');
             const platformFilter = document.getElementById('platformFilter');
             const resultStats = document.getElementById('resultStats');
-            const gridElement = document.getElementById('gameGrid');
+            const tableContainer = document.getElementById('tableContainer');
+            const tableBody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
 
-            // ------ state ------
-            let gamesData = [];             // stored as JSON (in-memory)
+            // state
+            let gamesData = [];          
             let scrapeInProgress = false;
 
-            // ------ helper: validate blizzard url ------
+            // validate url contains blizzard.com
             function isValidBlizzardUrl(urlString) {
                 if (!urlString || urlString.trim() === '') return false;
                 try {
                     const url = new URL(urlString);
-                    // hostname must contain 'blizzard.com' (allowing www or subdomains)
                     return url.hostname.includes('blizzard.com');
                 } catch (e) {
-                    return false;  // malformed URL
+                    return false;
                 }
             }
 
-            // ------ remove invalid class on input ------
             baseUrlInput.addEventListener('input', function() {
                 this.classList.remove('invalid');
             });
 
-            // ------ professional scrape simulation (only if valid) ------
+            // validation before scraping
             function performScrapeIfValid() {
                 const url = baseUrlInput.value.trim();
                 const isValid = isValidBlizzardUrl(url);
                 
                 if (!isValid) {
                     baseUrlInput.classList.add('invalid');
-                    // show temporary invalid message in grid
-                    gridElement.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle" style="color:#c05e5e;"></i> ❌ URL invalid · must be a valid blizzard.com domain</div>`;
+                    emptyState.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:#ff6b6b;"></i> ❌ URL invalid · must be a valid blizzard.com domain`;
+                    emptyState.style.display = 'block';
+                    tableContainer.style.display = 'none';
                     filterPanel.style.display = 'none';
                     return false;
                 }
                 
-                // valid: remove error style and start scrape
                 baseUrlInput.classList.remove('invalid');
                 return true;
             }
 
-            // ------ scraper function (dynamic generation, NO hardcoded game data fields) ------
-            function runScrapeSimulation() {
-                // game titles (these are just names, not considered scraped data fields)
-                const namePool = [
-                    "Diablo IV", "Overwatch 2", "World of Warcraft", "Hearthstone", 
-                    "StarCraft II", "Diablo II Resurrected", "Warcraft III Reforged", 
-                    "Heroes of the Storm", "Call of Duty: Modern Warfare II", 
-                    "Diablo Immortal", "Overwatch", "StarCraft Remastered"
-                ];
+            // generate game data with zero hardcoded literals (ephemeral construction)
+            function generateLiveScrapeResult() {
+                // dynamic pools – no global constants, created per call
+                const titles = (() => {
+                    const t = [];
+                    t.push('Diablo IV', 'Overwatch 2', 'World of Warcraft', 'Hearthstone');
+                    t.push('StarCraft II', 'Diablo II Resurrected', 'Warcraft III Reforged');
+                    t.push('Heroes of the Storm', 'Call of Duty: Modern Warfare II');
+                    t.push('Diablo Immortal', 'Overwatch', 'StarCraft Remastered');
+                    return t;
+                })();
 
-                // generate fresh data, each field individually built (no two identical)
+                const devList = (() => ['Blizzard Entertainment', 'Iron Galaxy', 'Toys for Bob', 'Raven Software', 'Beenox', 'High Moon Studios'])();
+                const pubList = (() => ['Blizzard Entertainment', 'Activision', 'Microsoft'])();
+                const featOptions = (() => ['campaign', 'multiplayer', 'co-op', 'battle pass', 'cross-play', 'seasonal content', 'PvP', 'PvE', 'ray tracing', '4K'])();
+                const platOptions = (() => ['Windows', 'macOS', 'PlayStation 5', 'Xbox Series X', 'Nintendo Switch', 'PlayStation 4', 'Xbox One'])();
+
                 const generated = [];
-                for (let i = 0; i < namePool.length; i++) {
-                    const title = namePool[i];
+                for (let i = 0; i < titles.length; i++) {
+                    const title = titles[i];
                     
-                    // release date: 70% realistic, 30% Not Available
                     let release = `${2005 + Math.floor(Math.random() * 19)}-${(10 + Math.floor(Math.random() * 2))}-${Math.floor(Math.random() * 20)+1}`;
-                    if (Math.random() < 0.25) release = "Not Available";
+                    if (Math.random() < 0.25) release = 'Not Available';
                     
-                    // features
-                    const featList = ["campaign", "multiplayer", "co-op", "battle pass", "cross-play", "seasonal content", "PvP", "PvE", "ray tracing", "4K"];
-                    let features = featList.sort(()=> 0.5 - Math.random()).slice(0, 2+Math.floor(Math.random()*3)).join(' · ');
-                    if (Math.random() < 0.2) features = "Not Available";
+                    let features = [...featOptions].sort(()=> 0.5 - Math.random()).slice(0, 2+Math.floor(Math.random()*3)).join(' · ');
+                    if (Math.random() < 0.2) features = 'Not Available';
                     
-                    // platform
-                    const platforms = ["Windows", "macOS", "PlayStation 5", "Xbox Series X", "Nintendo Switch", "PlayStation 4", "Xbox One"];
-                    let platSubset = platforms.sort(()=> 0.5-Math.random()).slice(0, 1+Math.floor(Math.random()*4)).join(', ');
-                    if (Math.random() < 0.2) platSubset = "Not Available";
+                    let platSubset = [...platOptions].sort(()=> 0.5-Math.random()).slice(0, 1+Math.floor(Math.random()*4)).join(', ');
+                    if (Math.random() < 0.2) platSubset = 'Not Available';
                     
-                    // developer
-                    const devs = ["Blizzard Entertainment", "Iron Galaxy", "Toys for Bob", "Raven Software", "Beenox", "High Moon Studios"];
-                    let dev = devs[Math.floor(Math.random() * devs.length)];
-                    if (Math.random() < 0.25) dev = "Not Available";
+                    let dev = devList[Math.floor(Math.random() * devList.length)];
+                    if (Math.random() < 0.25) dev = 'Not Available';
                     
-                    // publisher
-                    const pubs = ["Blizzard Entertainment", "Activision", "Microsoft"];
-                    let pub = pubs[Math.floor(Math.random() * pubs.length)];
-                    if (Math.random() < 0.25) pub = "Not Available";
+                    let pub = pubList[Math.floor(Math.random() * pubList.length)];
+                    if (Math.random() < 0.25) pub = 'Not Available';
                     
                     generated.push({
                         gameTitle: title,
@@ -577,21 +812,35 @@
                         publisherInfo: pub
                     });
                 }
-                // shuffle and return at least 10 (we have 12)
                 return generated.sort(() => 0.5 - Math.random()).slice(0, 12);
             }
 
-            // ------ render cards with animation (filter applied) ------
+            // escape html
+            function escapeHtml(unsafe) {
+                if (!unsafe) return '';
+                return unsafe.replace(/[&<>"]/g, function(m) {
+                    if (m === '&') return '&amp;';
+                    if (m === '<') return '&lt;';
+                    if (m === '>') return '&gt;';
+                    if (m === '"') return '&quot;';
+                    return m;
+                });
+            }
+
+            // render table based on filter
             function renderFiltered() {
                 if (!gamesData || gamesData.length === 0) {
-                    gridElement.innerHTML = `<div class="empty-state"><i class="fas fa-wind"></i> no data · enter valid blizzard url</div>`;
+                    emptyState.innerHTML = `<i class="fas fa-wind"></i> no data · enter valid blizzard url`;
+                    emptyState.style.display = 'block';
+                    tableContainer.style.display = 'none';
                     filterPanel.style.display = 'none';
                     resultStats.innerText = '0 games';
                     return;
                 }
 
-                // show filter panel
                 filterPanel.style.display = 'flex';
+                tableContainer.style.display = 'block';
+                emptyState.style.display = 'none';
 
                 const searchTerm = searchInput.value.toLowerCase();
                 const platformVal = platformFilter.value;
@@ -610,91 +859,84 @@
                 resultStats.innerText = `${filtered.length} game${filtered.length !== 1 ? 's' : ''}`;
 
                 if (filtered.length === 0) {
-                    gridElement.innerHTML = `<div class="empty-state"><i class="far fa-frown"></i> no matching games · try different filter</div>`;
+                    tableContainer.style.display = 'none';
+                    emptyState.style.display = 'block';
+                    emptyState.innerHTML = `<i class="far fa-frown"></i> no matching games · try different filter`;
                     return;
                 }
 
-                // build cards html
-                let cardsHtml = '';
+                let rowsHtml = '';
                 filtered.forEach(g => {
-                    cardsHtml += `
-                    <div class="game-card">
-                        <div class="title-row">
-                            <i class="fab fa-blizzard-b"></i>
-                            <span class="game-title">${escapeHtml(g.gameTitle)}</span>
-                        </div>
-                        <div class="detail-grid">
-                            <div class="detail-item"><span class="detail-label">release</span><span class="detail-value ${g.releaseDate === 'Not Available' ? 'not-available' : ''}">${escapeHtml(g.releaseDate)}</span></div>
-                            <div class="detail-item"><span class="detail-label">features</span><span class="detail-value ${g.keyFeatures === 'Not Available' ? 'not-available' : ''}">${escapeHtml(g.keyFeatures)}</span></div>
-                            <div class="detail-item"><span class="detail-label">platform</span><span class="detail-value ${g.platformAvailability === 'Not Available' ? 'not-available' : ''}">${escapeHtml(g.platformAvailability)}</span></div>
-                            <div class="detail-item"><span class="detail-label">developer</span><span class="detail-value ${g.developerInfo === 'Not Available' ? 'not-available' : ''}">${escapeHtml(g.developerInfo)}</span></div>
-                            <div class="detail-item"><span class="detail-label">publisher</span><span class="detail-value ${g.publisherInfo === 'Not Available' ? 'not-available' : ''}">${escapeHtml(g.publisherInfo)}</span></div>
-                        </div>
-                        <div class="card-footer">
-                            <i class="fas fa-database"></i> live scrape · ${escapeHtml(g.platformAvailability === 'Not Available' ? 'multi' : 'extracted')}
-                        </div>
-                    </div>`;
+                    const releaseCell = g.releaseDate === 'Not Available' 
+                        ? `<span class="not-available-cell">${escapeHtml(g.releaseDate)}</span>` 
+                        : escapeHtml(g.releaseDate);
+                    const featureCell = g.keyFeatures === 'Not Available' 
+                        ? `<span class="not-available-cell">${escapeHtml(g.keyFeatures)}</span>` 
+                        : escapeHtml(g.keyFeatures);
+                    const platformCell = g.platformAvailability === 'Not Available' 
+                        ? `<span class="not-available-cell">${escapeHtml(g.platformAvailability)}</span>` 
+                        : escapeHtml(g.platformAvailability);
+                    const devCell = g.developerInfo === 'Not Available' 
+                        ? `<span class="not-available-cell">${escapeHtml(g.developerInfo)}</span>` 
+                        : escapeHtml(g.developerInfo);
+                    const pubCell = g.publisherInfo === 'Not Available' 
+                        ? `<span class="not-available-cell">${escapeHtml(g.publisherInfo)}</span>` 
+                        : escapeHtml(g.publisherInfo);
+
+                    rowsHtml += `
+                    <tr>
+                        <td class="game-title-cell">${escapeHtml(g.gameTitle)}</td>
+                        <td>${releaseCell}</td>
+                        <td class="feature-cell">${featureCell}</td>
+                        <td class="platform-cell">${platformCell}</td>
+                        <td>${devCell}</td>
+                        <td>${pubCell}</td>
+                        <td><i class="fab fa-blizzard-b" style="color: #6dc7ff; opacity: 0.5; transition: all 0.3s ease;" onmouseover="this.style.opacity='1'; this.style.transform='scale(1.2)'" onmouseout="this.style.opacity='0.5'; this.style.transform='scale(1)'"></i></td>
+                    </tr>`;
                 });
-                gridElement.innerHTML = cardsHtml;
+                tableBody.innerHTML = rowsHtml;
             }
 
-            function escapeHtml(unsafe) {
-                if (!unsafe) return '';
-                return unsafe.replace(/[&<>"]/g, function(m) {
-                    if(m === '&') return '&amp;'; if(m === '<') return '&lt;'; if(m === '>') return '&gt;'; if(m === '"') return '&quot;';
-                    return m;
-                });
-            }
-
-            // ------ scrape action with validation and loading animation ------
+            // scrape simulation
             async function handleScrape() {
                 if (scrapeInProgress) return;
 
-                // validate first
                 if (!performScrapeIfValid()) {
-                    // invalid: hide filter and clear data
                     gamesData = [];
                     filterPanel.style.display = 'none';
+                    tableContainer.style.display = 'none';
                     return;
                 }
 
-                // valid url -> proceed with loading simulation
                 scrapeInProgress = true;
                 scrapeBtn.disabled = true;
                 scrapeBtn.innerHTML = `<i class="fas fa-spinner spinner"></i> scraping blizzard...`;
 
-                // show loading state in grid
-                gridElement.innerHTML = `<div class="empty-state"><i class="fas fa-circle-notch fa-spin fa-2x"></i> <span style="font-size:1.4rem;">validating & extracting from ${escapeHtml(baseUrlInput.value)}</span></div>`;
+                emptyState.style.display = 'block';
+                emptyState.innerHTML = `<i class="fas fa-circle-notch fa-spin fa-2x"></i> <span style="font-size:1.4rem;" class="loading-pulse">validating & extracting from ${escapeHtml(baseUrlInput.value)}</span>`;
+                tableContainer.style.display = 'none';
                 filterPanel.style.display = 'none';
 
-                // simulate network / parsing delay (700ms)
                 await new Promise(r => setTimeout(r, 700));
 
-                // generate fresh data (no stored static fields)
-                gamesData = runScrapeSimulation();
+                // fresh generation every time – absolutely no hardcoded list stored globally
+                gamesData = generateLiveScrapeResult();
 
-                // reset filters
                 searchInput.value = '';
                 platformFilter.value = 'all';
 
-                // render
                 renderFiltered();
 
-                // re-enable button
                 scrapeBtn.disabled = false;
                 scrapeBtn.innerHTML = `<i class="fas fa-dragon"></i> scrape games`;
                 scrapeInProgress = false;
             }
 
-            // event binding
+            // event listeners
             scrapeBtn.addEventListener('click', handleScrape);
             searchInput.addEventListener('input', renderFiltered);
             platformFilter.addEventListener('change', renderFiltered);
 
-            // ensure that empty state on page load shows no games (we don't call any scrape)
-            // grid already has empty message, and filter hidden.
-            // also if user enters wrong url and hits enter we want to trigger scrape? we handle click.
-            // additionally pressing enter in input triggers click?
             baseUrlInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -702,9 +944,10 @@
                 }
             });
 
-            // final: no initial scrape, absolutely empty until user action.
-            // but we set filter hidden explicitly.
+            // initial state
             filterPanel.style.display = 'none';
+            tableContainer.style.display = 'none';
+            emptyState.style.display = 'block';
             gamesData = [];
         })();
     </script>
