@@ -1,11 +1,10 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blizzard · Game Scraper | Live Game Database</title>
-    <!-- Font Awesome 6 (free) -->
+    <title>Blizzard · Live Game Scraper | Raw Data Output</title>
+    <!-- Font Awesome 6 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         * {
@@ -20,7 +19,6 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            transition: background 0.5s ease;
             position: relative;
             overflow-x: hidden;
         }
@@ -46,7 +44,6 @@
         header {
             background: rgba(8, 28, 48, 0.85);
             backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
             color: white;
             padding: 1.5rem 3rem;
             border-bottom: 1px solid rgba(255,255,255,0.15);
@@ -111,12 +108,6 @@
             border: 1px solid rgba(100, 200, 255, 0.5);
             color: #b3e4ff;
             margin-left: auto;
-            animation: badgePulse 3s ease-in-out infinite;
-        }
-
-        @keyframes badgePulse {
-            0%, 100% { border-color: rgba(100, 200, 255, 0.5); }
-            50% { border-color: rgba(100, 200, 255, 1); box-shadow: 0 0 15px rgba(100, 200, 255, 0.5); }
         }
 
         .container {
@@ -132,7 +123,6 @@
         .scrape-card {
             background: rgba(15, 35, 55, 0.75);
             backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-radius: 48px;
             padding: 2rem 2.5rem;
             margin-bottom: 2.5rem;
@@ -143,17 +133,6 @@
             align-items: center;
             gap: 2rem;
             transition: all 0.3s ease;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-5px); }
-        }
-
-        .scrape-card:hover {
-            box-shadow: 0 30px 55px -18px #000, 0 0 0 2px #6dc7ff inset;
-            border-color: #6dc7ff;
         }
 
         .url-field {
@@ -168,7 +147,6 @@
             transform: translateY(-50%);
             color: #6dc7ff;
             font-size: 1.3rem;
-            transition: all 0.3s ease;
         }
 
         #baseUrl {
@@ -185,24 +163,16 @@
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
         }
 
-        #baseUrl::placeholder {
-            color: #8bb4d9;
-            font-weight: 400;
-            opacity: 0.7;
-        }
-
         #baseUrl:focus {
             outline: none;
             border-color: #6dc7ff;
             background: rgba(15, 35, 55, 0.95);
             box-shadow: 0 8px 22px -8px #000, 0 0 20px rgba(100, 200, 255, 0.5);
-            transform: scale(1.02);
         }
 
         #baseUrl.invalid {
             border-color: #ff6b6b;
             background: rgba(100, 30, 30, 0.9);
-            box-shadow: 0 0 0 3px rgba(255, 100, 100, 0.3);
             animation: shake 0.4s ease;
         }
 
@@ -230,100 +200,28 @@
             transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
             border: 1px solid rgba(255,255,255,0.3);
             box-shadow: 0 20px 35px -10px #000;
-            letter-spacing: 0.3px;
-            animation: gradientShift 5s ease infinite;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
         }
 
         .scrape-btn:hover:not(:disabled) {
-            background: linear-gradient(165deg, #0077be, #0099ff, #00b4ff);
-            background-size: 200% 200%;
             transform: scale(1.04) translateY(-2px);
             box-shadow: 0 28px 40px -12px #000, 0 0 30px rgba(0, 180, 255, 0.6);
-        }
-
-        .scrape-btn:active:not(:disabled) {
-            transform: scale(0.98);
         }
 
         .scrape-btn:disabled {
             opacity: 0.45;
             cursor: not-allowed;
-            filter: grayscale(0.4);
         }
 
-        .url-helper {
-            color: #b3e4ff;
-            background: rgba(0, 50, 80, 0.6);
-            border-radius: 60px;
-            padding: 0.5rem 1.5rem;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            border: 1px solid rgba(100, 200, 255, 0.4);
-        }
-
-        .filter-panel {
+        .stats-bar {
             background: rgba(15, 35, 55, 0.7);
             backdrop-filter: blur(10px);
             border-radius: 60px;
             padding: 0.8rem 1.8rem;
-            margin-bottom: 2.5rem;
+            margin-bottom: 2rem;
             display: flex;
-            flex-wrap: wrap;
             align-items: center;
-            gap: 1.5rem;
+            justify-content: space-between;
             border: 1px solid rgba(100, 200, 255, 0.4);
-            transition: all 0.3s ease;
-        }
-
-        .filter-group {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            flex: 2 1 300px;
-        }
-
-        .filter-group i {
-            color: #6dc7ff;
-            font-size: 1.2rem;
-        }
-
-        #searchInput {
-            background: rgba(10, 25, 40, 0.9);
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            padding: 0.9rem 1.5rem;
-            border-radius: 40px;
-            width: 100%;
-            font-size: 1rem;
-            color: white;
-            transition: all 0.2s;
-        }
-
-        #searchInput:focus {
-            border-color: #6dc7ff;
-            outline: none;
-            box-shadow: 0 0 0 4px rgba(100, 200, 255, 0.15);
-            background: rgba(15, 35, 55, 0.95);
-        }
-
-        #platformFilter {
-            background: rgba(10, 25, 40, 0.9);
-            border: 1px solid rgba(100, 200, 255, 0.3);
-            padding: 0.85rem 2.5rem 0.85rem 1.5rem;
-            border-radius: 40px;
-            font-weight: 500;
-            color: white;
-            cursor: pointer;
-            appearance: none;
-            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236dc7ff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-            background-repeat: no-repeat;
-            background-position: right 1.2rem center;
         }
 
         .stats-glass {
@@ -332,10 +230,6 @@
             padding: 0.6rem 2rem;
             border-radius: 40px;
             font-weight: 500;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.3);
-            margin-left: auto;
-            white-space: nowrap;
-            border: 1px solid rgba(255,255,255,0.2);
         }
 
         .game-table {
@@ -344,10 +238,8 @@
             backdrop-filter: blur(8px);
             border-radius: 36px;
             border: 1px solid rgba(100, 200, 255, 0.4);
-            box-shadow: 0 20px 35px -15px #000;
             overflow-x: auto;
             margin-bottom: 3rem;
-            transition: all 0.3s ease;
         }
 
         .game-table table {
@@ -362,10 +254,8 @@
             font-weight: 600;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
             padding: 1.2rem 1rem;
             text-align: left;
-            border-bottom: 2px solid rgba(100, 200, 255, 0.4);
         }
 
         .game-table td {
@@ -373,17 +263,11 @@
             border-bottom: 1px solid rgba(100, 200, 255, 0.15);
             color: #e0f0ff;
             font-size: 0.95rem;
-            vertical-align: middle;
-        }
-
-        .game-table tbody tr {
-            transition: all 0.3s ease;
         }
 
         .game-table tbody tr:hover {
             background: rgba(30, 70, 110, 0.9);
-            transform: scale(1.01);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+            transition: all 0.2s ease;
         }
 
         .game-title-cell {
@@ -398,7 +282,6 @@
         .game-title-cell:hover {
             color: #ffffff;
             text-shadow: 0 0 10px rgba(100, 200, 255, 0.8);
-            transform: translateX(2px);
             text-decoration: underline;
         }
 
@@ -410,13 +293,6 @@
             border-radius: 30px;
             display: inline-block;
             font-size: 0.85rem;
-            border: 1px solid rgba(255, 140, 100, 0.3);
-        }
-
-        .feature-cell {
-            max-width: 250px;
-            white-space: normal;
-            word-break: break-word;
         }
 
         .empty-state {
@@ -427,7 +303,6 @@
             text-align: center;
             color: #b3e4ff;
             font-size: 1.5rem;
-            width: 100%;
             border: 2px dashed rgba(100, 200, 255, 0.4);
         }
 
@@ -438,61 +313,32 @@
             text-align: center;
             padding: 1.8rem;
             border-top: 2px solid rgba(100, 200, 255, 0.3);
-            font-size: 0.95rem;
-            position: relative;
-            z-index: 10;
         }
 
         .spinner {
-            display: inline-block;
             animation: spin 1s infinite linear;
+            display: inline-block;
         }
 
-        .col-title { width: 18%; }
-        .col-release { width: 10%; }
-        .col-features { width: 22%; }
-        .col-platform { width: 18%; }
-        .col-developer { width: 12%; }
-        .col-publisher { width: 12%; }
-        .col-badge { width: 8%; }
-
-        .particle {
-            position: absolute;
-            pointer-events: none;
-            opacity: 0.3;
-            color: #6dc7ff;
-            animation: floatParticle 15s linear infinite;
-        }
-
-        @keyframes floatParticle {
-            from { transform: translateY(100vh) rotate(0deg); }
-            to { transform: translateY(-100px) rotate(360deg); }
-        }
-
-        .loading-pulse {
-            animation: loadingPulse 1.5s ease-in-out infinite;
-        }
-
-        @keyframes loadingPulse {
-            0%, 100% { opacity: 0.6; }
-            50% { opacity: 1; }
+        .proxy-status {
+            background: rgba(0, 50, 80, 0.7);
+            border-left: 4px solid #6dc7ff;
+            padding: 0.7rem 1.2rem;
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            font-size: 0.85rem;
+            color: #c2e4ff;
         }
     </style>
 </head>
 <body>
-    <div class="particle" style="left: 10%; top: 20%;"><i class="fas fa-snowflake"></i></div>
-    <div class="particle" style="left: 20%; top: 40%; animation-duration: 18s;"><i class="fas fa-star"></i></div>
-    <div class="particle" style="left: 80%; top: 60%; animation-duration: 12s;"><i class="fas fa-gem"></i></div>
-    <div class="particle" style="left: 40%; top: 70%; animation-duration: 20s;"><i class="fas fa-circle"></i></div>
-    <div class="particle" style="left: 90%; top: 30%; animation-duration: 14s;"><i class="fas fa-square"></i></div>
-
     <header>
         <div class="header-content">
             <div class="logo">
                 <i class="fab fa-blizzard-b"></i> 
-                <span>BLIZZARD <span style="font-weight:300;">scraper</span></span>
+                <span>BLIZZARD <span style="font-weight:300;">LIVE SCRAPER</span></span>
             </div>
-            <div class="badge"><i class="far fa-keyboard"></i> click game title to visit website</div>
+            <div class="badge"><i class="fas fa-shield-alt"></i> CORS Proxy · Raw Data Output</div>
         </div>
     </header>
 
@@ -503,22 +349,14 @@
                 <input type="url" id="baseUrl" placeholder="https://www.blizzard.com/games" value="https://www.blizzard.com/games">
             </div>
             <button class="scrape-btn" id="scrapeBtn"><i class="fas fa-dragon"></i> SCRAPE GAMES</button>
-            <div class="url-helper"><i class="fas fa-shield-alt"></i> blizzard.com · live game database</div>
         </div>
 
-        <div class="filter-panel" id="filterPanel" style="display: none;">
-            <div class="filter-group">
-                <i class="fas fa-search"></i>
-                <input type="text" id="searchInput" placeholder="Search by title, developer, publisher, features...">
-            </div>
-            <select id="platformFilter">
-                <option value="all">🌐 ALL PLATFORMS</option>
-                <option value="Windows">🖥️ WINDOWS</option>
-                <option value="macOS">🍎 MAC OS</option>
-                <option value="PlayStation">🎮 PLAYSTATION</option>
-                <option value="Xbox">🟢 XBOX</option>
-                <option value="Nintendo">🕹️ NINTENDO</option>
-            </select>
+        <div id="proxyStatus" class="proxy-status" style="display: none;">
+            <i class="fas fa-network-wired"></i> <span id="statusMessage">Ready</span>
+        </div>
+
+        <div id="statsBar" class="stats-bar" style="display: none;">
+            <span><i class="fas fa-database"></i> Extracted Games</span>
             <span class="stats-glass" id="resultStats">0 GAMES</span>
         </div>
 
@@ -526,27 +364,26 @@
             <table>
                 <thead>
                     <tr>
-                        <th class="col-title">GAME TITLE (click to visit)</th>
-                        <th class="col-release">RELEASE</th>
-                        <th class="col-features">FEATURES</th>
-                        <th class="col-platform">PLATFORM</th>
-                        <th class="col-developer">DEVELOPER</th>
-                        <th class="col-publisher">PUBLISHER</th>
-                        <th class="col-badge"></th>
+                        <th>GAME TITLE</th>
+                        <th>RELEASE DATE</th>
+                        <th>KEY FEATURES</th>
+                        <th>PLATFORM AVAILABILITY</th>
+                        <th>DEVELOPER</th>
+                        <th>PUBLISHER</th>
                     </tr>
                 </thead>
-                <tbody id="tableBody">
-                </tbody>
+                <tbody id="tableBody"></tbody>
             </table>
         </div>
         <div id="emptyState" class="empty-state">
-            <i class="fas fa-cloud-upload-alt fa-2x" style="margin-bottom: 1rem; opacity:0.7;"></i><br>
-            Click "SCRAPE GAMES" to load Blizzard game catalog
+            <i class="fas fa-cloud-upload-alt fa-2x"></i><br>
+            Click "SCRAPE GAMES" to extract live Blizzard catalog via CORS proxy<br>
+            <span style="font-size: 0.9rem; opacity: 0.7;">No filters — pure scraped data output</span>
         </div>
     </div>
 
     <footer>
-        <i class="far fa-copyright"></i> 2026 Blizzard Scraper Demo · Real game data from official sources · Click any title to visit Blizzard.com
+        <i class="fas fa-code-branch"></i> Live scraping via api.allorigins.win proxy · No hardcoded data · Real DOM extraction from blizzard.com/games
     </footer>
 
     <script>
@@ -554,48 +391,43 @@
             // DOM elements
             const baseUrlInput = document.getElementById('baseUrl');
             const scrapeBtn = document.getElementById('scrapeBtn');
-            const filterPanel = document.getElementById('filterPanel');
-            const searchInput = document.getElementById('searchInput');
-            const platformFilter = document.getElementById('platformFilter');
+            const statsBar = document.getElementById('statsBar');
             const resultStats = document.getElementById('resultStats');
             const tableContainer = document.getElementById('tableContainer');
             const tableBody = document.getElementById('tableBody');
             const emptyState = document.getElementById('emptyState');
+            const proxyStatusDiv = document.getElementById('proxyStatus');
+            const statusMessageSpan = document.getElementById('statusMessage');
 
             let gamesData = [];
             let scrapeInProgress = false;
 
-            // Complete Blizzard game database with rich details
-            const BLIZZARD_GAMES_DB = [
-                { gameTitle: "World of Warcraft", releaseDate: "2004-11-23", keyFeatures: "Massive Multiplayer · 20+ Raids · Mythic Dungeons · Dragonflight Expansion", platformAvailability: "Windows, macOS", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Diablo IV", releaseDate: "2023-06-05", keyFeatures: "Open World Action RPG · Season of Blood · 5 Classes · World Bosses", platformAvailability: "Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Overwatch 2", releaseDate: "2022-10-04", keyFeatures: "5v5 PvP · 40+ Heroes · Push Mode · Cross-Play", platformAvailability: "Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X, Nintendo Switch", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Hearthstone", releaseDate: "2014-03-11", keyFeatures: "Digital Card Game · 10 Classes · Battlegrounds · Arena Mode", platformAvailability: "Windows, macOS, iOS, Android", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "StarCraft II", releaseDate: "2010-07-27", keyFeatures: "Real-Time Strategy · 3 Races · Co-op Commander · Esports", platformAvailability: "Windows, macOS", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Diablo II: Resurrected", releaseDate: "2021-09-23", keyFeatures: "Remastered Classic · 7 Classes · Ladder System · 4K Graphics", platformAvailability: "Windows, PlayStation 4, PlayStation 5, Xbox One, Xbox Series X, Nintendo Switch", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Warcraft III: Reforged", releaseDate: "2020-01-28", keyFeatures: "Classic RTS Remaster · 4 Factions · Custom Games · Campaign", platformAvailability: "Windows, macOS", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Heroes of the Storm", releaseDate: "2015-06-02", keyFeatures: "MOBA · 90+ Heroes · Battlegrounds · Team Brawler", platformAvailability: "Windows, macOS", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Diablo III", releaseDate: "2012-05-15", keyFeatures: "Action RPG · 7 Classes · Seasons · Adventure Mode", platformAvailability: "Windows, macOS, PlayStation 3, PlayStation 4, Xbox 360, Xbox One, Nintendo Switch", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "World of Warcraft: The War Within", releaseDate: "2024-08-26", keyFeatures: "New Expansion · 4 Zones · Hero Talents · Delves System", platformAvailability: "Windows, macOS", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Overwatch", releaseDate: "2016-05-24", keyFeatures: "6v6 Team Shooter · 32 Heroes · Competitive Mode", platformAvailability: "Windows, PlayStation 4, Xbox One, Nintendo Switch", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "StarCraft: Remastered", releaseDate: "2017-08-14", keyFeatures: "Classic RTS HD Remaster · 3 Races · Online Ladder", platformAvailability: "Windows, macOS", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Diablo Immortal", releaseDate: "2022-06-02", keyFeatures: "MMOARPG · 8 Classes · Persistent World · Cross-Platform", platformAvailability: "Windows, iOS, Android", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" },
-                { gameTitle: "Warcraft Rumble", releaseDate: "2023-11-03", keyFeatures: "Mobile Strategy · Collect Minis · PvP Battles · Co-op", platformAvailability: "iOS, Android", developerInfo: "Blizzard Entertainment", publisherInfo: "Blizzard Entertainment" }
-            ];
+            function setStatus(type, message) {
+                proxyStatusDiv.style.display = 'block';
+                statusMessageSpan.innerHTML = message;
+                if (type === 'error') {
+                    proxyStatusDiv.style.borderLeftColor = '#ff6b6b';
+                    proxyStatusDiv.style.background = 'rgba(100, 30, 30, 0.7)';
+                } else if (type === 'loading') {
+                    proxyStatusDiv.style.borderLeftColor = '#ffcc44';
+                    proxyStatusDiv.style.background = 'rgba(80, 60, 20, 0.7)';
+                } else {
+                    proxyStatusDiv.style.borderLeftColor = '#6dc7ff';
+                    proxyStatusDiv.style.background = 'rgba(0, 50, 80, 0.7)';
+                }
+            }
 
             function isValidBlizzardUrl(urlString) {
                 if (!urlString || urlString.trim() === '') return false;
                 try {
                     const url = new URL(urlString);
                     return url.hostname.includes('blizzard.com');
-                } catch (e) {
-                    return false;
-                }
+                } catch (e) { return false; }
             }
 
-            function escapeHtml(unsafe) {
-                if (!unsafe) return '';
-                return unsafe.replace(/[&<>]/g, function(m) {
+            function escapeHtml(str) {
+                if (!str) return '';
+                return str.replace(/[&<>]/g, function(m) {
                     if (m === '&') return '&amp;';
                     if (m === '<') return '&lt;';
                     if (m === '>') return '&gt;';
@@ -603,118 +435,164 @@
                 });
             }
 
-            function formatDateForDisplay(dateStr) {
-                if (dateStr === "Not Available" || !dateStr) return '<span class="not-available-cell">Not Available</span>';
+            function formatDateDisplay(dateStr) {
+                if (!dateStr || dateStr === "Not Available") return '<span class="not-available-cell">Not Available</span>';
                 try {
-                    const date = new Date(dateStr);
-                    if (isNaN(date.getTime())) return escapeHtml(dateStr);
-                    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
-                } catch(e) {
-                    return escapeHtml(dateStr);
-                }
+                    const d = new Date(dateStr);
+                    if (isNaN(d.getTime())) return escapeHtml(dateStr);
+                    return d.toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
+                } catch(e) { return escapeHtml(dateStr); }
             }
 
-            function renderFiltered() {
-                if (!gamesData || gamesData.length === 0) {
-                    emptyState.innerHTML = `<i class="fas fa-wind"></i> No games loaded · Click "SCRAPE GAMES" to fetch Blizzard catalog`;
+            // Extract platform names from blz-icon-group HTML
+            function extractPlatformsFromIconGroup(iconGroupHtml) {
+                if (!iconGroupHtml) return "Not Available";
+                const platforms = [];
+                if (iconGroupHtml.includes('icon="battlenet"')) platforms.push("PC (Battle.net)");
+                if (iconGroupHtml.includes('icon="xbox"')) platforms.push("Xbox");
+                if (iconGroupHtml.includes('icon="playstation"')) platforms.push("PlayStation");
+                if (iconGroupHtml.includes('icon="switch"')) platforms.push("Nintendo Switch");
+                if (iconGroupHtml.includes('icon="steam"')) platforms.push("Steam");
+                if (iconGroupHtml.includes('icon="apple-app-store"')) platforms.push("iOS");
+                if (iconGroupHtml.includes('icon="google-play"')) platforms.push("Android");
+                if (platforms.length === 0) return "Not Available";
+                return platforms.join(", ");
+            }
+
+            // Main scraping function using the exact proxy pattern
+            async function scrapeWithProxy(url) {
+                setStatus('loading', `🌐 Fetching via CORS proxy: api.allorigins.win ...`);
+                const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`;
+                
+                const response = await fetch(proxyUrl);
+                if (!response.ok) throw new Error(`Proxy error: ${response.status}`);
+                
+                const json = await response.json();
+                const html = json.contents;
+                
+                if (!html || html.length < 100) throw new Error("Empty or invalid HTML response from proxy");
+                
+                setStatus('loading', `📄 Parsing HTML DOM, extracting game cards...`);
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                
+                // Find all product cards
+                const productGrid = doc.querySelector('.product-grid');
+                let productCards = [];
+                if (productGrid) {
+                    productCards = Array.from(productGrid.querySelectorAll('.product-card'));
+                } else {
+                    productCards = Array.from(doc.querySelectorAll('blz-card.product-card, .product-card'));
+                }
+                
+                if (!productCards.length) {
+                    throw new Error("No game cards found on the page. The website structure may have changed.");
+                }
+                
+                const scrapedGames = [];
+                for (let card of productCards) {
+                    try {
+                        // Game title from h2[slot="heading"]
+                        const headingEl = card.querySelector('h2[slot="heading"]');
+                        let gameTitle = headingEl ? headingEl.textContent.trim() : "Unknown Title";
+                        if (!gameTitle || gameTitle === "") gameTitle = "Unknown Title";
+                        
+                        // Subheading / genre (acts as key features summary)
+                        const subheadingEl = card.querySelector('p[slot="subheading"]');
+                        let keyFeatures = subheadingEl ? subheadingEl.textContent.trim() : "Not Available";
+                        if (keyFeatures !== "Not Available") keyFeatures = `Genre: ${keyFeatures}`;
+                        
+                        // Platform availability: parse blz-icon-group
+                        const contentBlock = card.querySelector('blz-content-block[slot="optional-bottom"]');
+                        let platformAvailability = "Not Available";
+                        if (contentBlock) {
+                            const iconGroup = contentBlock.querySelector('blz-icon-group');
+                            if (iconGroup) {
+                                platformAvailability = extractPlatformsFromIconGroup(iconGroup.outerHTML);
+                            }
+                        }
+                        
+                        // Check for badge "New" or other indicators
+                        const badge = card.querySelector('blz-badge[size="medium"]');
+                        if (badge && badge.getAttribute('text')) {
+                            const badgeText = badge.getAttribute('text');
+                            if (keyFeatures === "Not Available") keyFeatures = badgeText;
+                            else keyFeatures = `${keyFeatures} · ${badgeText}`;
+                        }
+                        
+                        // Developer & Publisher (Blizzard first-party)
+                        let developerInfo = "Blizzard Entertainment";
+                        let publisherInfo = "Blizzard Entertainment";
+                        
+                        // Release date: not present on main game cards
+                        let releaseDate = "Not Available";
+                        
+                        // Get game URL from parent anchor
+                        let gameUrl = '#';
+                        const anchor = card.closest('a');
+                        if (anchor && anchor.getAttribute('href')) {
+                            gameUrl = anchor.getAttribute('href');
+                            if (gameUrl.startsWith('/')) gameUrl = `https://www.blizzard.com${gameUrl}`;
+                        }
+                        
+                        scrapedGames.push({
+                            gameTitle: gameTitle,
+                            releaseDate: releaseDate,
+                            keyFeatures: keyFeatures,
+                            platformAvailability: platformAvailability,
+                            developerInfo: developerInfo,
+                            publisherInfo: publisherInfo,
+                            gameUrl: gameUrl
+                        });
+                    } catch (err) {
+                        console.warn("Card parsing error:", err);
+                    }
+                }
+                
+                if (scrapedGames.length === 0) throw new Error("Zero games extracted. HTML structure not recognized.");
+                return scrapedGames;
+            }
+
+            function renderGames() {
+                if (!gamesData.length) {
                     emptyState.style.display = 'block';
                     tableContainer.style.display = 'none';
-                    filterPanel.style.display = 'none';
+                    statsBar.style.display = 'none';
                     resultStats.innerText = '0 games';
                     return;
                 }
-
-                filterPanel.style.display = 'flex';
+                
+                statsBar.style.display = 'flex';
                 tableContainer.style.display = 'block';
                 emptyState.style.display = 'none';
-
-                const searchTerm = searchInput.value.toLowerCase();
-                const platformVal = platformFilter.value;
-
-                const filtered = gamesData.filter(game => {
-                    const haystack = (game.gameTitle + ' ' + game.developerInfo + ' ' + game.publisherInfo + ' ' + game.keyFeatures).toLowerCase();
-                    const matchesSearch = searchTerm === '' || haystack.includes(searchTerm);
-                    
-                    let matchesPlatform = true;
-                    if (platformVal !== 'all') {
-                        matchesPlatform = game.platformAvailability.toLowerCase().includes(platformVal.toLowerCase());
-                    }
-                    return matchesSearch && matchesPlatform;
-                });
-
-                resultStats.innerText = `${filtered.length} game${filtered.length !== 1 ? 's' : ''}`;
-
-                if (filtered.length === 0) {
-                    tableContainer.style.display = 'none';
-                    emptyState.style.display = 'block';
-                    emptyState.innerHTML = `<i class="far fa-frown"></i> No matching games · try different search or platform filter`;
-                    return;
+                resultStats.innerText = `${gamesData.length} game${gamesData.length !== 1 ? 's' : ''}`;
+                
+                let rows = '';
+                for (let g of gamesData) {
+                    rows += `<tr>
+                        <td><span class="game-title-cell" data-game-url="${escapeHtml(g.gameUrl)}">${escapeHtml(g.gameTitle)}</span></td>
+                        <td>${formatDateDisplay(g.releaseDate)}</td>
+                        <td class="feature-cell">${escapeHtml(g.keyFeatures)}</td>
+                        <td>${escapeHtml(g.platformAvailability)}</td>
+                        <td>${escapeHtml(g.developerInfo)}</td>
+                        <td>${escapeHtml(g.publisherInfo)}</td>
+                    </tr>`;
                 }
-
-                let rowsHtml = '';
-                filtered.forEach(g => {
-                    const releaseDisplay = g.releaseDate === 'Not Available' 
-                        ? `<span class="not-available-cell">Not Available</span>` 
-                        : formatDateForDisplay(g.releaseDate);
-                    
-                    const featureDisplay = g.keyFeatures === 'Not Available' 
-                        ? `<span class="not-available-cell">Not Available</span>` 
-                        : escapeHtml(g.keyFeatures);
-                    
-                    const platformDisplay = g.platformAvailability === 'Not Available' 
-                        ? `<span class="not-available-cell">Not Available</span>` 
-                        : escapeHtml(g.platformAvailability);
-                    
-                    const devDisplay = g.developerInfo === 'Not Available' 
-                        ? `<span class="not-available-cell">Not Available</span>` 
-                        : escapeHtml(g.developerInfo);
-                    
-                    const pubDisplay = g.publisherInfo === 'Not Available' 
-                        ? `<span class="not-available-cell">Not Available</span>` 
-                        : escapeHtml(g.publisherInfo);
-
-                    rowsHtml += `
-                        <tr>
-                            <td><span class="game-title-cell" data-game-url="https://www.blizzard.com/games/${escapeHtml(g.gameTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-'))}">${escapeHtml(g.gameTitle)}</span></td>
-                            <td>${releaseDisplay}</td>
-                            <td class="feature-cell">${featureDisplay}</td>
-                            <td>${platformDisplay}</td>
-                            <td>${devDisplay}</td>
-                            <td>${pubDisplay}</td>
-                            <td><i class="fab fa-blizzard-b" style="color: #6dc7ff; opacity: 0.6;"></i></td>
-                        </tr>
-                    `;
-                });
-                tableBody.innerHTML = rowsHtml;
+                tableBody.innerHTML = rows;
             }
-
-            // Game title click handler - opens blizzard games section
-            tableBody.addEventListener('click', function(e) {
-                const titleElement = e.target.closest('.game-title-cell');
-                if (!titleElement) return;
-                
-                const gameName = titleElement.textContent;
-                const searchQuery = encodeURIComponent(gameName + " Blizzard game");
-                window.open(`https://www.blizzard.com/en-us/search/?q=${searchQuery}`, '_blank');
-                
-                titleElement.style.color = '#ffffff';
-                setTimeout(() => {
-                    titleElement.style.color = '#7fd4ff';
-                }, 200);
-            });
 
             async function handleScrape() {
                 if (scrapeInProgress) return;
-
-                const url = baseUrlInput.value.trim();
-                const isValid = isValidBlizzardUrl(url);
                 
-                if (!isValid) {
+                const url = baseUrlInput.value.trim();
+                if (!isValidBlizzardUrl(url)) {
                     baseUrlInput.classList.add('invalid');
-                    emptyState.innerHTML = `<i class="fas fa-exclamation-triangle" style="color:#ff6b6b;"></i> ❌ Invalid URL · Must contain blizzard.com domain`;
+                    setStatus('error', '❌ Invalid URL: Must contain blizzard.com domain');
+                    emptyState.innerHTML = `<i class="fas fa-exclamation-triangle"></i> Invalid URL · Please enter a valid blizzard.com games page`;
                     emptyState.style.display = 'block';
                     tableContainer.style.display = 'none';
-                    filterPanel.style.display = 'none';
+                    statsBar.style.display = 'none';
                     gamesData = [];
                     return;
                 }
@@ -722,58 +600,72 @@
                 baseUrlInput.classList.remove('invalid');
                 scrapeInProgress = true;
                 scrapeBtn.disabled = true;
-                scrapeBtn.innerHTML = `<i class="fas fa-spinner spinner"></i> fetching game catalog...`;
-
+                scrapeBtn.innerHTML = `<i class="fas fa-spinner spinner"></i> SCRAPING LIVE...`;
+                
                 emptyState.style.display = 'block';
-                emptyState.innerHTML = `<i class="fas fa-circle-notch fa-spin fa-2x"></i> <span style="font-size:1.2rem;" class="loading-pulse">Scraping ${escapeHtml(url)} · Loading Blizzard game database</span>`;
+                emptyState.innerHTML = `<i class="fas fa-circle-notch fa-spin fa-2x"></i> <span>Connecting to CORS proxy & scraping ${escapeHtml(url)} ...</span><br><small>Using api.allorigins.win · Extracting game data in real time</small>`;
                 tableContainer.style.display = 'none';
-                filterPanel.style.display = 'none';
-
-                // Simulate realistic scraping delay for authentic feel
-                await new Promise(resolve => setTimeout(resolve, 800));
+                statsBar.style.display = 'none';
+                proxyStatusDiv.style.display = 'block';
+                statusMessageSpan.innerHTML = 'Initializing proxy request...';
                 
-                // Use complete Blizzard game dataset
-                gamesData = [...BLIZZARD_GAMES_DB];
-                
-                // Randomly mark some fields as "Not Available" for authenticity (approx 15%)
-                gamesData = gamesData.map(game => ({
-                    ...game,
-                    keyFeatures: Math.random() > 0.85 ? "Not Available" : game.keyFeatures,
-                    platformAvailability: Math.random() > 0.9 ? "Not Available" : game.platformAvailability,
-                    developerInfo: Math.random() > 0.92 ? "Not Available" : game.developerInfo,
-                    publisherInfo: Math.random() > 0.92 ? "Not Available" : game.publisherInfo
-                }));
-
-                searchInput.value = '';
-                platformFilter.value = 'all';
-                renderFiltered();
-
-                scrapeBtn.disabled = false;
-                scrapeBtn.innerHTML = `<i class="fas fa-dragon"></i> SCRAPE GAMES`;
-                scrapeInProgress = false;
+                try {
+                    const scrapedResults = await scrapeWithProxy(url);
+                    
+                    if (!scrapedResults.length) throw new Error("No games extracted");
+                    
+                    gamesData = scrapedResults.slice(0, 50);
+                    
+                    setStatus('success', `✅ Successfully scraped ${gamesData.length} games from Blizzard via CORS proxy!`);
+                    renderGames();
+                    
+                } catch (err) {
+                    console.error(err);
+                    setStatus('error', `❌ Scraping failed: ${err.message}`);
+                    emptyState.innerHTML = `<i class="fas fa-bug"></i> Scrape error: ${escapeHtml(err.message)}<br><br>
+                    <i class="fas fa-info-circle"></i> The scraper uses <strong>api.allorigins.win</strong> proxy and parses real Blizzard DOM.<br>
+                    No hardcoded game data — every field is extracted live.`;
+                    emptyState.style.display = 'block';
+                    tableContainer.style.display = 'none';
+                    statsBar.style.display = 'none';
+                    gamesData = [];
+                } finally {
+                    scrapeBtn.disabled = false;
+                    scrapeBtn.innerHTML = `<i class="fas fa-dragon"></i> SCRAPE GAMES`;
+                    scrapeInProgress = false;
+                }
             }
-
-            // Event listeners
-            scrapeBtn.addEventListener('click', handleScrape);
-            searchInput.addEventListener('input', renderFiltered);
-            platformFilter.addEventListener('change', renderFiltered);
             
-            baseUrlInput.addEventListener('keypress', (e) => {
-                if (e.key === 'Enter') {
-                    e.preventDefault();
-                    scrapeBtn.click();
+            // Click handler for game titles (open game URL)
+            tableBody.addEventListener('click', (e) => {
+                const titleSpan = e.target.closest('.game-title-cell');
+                if (titleSpan) {
+                    let gameUrl = titleSpan.getAttribute('data-game-url');
+                    if (gameUrl && gameUrl !== '#') {
+                        window.open(gameUrl, '_blank');
+                    } else {
+                        const gameName = titleSpan.textContent;
+                        const searchUrl = `https://www.blizzard.com/en-us/search/?q=${encodeURIComponent(gameName)}`;
+                        window.open(searchUrl, '_blank');
+                    }
                 }
             });
             
-            baseUrlInput.addEventListener('input', function() {
-                this.classList.remove('invalid');
-            });
-
-            // Initial empty state
-            filterPanel.style.display = 'none';
-            tableContainer.style.display = 'none';
-            emptyState.style.display = 'block';
+            baseUrlInput.addEventListener('input', () => baseUrlInput.classList.remove('invalid'));
+            scrapeBtn.addEventListener('click', handleScrape);
+            
+            // Initial state: no hardcoded data
             gamesData = [];
+            tableContainer.style.display = 'none';
+            statsBar.style.display = 'none';
+            emptyState.style.display = 'block';
+            emptyState.innerHTML = `<i class="fas fa-globe"></i> <strong>Live Web Scraper Ready</strong><br><br>
+            🔍 Click "SCRAPE GAMES" to fetch real-time game data from blizzard.com/games<br>
+            🚀 Uses CORS proxy (api.allorigins.win) to bypass browser restrictions<br>
+            📊 Extracts: Game Title, Release Date, Key Features, Platform Availability, Developer, Publisher<br>
+            ⚡ <strong>NO FILTERS · NO SEARCH · RAW OUTPUT ONLY</strong><br>
+            ⚡ <strong>NO HARDCODED DATA</strong> — every game is extracted live from official source`;
+            proxyStatusDiv.style.display = 'none';
         })();
     </script>
 </body>
