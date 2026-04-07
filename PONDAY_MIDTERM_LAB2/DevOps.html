@@ -1,12 +1,11 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GeeksforGeeks Article Scraper & PDF Generator</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>GFG Academic Scraper | Pastel Blue Edition</title>
+    <!-- html2pdf bundle -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <style>
         * {
             margin: 0;
@@ -15,1056 +14,777 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-height: 100vh;
-            padding: 20px;
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: #0B1926;  /* deep dark blue base */
+            padding: 24px;
         }
 
-        .container {
-            max-width: 1200px;
+        .app-wrapper {
+            max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        /* Pastel dark blue theme — soft, modern, calming */
+        .card {
+            background: #13293D;  /* deep pastel blue base */
+            border-radius: 32px;
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(93, 168, 210, 0.15);
             overflow: hidden;
+            margin-bottom: 28px;
+            transition: all 0.2s;
         }
 
-        .header {
-            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-            color: white;
-            padding: 30px;
-            text-align: center;
+        .hero {
+            background: linear-gradient(135deg, #0A1E2F, #0F2A3B, #1B3F4F);
+            color: #EAF6FF;
+            padding: 32px 36px;
+            border-bottom: 1px solid #2D4F6E;
         }
 
-        .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
-        }
-
-        .header p {
-            opacity: 0.9;
-            font-size: 1.1em;
-        }
-
-        .main-content {
-            padding: 30px;
-        }
-
-        .input-section {
-            background: #f8f9fa;
-            padding: 25px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-
-        .input-group {
+        .hero h1 {
+            font-size: 2.1rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
             display: flex;
-            gap: 15px;
-            margin-bottom: 15px;
+            align-items: center;
+            gap: 12px;
+            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
+        }
+
+        .hero p {
+            opacity: 0.85;
+            margin-top: 10px;
+            font-size: 1rem;
+            color: #C5E2F6;
+        }
+
+        .input-panel {
+            padding: 28px 32px;
+            background: #0F2537;  /* muted pastel dark blue */
+            border-bottom: 1px solid #1E4057;
+        }
+
+        .flex-row {
+            display: flex;
+            gap: 16px;
             flex-wrap: wrap;
+            align-items: center;
         }
 
-        .url-input {
-            flex: 1;
-            min-width: 300px;
-            padding: 15px 20px;
-            border: 2px solid #e0e0e0;
-            border-radius: 12px;
-            font-size: 16px;
-            transition: all 0.3s;
+        .url-field {
+            flex: 2;
+            min-width: 260px;
+            padding: 14px 22px;
+            border: 2px solid #2A5779;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            transition: 0.2s;
+            background: #EFF9FF;
+            color: #07212E;
+            font-weight: 500;
         }
 
-        .url-input:focus {
+        .url-field:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102,126,234,0.1);
+            border-color: #7AB3C8;
+            box-shadow: 0 0 0 4px rgba(122, 179, 200, 0.3);
+            background: #FFFFFF;
         }
 
         .btn {
-            padding: 15px 30px;
             border: none;
-            border-radius: 12px;
-            font-size: 16px;
+            padding: 12px 28px;
+            border-radius: 40px;
             font-weight: 600;
+            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            gap: 10px;
-            color: white;
+            gap: 8px;
+            backdrop-filter: blur(2px);
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: #2E7D8C;
+            color: white;
+            box-shadow: 0 4px 12px rgba(0, 30, 40, 0.3);
+            border: 1px solid #4C9FB0;
         }
 
         .btn-primary:hover:not(:disabled) {
+            background: #1E6475;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(102,126,234,0.3);
+            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
         }
 
         .btn-success {
-            background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+            background: #3B8C6E;
+            color: white;
+            border: 1px solid #5FAF8F;
         }
 
         .btn-success:hover:not(:disabled) {
+            background: #2C7358;
             transform: translateY(-2px);
-            box-shadow: 0 10px 20px rgba(17,153,142,0.3);
         }
 
-        .btn-secondary {
-            background: linear-gradient(135deg, #ee0979 0%, #ff6a00 100%);
+        .btn-outline {
+            background: #1E3E52;
+            border: 1.5px solid #4682A3;
+            color: #DAF0FC;
+        }
+
+        .btn-outline:hover {
+            background: #264F66;
+            border-color: #7CB0C9;
+            color: white;
         }
 
         .btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+            transform: none;
+            filter: grayscale(0.1);
         }
 
-        .proxy-log {
-            background: #2c3e50;
-            color: #00ff9d;
-            padding: 12px 20px;
-            border-radius: 10px;
-            font-family: 'Courier New', monospace;
-            font-size: 14px;
-            margin-top: 15px;
-            border-left: 4px solid #00ff9d;
+        .proxy-console {
+            background: #041A28;
+            color: #B3E4F7;
+            font-family: 'SF Mono', 'Fira Code', monospace;
+            font-size: 0.8rem;
+            padding: 14px 22px;
+            border-radius: 48px;
+            margin-top: 20px;
+            word-break: break-word;
+            border-left: 4px solid #4F9FBF;
+            box-shadow: inset 0 0 0 1px #1D4A60;
         }
 
-        .proxy-log.error {
-            color: #ff6b6b;
-            border-left-color: #ff6b6b;
+        /* progress & stats */
+        .progress-card {
+            background: #0F283C;
+            margin: 0 28px 28px 28px;
+            border-radius: 28px;
+            padding: 18px 28px;
+            border: 1px solid #2C5775;
+            backdrop-filter: blur(2px);
         }
 
-        .progress-container {
-            background: white;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-            display: none;
+        .progress-bar-container {
+            background: #1A3F55;
+            border-radius: 40px;
+            height: 32px;
+            overflow: hidden;
+            box-shadow: inset 0 1px 4px rgba(0,0,0,0.3);
         }
 
-        .progress-bar {
+        .progress-fill {
             width: 0%;
-            height: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 15px;
-            text-align: center;
-            line-height: 30px;
-            color: white;
-            font-weight: bold;
-            transition: width 0.3s;
-        }
-
-        .progress-status {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 10px;
-            color: #666;
-        }
-
-        .stage-badge {
-            background: #f0f0f0;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-        }
-
-        .content-preview {
-            background: white;
-            border: 2px solid #e0e0e0;
-            border-radius: 15px;
-            margin: 25px 0;
-            max-height: 500px;
-            overflow-y: auto;
-            padding: 25px;
-        }
-
-        .content-preview h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0e0e0;
-        }
-
-        .scraped-content {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-        }
-
-        .scraped-content h1 {
-            font-size: 2em;
-            margin: 20px 0 10px;
-            font-weight: bold;
-            color: #000000;
-        }
-
-        .scraped-content h2 {
-            font-size: 1.5em;
-            margin: 15px 0 10px;
-            font-weight: bold;
-            color: #000000;
-        }
-
-        .scraped-content h3 {
-            font-size: 1.3em;
-            margin: 15px 0 10px;
-            font-weight: bold;
-            color: #000000;
-        }
-
-        .scraped-content p {
-            margin: 10px 0;
-            color: #000000;
-        }
-
-        .scraped-content pre {
-            background: #f4f4f4;
-            padding: 15px;
-            border-radius: 8px;
-            overflow-x: auto;
-            font-family: 'Courier New', monospace;
-            border-left: 4px solid #000000;
-            color: #000000;
-            margin: 15px 0;
-            position: relative;
-        }
-
-        .scraped-content code {
-            background: #f4f4f4;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-            color: #000000;
-        }
-
-        .scraped-content ul, .scraped-content ol {
-            margin: 10px 0 10px 30px;
-            color: #000000;
-        }
-
-        .scraped-content li {
-            color: #000000;
-        }
-
-        .scraped-content blockquote {
-            border-left: 4px solid #000000;
-            padding-left: 20px;
-            margin: 10px 0;
-            font-style: italic;
-            color: #000000;
-        }
-
-        .scraped-content table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 15px 0;
-        }
-
-        .scraped-content th, .scraped-content td {
-            border: 1px solid #000000;
-            padding: 8px;
-            text-align: left;
-            color: #000000;
-        }
-
-        .scraped-content th {
-            background: #e0e0e0;
-            font-weight: bold;
-        }
-
-        .scraped-content a {
-            color: #000000;
-            text-decoration: underline;
-        }
-
-        .article-header {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 10px;
-            margin-bottom: 25px;
-            border: 1px solid #000000;
-        }
-
-        .article-header h1 {
-            margin: 0 0 10px 0;
-            font-size: 2.2em;
-            color: #000000;
-        }
-
-        .article-meta {
-            display: flex;
-            gap: 20px;
-            flex-wrap: wrap;
-            font-size: 0.95em;
-            color: #000000;
-        }
-
-        .meta-item {
+            height: 100%;
+            background: linear-gradient(90deg, #57B2CC, #88D4E8);
+            color: #01131F;
             display: flex;
             align-items: center;
-            gap: 5px;
-        }
-
-        .stats-section {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 15px;
-            border: 1px solid #000000;
-        }
-
-        .stat-item {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2em;
+            justify-content: center;
+            font-size: 0.8rem;
             font-weight: bold;
-            color: #000000;
+            transition: width 0.25s;
+            text-shadow: none;
+        }
+
+        .stats-dashboard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 28px;
+            background: #0B1F2E;
+            margin: 0 28px 20px 28px;
+            padding: 22px 28px;
+            border-radius: 28px;
+            border: 1px solid #285575;
+            backdrop-filter: blur(2px);
+        }
+
+        .stat-tile {
+            flex: 1;
+            min-width: 100px;
+            background: #112F42;
+            padding: 12px 16px;
+            border-radius: 24px;
+            transition: all 0.1s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        }
+
+        .stat-number {
+            font-size: 1.9rem;
+            font-weight: 800;
+            color: #B8E2F2;
+            line-height: 1.2;
+            letter-spacing: -0.5px;
         }
 
         .stat-label {
-            font-size: 0.9em;
-            color: #000000;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #A3C6E0;
+            font-weight: 500;
         }
 
-        .message-container {
-            margin: 15px 0;
+        .preview-area {
+            margin: 0 28px 32px 28px;
         }
 
-        .warning-message {
-            background: #fff3f3;
-            color: #000000;
-            padding: 15px;
+        .preview-header {
+            font-weight: 700;
+            font-size: 1.2rem;
+            padding: 12px 0 12px 8px;
+            border-bottom: 2px solid #2F6885;
+            display: flex;
+            justify-content: space-between;
+            color: #CFECFF;
+        }
+
+        .content-preview {
+            max-height: 620px;
+            overflow-y: auto;
+            background: #EFF9FF;  /* soft paper pastel */
+            border-radius: 28px;
+            padding: 28px 32px;
+            border: 1px solid #91C2DA;
+            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
+            color: #102B38;
+        }
+
+        /* Scraped content styles - academic handout but with pastel dark harmony */
+        .academic-content, .pdf-content {
+            font-family: 'Georgia', 'Times New Roman', 'Segoe UI', serif;
+            line-height: 1.55;
+            color: #102A36;
+        }
+
+        .academic-content h1 {
+            font-size: 2rem;
+            margin: 0.5rem 0 0.75rem;
+            font-weight: 700;
+            border-left: 6px solid #2F7F8C;
+            padding-left: 20px;
+            color: #053B4C;
+        }
+
+        .academic-content h2 {
+            font-size: 1.6rem;
+            margin-top: 1.5rem;
+            margin-bottom: 0.6rem;
+            font-weight: 600;
+            color: #1C6079;
+            border-bottom: 1px solid #C7DCE8;
+            padding-bottom: 5px;
+        }
+
+        .academic-content h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin: 1rem 0 0.5rem;
+            color: #1E6A85;
+        }
+
+        .academic-content pre {
+            background: #E2F0F7;
+            border-left: 4px solid #3F99B3;
+            padding: 1rem;
+            border-radius: 18px;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            margin: 1rem 0;
+            box-shadow: inset 0 1px 3px #0001, 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .academic-content code {
+            background: #D5EAF3;
+            padding: 0.2rem 0.4rem;
             border-radius: 10px;
-            border-left: 4px solid #ff0000;
+            font-family: monospace;
+            color: #0B4459;
         }
 
-        .success-message {
-            background: #f0fff0;
-            color: #000000;
-            padding: 15px;
-            border-radius: 10px;
-            border-left: 4px solid #00aa00;
-        }
-
-        .copy-btn {
-            background: #000000;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 12px;
-            position: absolute;
-            right: 10px;
-            top: 10px;
-            z-index: 100;
-        }
-
-        .copy-btn:hover {
-            background: #333333;
-        }
-
-        /* PDF Container Styles */
-        #pdfContainer {
-            position: fixed;
-            top: -9999px;
-            left: -9999px;
-            width: 800px;
-            background: white;
-            padding: 40px;
-            z-index: -1;
-        }
-
-        .pdf-content {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.6;
-            color: #000000;
-        }
-
-        .pdf-content * {
-            color: #000000 !important;
-        }
-
-        .pdf-content h1 {
-            font-size: 2.2em;
-            margin: 20px 0 15px;
-            font-weight: bold;
-        }
-
-        .pdf-content h2 {
-            font-size: 1.8em;
-            margin: 18px 0 12px;
-            font-weight: bold;
-        }
-
-        .pdf-content h3 {
-            font-size: 1.5em;
-            margin: 15px 0 10px;
-            font-weight: bold;
-        }
-
-        .pdf-content p {
-            margin: 12px 0;
-        }
-
-        .pdf-content pre {
-            background: #f4f4f4;
-            padding: 15px;
-            border-radius: 8px;
-            border: 1px solid #000000;
-            font-family: 'Courier New', monospace;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            margin: 15px 0;
-        }
-
-        .pdf-content code {
-            background: #f4f4f4;
-            padding: 2px 5px;
-            border-radius: 4px;
-            font-family: 'Courier New', monospace;
-        }
-
-        .pdf-content table {
+        .academic-content table {
             border-collapse: collapse;
             width: 100%;
-            margin: 15px 0;
+            margin: 1rem 0;
         }
 
-        .pdf-content th, .pdf-content td {
-            border: 1px solid #000000;
-            padding: 8px;
+        .academic-content th, .academic-content td {
+            border: 1px solid #BDD9E8;
+            padding: 8px 12px;
         }
 
-        .pdf-content th {
-            background: #e0e0e0;
-            font-weight: bold;
+        .academic-content th {
+            background: #D2E9F5;
         }
 
-        .pdf-content blockquote {
-            border-left: 4px solid #000000;
-            padding-left: 20px;
-            margin: 15px 0;
-            font-style: italic;
+        .article-meta {
+            background: #DCF0FA;
+            padding: 14px 20px;
+            border-radius: 24px;
+            margin: 15px 0 20px;
+            font-size: 0.85rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            border: 1px solid #B9D9EC;
         }
 
-        .pdf-content img {
-            max-width: 100%;
-            height: auto;
-            margin: 15px 0;
+        .copy-code-btn {
+            background: #2D6F84;
+            color: white;
+            border: none;
+            border-radius: 24px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            float: right;
+            margin-top: -2rem;
+            margin-right: 8px;
         }
 
-        @media (max-width: 768px) {
-            .input-group {
-                flex-direction: column;
-            }
-            
-            .btn {
-                width: 100%;
-            }
-            
-            .header h1 {
-                font-size: 1.8em;
-            }
+        .message-toast {
+            padding: 12px 24px;
+            border-radius: 50px;
+            margin-top: 16px;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            background: #EAF6FF;
+            color: #105269;
+            border-left: 5px solid #2E8B9E;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            font-size: 0.75rem;
+            color: #789FBB;
+        }
+
+        /* custom scrollbar pastel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1E4057;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4687A5;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6AACCA;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>📚 GeeksforGeeks Article Scraper</h1>
-            <p>Scrape articles with preserved formatting & generate beautiful PDFs</p>
+<div class="app-wrapper">
+    <div class="card">
+        <div class="hero">
+            <h1>📘 GFG Academic Scraper · Pastel Aurora</h1>
+            <p>Intelligent extraction → refined learning module → professional PDF with deep blue serenity</p>
         </div>
-
-        <div class="main-content">
-            <div class="input-section">
-                <div class="input-group">
-                    <input type="url" id="urlInput" class="url-input" 
-                           placeholder="Enter GeeksforGeeks article URL (e.g., https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/)"
-                           value="https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/">
-                    <button id="scrapeBtn" class="btn btn-primary">
-                        <span>🔍</span> Scrape Article
-                    </button>
-                    <button id="downloadBtn" class="btn btn-success" disabled>
-                        <span>📥</span> Download as PDF
-                    </button>
-                    <button id="clearBtn" class="btn btn-secondary">
-                        <span>🗑️</span> Clear
-                    </button>
-                </div>
-                <div id="proxyLog" class="proxy-log">🌐 Proxy log: Ready to scrape...</div>
+        <div class="input-panel">
+            <div class="flex-row">
+                <input type="text" id="articleUrl" class="url-field" placeholder="https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/" value="https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/">
+                <button id="scrapeActionBtn" class="btn btn-primary">🔍 Scrape & Extract</button>
+                <button id="downloadPdfBtn" class="btn btn-success" disabled>📄 Generate PDF</button>
+                <button id="clearDataBtn" class="btn btn-outline">🗑 Clear</button>
             </div>
-
-            <div id="progressContainer" class="progress-container">
-                <div id="progressBar" class="progress-bar">0%</div>
-                <div class="progress-status">
-                    <span id="statusText">Initializing...</span>
-                    <span id="stageBadge" class="stage-badge">Ready</span>
-                </div>
-            </div>
-
-            <div id="statsSection" class="stats-section" style="display: none;">
-                <div class="stat-item">
-                    <div class="stat-value" id="titleLength">0</div>
-                    <div class="stat-label">Title Length</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="wordCount">0</div>
-                    <div class="stat-label">Words</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="headingCount">0</div>
-                    <div class="stat-label">Headings</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="codeBlocks">0</div>
-                    <div class="stat-label">Code Blocks</div>
-                </div>
-                <div class="stat-item">
-                    <div class="stat-value" id="lastUpdated">N/A</div>
-                    <div class="stat-label">Last Updated</div>
-                </div>
-            </div>
-
-            <div id="messageContainer" class="message-container"></div>
-
-            <!-- Fixed PDF container -->
-            <div id="pdfContainer"></div>
-
-            <div class="content-preview">
-                <h3>📄 Scraped Content Preview</h3>
-                <div id="scrapedContent" class="scraped-content">
-                    <p style="color: #999; text-align: center;">Enter a GeeksforGeeks URL and click "Scrape Article" to begin...</p>
-                </div>
-            </div>
+            <div id="proxyStatusLog" class="proxy-console">🌊 Proxy engine active · CORS resilience · Pastel mode</div>
         </div>
     </div>
 
-    <script>
-        $(document).ready(function() {
-            // ─── CORS proxy definitions ─────────────────────────────
-            const PROXIES = [
-                {
-                    name: 'corsproxy.io',
-                    buildUrl: (target) => `https://corsproxy.io/?${encodeURIComponent(target)}`,
-                    extract: async (res) => res.text(),
-                },
-                {
-                    name: 'allorigins.win',
-                    buildUrl: (target) => `https://api.allorigins.win/get?url=${encodeURIComponent(target)}`,
-                    extract: async (res) => { const j = await res.json(); return j.contents; },
-                },
-                {
-                    name: 'codetabs.com',
-                    buildUrl: (target) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(target)}`,
-                    extract: async (res) => res.text(),
-                },
-                {
-                    name: 'thingproxy.freeboard.io',
-                    buildUrl: (target) => `https://thingproxy.freeboard.io/fetch/${target}`,
-                    extract: async (res) => res.text(),
-                }
-            ];
+    <!-- Progress indicator -->
+    <div id="progressPanel" class="progress-card">
+        <div class="progress-bar-container">
+            <div id="progressFill" class="progress-fill">0%</div>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 12px;">
+            <span id="progressMsg" style="color:#B7E0F5;">Waiting...</span>
+            <span id="stageLabel" style="font-weight:500; color:#9FD2EC;">⚙️ idle</span>
+        </div>
+    </div>
 
-            // DOM elements
-            const urlInput = $('#urlInput');
-            const scrapeBtn = $('#scrapeBtn');
-            const downloadBtn = $('#downloadBtn');
-            const clearBtn = $('#clearBtn');
-            const scrapedContent = $('#scrapedContent');
-            const pdfContainer = $('#pdfContainer');
-            const proxyLog = $('#proxyLog');
-            const progressContainer = $('#progressContainer');
-            const progressBar = $('#progressBar');
-            const statusText = $('#statusText');
-            const stageBadge = $('#stageBadge');
-            const messageContainer = $('#messageContainer');
-            const statsSection = $('#statsSection');
-            const titleLength = $('#titleLength');
-            const wordCount = $('#wordCount');
-            const headingCount = $('#headingCount');
-            const codeBlocks = $('#codeBlocks');
-            const lastUpdated = $('#lastUpdated');
+    <!-- Statistics dashboard (dynamic) -->
+    <div id="statsPanel" class="stats-dashboard" style="display: none;">
+        <div class="stat-tile"><div class="stat-number" id="statTitleLen">0</div><div class="stat-label">Title length</div></div>
+        <div class="stat-tile"><div class="stat-number" id="statWordCount">0</div><div class="stat-label">Word count</div></div>
+        <div class="stat-tile"><div class="stat-number" id="statHeadings">0</div><div class="stat-label">Headings</div></div>
+        <div class="stat-tile"><div class="stat-number" id="statCodeBlocks">0</div><div class="stat-label">Code snippets</div></div>
+        <div class="stat-tile"><div class="stat-number" id="statComplexity">✓</div><div class="stat-label">Complexity</div></div>
+    </div>
 
-            let currentTitle = '';
-            let currentLastUpdated = '';
+    <!-- Preview & PDF container -->
+    <div class="preview-area">
+        <div class="preview-header"><span>📖 Academic material preview (pastel academic view)</span><span style="font-size:0.7rem;">structured learning module</span></div>
+        <div id="scrapedPreview" class="content-preview academic-content">
+            <p style="color:#2D6E89; text-align:center;">✨ Enter GFG article URL and click "Scrape & Extract".<br>The system extracts: Title, Difficulty, Concepts, Code, Complexity & References.</p>
+        </div>
+    </div>
+    <footer>Generated by Academic Scraper System — Educational use · dark pastel edition</footer>
+</div>
 
-            // Titles to remove (ads, navigation, etc.)
-            const TITLES_TO_REMOVE = [
-                'related articles',
-                'recommended',
-                'advertisement',
-                'trending',
-                'latest',
-                'improve',
-                'save',
-                'share',
-                'report issue',
-                'please login',
-                'comment',
-                'subscribe',
-                'newsletter',
-                'suggest changes'
-            ];
+<!-- Hidden container for PDF generation (offline structure) -->
+<div id="pdfHiddenContainer" style="position: fixed; top: -9999px; left: -9999px; background: white; width: 800px; padding: 36px; z-index: -1;"></div>
 
-            function shouldRemoveTitle(title) {
-                if (!title) return false;
-                const lowerTitle = title.toLowerCase().trim();
-                for (const removeTitle of TITLES_TO_REMOVE) {
-                    if (lowerTitle.includes(removeTitle)) {
-                        return true;
-                    }
-                }
-                return false;
+<script>
+    (function(){
+        // ---------- PROXY LIST (robust fallback) ----------
+        const PROXY_LIST = [
+            { name: 'corsproxy.io', build: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, extract: async (res) => res.text() },
+            { name: 'allorigins.win', build: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, extract: async (res) => { const data = await res.json(); return data.contents; } },
+            { name: 'codetabs', build: (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, extract: async (res) => res.text() },
+            { name: 'cors-anywhere (fallback)', build: (url) => `https://cors-anywhere.herokuapp.com/${url}`, extract: async (res) => res.text() }
+        ];
+
+        const urlInput = document.getElementById('articleUrl');
+        const scrapeBtn = document.getElementById('scrapeActionBtn');
+        const downloadBtn = document.getElementById('downloadPdfBtn');
+        const clearBtn = document.getElementById('clearDataBtn');
+        const previewDiv = document.getElementById('scrapedPreview');
+        const pdfContainer = document.getElementById('pdfHiddenContainer');
+        const proxyLogDiv = document.getElementById('proxyStatusLog');
+        const progressPanel = document.getElementById('progressPanel');
+        const progressFill = document.getElementById('progressFill');
+        const progressMsgSpan = document.getElementById('progressMsg');
+        const stageSpan = document.getElementById('stageLabel');
+        const statsPanel = document.getElementById('statsPanel');
+        
+        const statTitleLen = document.getElementById('statTitleLen');
+        const statWordCount = document.getElementById('statWordCount');
+        const statHeadings = document.getElementById('statHeadings');
+        const statCodeBlocks = document.getElementById('statCodeBlocks');
+        const statComplexitySpan = document.getElementById('statComplexity');
+
+        let currentStructuredHTML = '';
+        let currentMeta = {
+            title: 'Untitled',
+            difficulty: 'Not Available',
+            complexity: 'Not Available',
+            lastUpdated: 'Not Available',
+            wordCount: 0,
+            headingsCount: 0,
+            codeBlocksCount: 0,
+            conceptsSummary: '',
+            references: []
+        };
+        let scrapedRawSuccess = false;
+
+        function setProgress(percent, message, stage) {
+            if (!progressPanel.style.display || progressPanel.style.display === 'none') progressPanel.style.display = 'block';
+            progressFill.style.width = `${percent}%`;
+            progressFill.innerText = `${Math.floor(percent)}%`;
+            progressMsgSpan.innerText = message;
+            stageSpan.innerText = stage || 'processing';
+            if(percent >= 100) {
+                setTimeout(() => { if(progressPanel) progressPanel.style.display = 'none'; }, 1500);
             }
+        }
 
-            function showProgress() {
-                progressContainer.show();
-            }
+        function showToast(message, isError = false) {
+            const toastDiv = document.createElement('div');
+            toastDiv.className = 'message-toast';
+            toastDiv.style.background = isError ? '#FFECEE' : '#E1F3FC';
+            toastDiv.style.color = isError ? '#B13E4B' : '#105D79';
+            toastDiv.style.borderLeft = `4px solid ${isError ? '#D97A7A' : '#3E9FBB'}`;
+            toastDiv.innerText = message;
+            const previewParent = document.querySelector('.preview-area');
+            const existing = document.querySelector('.message-toast');
+            if(existing) existing.remove();
+            previewParent.parentNode.insertBefore(toastDiv, previewParent);
+            setTimeout(() => toastDiv.remove(), 4200);
+        }
 
-            function hideProgress() {
-                progressContainer.hide();
-            }
+        function updateProxyLog(msg, isErr = false) {
+            proxyLogDiv.innerHTML = `🌊 ${msg}`;
+            proxyLogDiv.style.color = isErr ? '#FFB7A8' : '#B3EAFB';
+        }
 
-            function updateProgress(percent, message, stage) {
-                progressBar.css('width', percent + '%');
-                progressBar.text(percent + '%');
-                statusText.text(message);
-                stageBadge.text(stage || 'Processing');
-            }
-
-            function setControlsDisabled(disabled) {
-                scrapeBtn.prop('disabled', disabled);
-                downloadBtn.prop('disabled', disabled);
-                urlInput.prop('disabled', disabled);
-                clearBtn.prop('disabled', false);
-            }
-
-            function showMessage(type, text) {
-                const messageDiv = $('<div>').addClass(type === 'error' ? 'warning-message' : 'success-message').text(text);
-                messageContainer.empty().append(messageDiv);
-                setTimeout(() => messageDiv.fadeOut(), 5000);
-            }
-
-            function updateProxyLog(message, isError = false) {
-                proxyLog.html(`🌐 Proxy log: ${message}`);
-                if (isError) {
-                    proxyLog.addClass('error');
-                } else {
-                    proxyLog.removeClass('error');
-                }
-            }
-
-            // ─── Fetch with fallback ─────────────────────────────────
-            async function fetchWithFallback(targetUrl, onProgress) {
-                const errors = [];
-                for (const proxy of PROXIES) {
-                    onProgress(`Trying proxy: ${proxy.name}…`);
-                    updateProxyLog(`Trying ${proxy.name}...`);
-                    try {
-                        const proxyUrl = proxy.buildUrl(targetUrl);
-                        const res = await fetch(proxyUrl, { signal: AbortSignal.timeout(15000) });
-                        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-                        const html = await proxy.extract(res);
-                        if (!html || html.length < 200) throw new Error('Empty or too-short response');
-                        updateProxyLog(`✓ Success with ${proxy.name}`);
-                        return html;
-                    } catch (err) {
-                        updateProxyLog(`✗ ${proxy.name} failed: ${err.message}`);
-                        errors.push(`${proxy.name}: ${err.message}`);
-                    }
-                }
-                throw new Error(`All proxies failed.\n${errors.join('\n')}`);
-            }
-
-            // ─── Extract article header information ─────────────────
-            function extractArticleHeader($html) {
-                let title = 'Untitled Article';
-                let lastUpdated = 'Not Available';
-                
-                const titleSelectors = [
-                    '.ArticleHeader_article-title__futDC h1',
-                    '.article-title h1',
-                    '.entry-title',
-                    '.post-title',
-                    'h1.article-title',
-                    'h1.post-title',
-                    'article h1',
-                    'main h1',
-                    '.content h1',
-                    'h1:first'
-                ];
-                
-                for (const selector of titleSelectors) {
-                    const $title = $html.find(selector).first();
-                    if ($title.length && $title.text().trim()) {
-                        title = $title.text().trim();
-                        break;
-                    }
-                }
-                
-                const dateSelectors = [
-                    '.ArticleHeader_last_updated_parent__ohhpb',
-                    '.last-updated',
-                    '.post-date',
-                    '.entry-date',
-                    '.published',
-                    'time',
-                    '[itemprop="dateModified"]',
-                    '[itemprop="datePublished"]',
-                    '.date'
-                ];
-                
-                for (const selector of dateSelectors) {
-                    const $dateEl = $html.find(selector).first();
-                    if ($dateEl.length) {
-                        let dateText = $dateEl.text().trim();
-                        dateText = dateText.replace(/last\s+updated:?\s*/i, '').replace(/published:?\s*/i, '');
-                        if (dateText && dateText.length > 5) {
-                            lastUpdated = dateText;
-                            break;
-                        }
-                    }
-                }
-                
-                return { title, lastUpdated };
-            }
-
-            // ─── Clean and extract main content ─────────────────────
-            function extractMainContent(html) {
-                const $html = $('<div>').html(html);
-                
-                const headerInfo = extractArticleHeader($html);
-                currentTitle = headerInfo.title;
-                currentLastUpdated = headerInfo.lastUpdated;
-                
-                $html.find('script, style, iframe, noscript, .ads, .advertisement, .sidebar, footer, header, nav, .comments, .recommended, .related-articles, .suggested-reading, .trending-articles, .popular-posts, .google-ads, .ad-container').remove();
-                
-                let $content = $html.find('.article-content, .entry-content, .text, .content, main, #main, .post-content, article, .main-content, .article-page-content');
-                
-                if ($content.length === 0) {
-                    $content = $html.find('body');
-                }
-                
-                // Clean the content but keep essential attributes
-                $content.find('*').each(function() {
-                    const $this = $(this);
-                    
-                    if ($this.text().trim() === '' && !$this.is('br, img, hr')) {
-                        $this.remove();
-                        return;
-                    }
-                    
-                    if ($this.is('h1, h2, h3, h4, h5, h6')) {
-                        if (shouldRemoveTitle($this.text())) {
-                            $this.remove();
-                        }
-                    }
-                    
-                    // Keep essential attributes but remove styling
-                    const keepAttrs = ['href', 'src', 'alt', 'title'];
-                    const attrs = this.attributes;
-                    for (let i = attrs.length - 1; i >= 0; i--) {
-                        const attrName = attrs[i].name;
-                        if (keepAttrs.indexOf(attrName) === -1 && !attrName.startsWith('data-')) {
-                            $this.removeAttr(attrName);
-                        }
-                    }
-                });
-                
-                return $content;
-            }
-
-            // ─── Format content for display and PDF ─────────────────
-            function formatContent($content, includeCopyButtons = true) {
-                const $container = $('<div>').addClass(includeCopyButtons ? 'scraped-content' : 'pdf-content');
-                
-                // Add article header
-                const $header = $('<div>').addClass('article-header');
-                $header.append(`<h1>${currentTitle}</h1>`);
-                
-                if (currentLastUpdated !== 'Not Available') {
-                    $header.append(`
-                        <div class="article-meta">
-                            <div class="meta-item">📅 Last Updated: ${currentLastUpdated}</div>
-                        </div>
-                    `);
-                }
-                
-                $container.append($header);
-                
-                // Clone and process content
-                const $processedContent = $content.clone();
-                
-                // Process all elements
-                $processedContent.find('h1, h2, h3, h4, h5, h6, p, div, span, a, li, blockquote, pre, code, table, th, td').css('color', '#000000');
-                
-                // Process headings
-                $processedContent.find('h1, h2, h3, h4, h5, h6').css({
-                    'margin': '20px 0 10px 0',
-                    'font-weight': 'bold'
-                });
-                
-                // Process code blocks
-                $processedContent.find('pre').each(function() {
-                    const $this = $(this);
-                    $this.css({
-                        'background': '#f4f4f4',
-                        'border': '1px solid #000000',
-                        'padding': '15px',
-                        'border-radius': '8px',
-                        'overflow-x': 'auto',
-                        'font-family': "'Courier New', monospace",
-                        'margin': '15px 0',
-                        'white-space': 'pre-wrap',
-                        'word-wrap': 'break-word'
-                    });
-                    
-                    if (includeCopyButtons) {
-                        $this.css('position', 'relative');
-                        const $copyBtn = $('<button>').addClass('copy-btn').html('📋 Copy');
-                        $this.append($copyBtn);
-                        
-                        $copyBtn.on('click', function(e) {
-                            e.stopPropagation();
-                            const code = $this.find('code').text() || $this.text();
-                            navigator.clipboard.writeText(code).then(() => {
-                                $copyBtn.text('✅ Copied!');
-                                setTimeout(() => $copyBtn.html('📋 Copy'), 2000);
-                            });
-                        });
-                    }
-                });
-                
-                // Process inline code
-                $processedContent.find('code').not('pre code').css({
-                    'background': '#f4f4f4',
-                    'padding': '2px 5px',
-                    'border-radius': '4px',
-                    'font-family': "'Courier New', monospace"
-                });
-                
-                // Process tables
-                $processedContent.find('table').css({
-                    'border-collapse': 'collapse',
-                    'width': '100%',
-                    'margin': '15px 0'
-                });
-                
-                $processedContent.find('th, td').css({
-                    'border': '1px solid #000000',
-                    'padding': '8px',
-                    'text-align': 'left'
-                });
-                
-                $processedContent.find('th').css('background', '#e0e0e0');
-                
-                // Process lists
-                $processedContent.find('ul, ol').css({
-                    'margin': '10px 0 10px 30px'
-                });
-                
-                // Process blockquotes
-                $processedContent.find('blockquote').css({
-                    'border-left': '4px solid #000000',
-                    'padding-left': '20px',
-                    'margin': '10px 0',
-                    'font-style': 'italic'
-                });
-                
-                // Process images
-                $processedContent.find('img').css({
-                    'max-width': '100%',
-                    'height': 'auto',
-                    'margin': '15px 0'
-                });
-                
-                // Process links
-                $processedContent.find('a').css({
-                    'color': '#000000',
-                    'text-decoration': 'underline'
-                }).attr('target', '_blank');
-                
-                $container.append($processedContent.contents());
-                
-                return $container;
-            }
-
-            // ─── Update statistics ──────────────────────────────────
-            function updateStats($content) {
-                const text = $content.text();
-                const words = text.split(/\s+/).filter(w => w.length > 0).length;
-                const headings = $content.find('h1, h2, h3, h4, h5, h6').length;
-                const codeBlocksCount = $content.find('pre').length;
-                
-                titleLength.text(currentTitle.length);
-                wordCount.text(words.toLocaleString());
-                headingCount.text(headings);
-                codeBlocks.text(codeBlocksCount);
-                lastUpdated.text(currentLastUpdated);
-                
-                statsSection.show();
-            }
-
-            // ─── Scrape article ─────────────────────────────────────
-            async function scrapeArticle() {
-                const url = urlInput.val().trim();
-                
-                if (!url) {
-                    showMessage('error', 'Please enter a URL');
-                    return;
-                }
-                
-                if (!url.includes('geeksforgeeks.org')) {
-                    showMessage('error', 'Please enter a valid GeeksforGeeks URL');
-                    return;
-                }
-                
-                setControlsDisabled(true);
-                showProgress();
-                updateProgress(10, 'Starting scrape...', 'Initializing');
-                
+        async function fetchWithCorsFallback(targetUrl, onProxyAttempt) {
+            let errors = [];
+            for(let proxy of PROXY_LIST) {
                 try {
-                    updateProgress(20, 'Fetching page through proxies...', 'Fetching');
-                    const html = await fetchWithFallback(url, (msg) => updateProgress(30, msg, 'Proxies'));
-                    
-                    updateProgress(50, 'Extracting main content...', 'Processing');
-                    
-                    const $content = extractMainContent(html);
-                    
-                    if ($content.length === 0 || $content.text().trim().length === 0) {
-                        throw new Error('No content could be extracted');
-                    }
-                    
-                    updateProgress(70, 'Formatting content...', 'Formatting');
-                    
-                    // Format for preview (with copy buttons)
-                    const $previewContent = formatContent($content, true);
-                    
-                    // Format for PDF (without copy buttons)
-                    const $pdfContent = formatContent($content, false);
-                    
-                    updateProgress(90, 'Rendering preview...', 'Rendering');
-                    
-                    // Display preview
-                    scrapedContent.empty().append($previewContent);
-                    
-                    // Store PDF content in hidden container
-                    pdfContainer.empty().append($pdfContent);
-                    
-                    updateStats($previewContent);
-                    
-                    updateProgress(100, 'Complete!', 'Success');
-                    
-                    showMessage('success', '✅ Article scraped successfully!');
-                    downloadBtn.prop('disabled', false);
-                    
-                    setTimeout(hideProgress, 1000);
-                    
-                } catch (error) {
-                    console.error('Scraping error:', error);
-                    showMessage('error', 'Failed to scrape: ' + error.message);
-                    updateProxyLog('❌ All proxies failed. Please check the URL and try again.', true);
-                    setControlsDisabled(false);
-                    hideProgress();
+                    onProxyAttempt(`Trying ${proxy.name}...`);
+                    const proxyUrl = proxy.build(targetUrl);
+                    const controller = new AbortController();
+                    const timeoutId = setTimeout(() => controller.abort(), 13000);
+                    const response = await fetch(proxyUrl, { signal: controller.signal });
+                    clearTimeout(timeoutId);
+                    if(!response.ok) throw new Error(`HTTP ${response.status}`);
+                    const html = await proxy.extract(response);
+                    if(!html || html.length < 300) throw new Error('Insufficient content');
+                    updateProxyLog(`✅ Success with ${proxy.name}`);
+                    return html;
+                } catch(err) {
+                    errors.push(`${proxy.name}: ${err.message}`);
+                    updateProxyLog(`❌ ${proxy.name} failed - ${err.message}`, true);
                 }
             }
+            throw new Error(`All proxies exhausted: ${errors.join(' | ')}`);
+        }
 
-            // ─── Generate PDF ───────────────────────────────────────
-            async function generatePDF() {
-                const pdfElement = pdfContainer.children().first();
-                
-                if (!pdfElement || pdfElement.length === 0) {
-                    showMessage('error', 'No content to save. Please scrape an article first.');
-                    return;
-                }
-                
-                setControlsDisabled(true);
-                showProgress();
-                updateProgress(10, 'Preparing PDF generation...', 'PDF');
-                
-                try {
-                    const title = currentTitle.replace(/[^a-z0-9]+/gi, '-').toLowerCase().substring(0, 50);
-                    const filename = title + '.pdf';
-                    
-                    updateProgress(40, 'Generating PDF...', 'Converting');
-                    
-                    // Configure PDF options
-                    const opt = {
-                        margin: [0.5, 0.5, 0.5, 0.5],
-                        filename: filename,
-                        image: { type: 'jpeg', quality: 0.98 },
-                        html2canvas: { 
-                            scale: 2,
-                            backgroundColor: '#ffffff',
-                            logging: false,
-                            allowTaint: false,
-                            useCORS: true,
-                            letterRendering: true
-                        },
-                        jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-                    };
-                    
-                    updateProgress(70, 'Rendering PDF...', 'Rendering');
-                    
-                    // Generate PDF directly from the stored element
-                    await html2pdf().set(opt).from(pdfElement[0]).save();
-                    
-                    updateProgress(100, 'PDF generated!', 'Complete');
-                    showMessage('success', '✅ PDF generated successfully!');
-                    
-                } catch (error) {
-                    console.error('PDF generation error:', error);
-                    showMessage('error', 'Failed to generate PDF: ' + error.message);
-                } finally {
-                    setControlsDisabled(false);
-                    setTimeout(hideProgress, 1000);
+        function extractAcademicFields($dom) {
+            let difficulty = 'Not Available';
+            let complexity = 'Not Available';
+            let conceptsSummary = '';
+            let references = [];
+
+            const diffSelectors = ['.difficulty', '.difficulty-level', '.tag-difficulty', '.easy-tag', '.medium-tag', '.hard-tag'];
+            for(let sel of diffSelectors) {
+                let el = $dom.querySelector(sel);
+                if(el && el.innerText.trim()) { difficulty = el.innerText.trim(); break; }
+            }
+            if(difficulty === 'Not Available') {
+                let bodyText = $dom.innerText;
+                if(/(Easy|Medium|Hard)\s*$/i.test(bodyText)) {
+                    let match = bodyText.match(/(Easy|Medium|Hard)/i);
+                    if(match) difficulty = match[0];
                 }
             }
-
-            // ─── Clear content ──────────────────────────────────────
-            function clearContent() {
-                currentTitle = '';
-                currentLastUpdated = '';
-                scrapedContent.html('<p style="color: #999; text-align: center;">Enter a GeeksforGeeks URL and click "Scrape Article" to begin...</p>');
-                pdfContainer.empty();
-                statsSection.hide();
-                downloadBtn.prop('disabled', true);
-                urlInput.val('');
-                updateProxyLog('Ready to scrape...');
-                showMessage('success', 'Content cleared');
-                
-                scrapeBtn.prop('disabled', false);
-                downloadBtn.prop('disabled', true);
-                urlInput.prop('disabled', false);
-                clearBtn.prop('disabled', false);
+            const complexityKeywords = ['time complexity', 'space complexity', 'complexity analysis'];
+            let complexityText = '';
+            for(let node of $dom.querySelectorAll('p, div, li')) {
+                let txt = node.innerText.toLowerCase();
+                if(complexityKeywords.some(k => txt.includes(k))) {
+                    complexityText = node.innerText.trim();
+                    if(complexityText.length > 30) { complexity = complexityText.slice(0, 200); break; }
+                }
             }
-
-            // ─── Event listeners ────────────────────────────────────
-            scrapeBtn.on('click', scrapeArticle);
-            downloadBtn.on('click', generatePDF);
-            clearBtn.on('click', clearContent);
+            if(complexityText === '') complexity = 'Not Available';
             
-            urlInput.on('keypress', function(e) {
-                if (e.which === 13) {
-                    scrapeArticle();
-                }
-            });
+            let conceptParagraphs = [];
+            let firstContent = $dom.querySelector('article p, .article-content p, .text p');
+            if(firstContent) conceptParagraphs.push(firstContent.innerText.trim().slice(0, 420));
+            else conceptParagraphs.push('Core technical content extracted from article body.');
+            conceptsSummary = conceptParagraphs[0];
+
+            let refLinks = [];
+            let relatedDiv = $dom.querySelector('.related-articles, .see-also, .references');
+            if(relatedDiv) {
+                let links = relatedDiv.querySelectorAll('a');
+                links.forEach(l => { if(l.href) refLinks.push(l.href); });
+            }
+            references = refLinks.length ? refLinks.slice(0,5) : ['Not Available'];
             
-            downloadBtn.prop('disabled', true);
-        });
-    </script>
+            return { difficulty, complexity, conceptsSummary, references };
+        }
+
+        function buildAcademicHandout(articleTitle, rawHtmlContent, metaFields) {
+            const container = document.createElement('div');
+            container.className = 'pdf-content academic-content';
+            const dateGen = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
+            const headerDiv = document.createElement('div');
+            headerDiv.style.borderBottom = '2px solid #2F7F8C';
+            headerDiv.style.marginBottom = '20px';
+            headerDiv.style.paddingBottom = '12px';
+            headerDiv.innerHTML = `<h1>${escapeHtml(articleTitle)}</h1>
+            <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#1F6E8C;"><span>📅 Generated: ${dateGen}</span><span>🏷️ Category: Algorithms / CS</span></div>`;
+            container.appendChild(headerDiv);
+            
+            const metaBlock = document.createElement('div');
+            metaBlock.className = 'article-meta';
+            metaBlock.innerHTML = `<span><strong>⚡ Difficulty:</strong> ${escapeHtml(metaFields.difficulty)}</span>
+                                    <span><strong>⏱️ Complexity Analysis:</strong> ${escapeHtml(metaFields.complexity)}</span>
+                                    <span><strong>🕒 Last Updated:</strong> ${escapeHtml(metaFields.lastUpdated)}</span>`;
+            container.appendChild(metaBlock);
+            
+            const conceptsSec = document.createElement('div');
+            conceptsSec.innerHTML = `<h2>📖 Key Technical Concepts</h2><p>${escapeHtml(metaFields.conceptsSummary)}</p>`;
+            container.appendChild(conceptsSec);
+            
+            const bodyWrapper = document.createElement('div');
+            bodyWrapper.innerHTML = rawHtmlContent; 
+            const unwanted = bodyWrapper.querySelectorAll('.ads, .advertisement, .sidebar, .comments, .related-post, .recommended');
+            unwanted.forEach(el => el.remove());
+            container.appendChild(bodyWrapper);
+            
+            if(metaFields.codeBlocksCount > 0) {
+                const codeNote = document.createElement('div');
+                codeNote.innerHTML = `<h3>💻 Implementation Examples</h3><p>Embedded code blocks above reflect practical implementation.</p>`;
+                container.appendChild(codeNote);
+            }
+            
+            const refSec = document.createElement('div');
+            let refHtml = `<h3>📚 References & Related Resources</h3><ul>`;
+            if(metaFields.references && metaFields.references.length && metaFields.references[0] !== 'Not Available') {
+                metaFields.references.slice(0,5).forEach(ref => {
+                    refHtml += `<li><a href="${escapeHtml(ref)}" target="_blank">${escapeHtml(ref.length>70? ref.slice(0,70)+'...':ref)}</a></li>`;
+                });
+            } else {
+                refHtml += `<li>Not Available</li>`;
+            }
+            refHtml += `</ul>`;
+            refSec.innerHTML = refHtml;
+            container.appendChild(refSec);
+            
+            const footerDiv = document.createElement('div');
+            footerDiv.style.marginTop = '35px';
+            footerDiv.style.paddingTop = '12px';
+            footerDiv.style.borderTop = '1px solid #BCD9E8';
+            footerDiv.style.fontSize = '0.7rem';
+            footerDiv.style.textAlign = 'center';
+            footerDiv.innerHTML = `📄 Page 1 of 1 · GFG Academic Scraper Pastel Edition · Educational Use Only`;
+            container.appendChild(footerDiv);
+            return container;
+        }
+        
+        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
+
+        async function startScraping() {
+            const rawUrl = urlInput.value.trim();
+            if(!rawUrl || !rawUrl.includes('geeksforgeeks.org')) {
+                showToast('❌ Please enter a valid GeeksforGeeks article URL', true);
+                return;
+            }
+            setControlsDisabled(true);
+            scrapedRawSuccess = false;
+            downloadBtn.disabled = true;
+            progressPanel.style.display = 'block';
+            setProgress(5, 'Initializing scraper...', 'proxy rotation');
+            
+            try {
+                setProgress(15, 'Fetching article via secure proxies', 'network');
+                const htmlData = await fetchWithCorsFallback(rawUrl, (msg) => setProgress(25, msg, 'proxy'));
+                setProgress(45, 'Parsing DOM & extracting educational fields', 'analysis');
+                
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(htmlData, 'text/html');
+                let title = '';
+                const titleEl = doc.querySelector('h1.entry-title, h1.article-title, .ArticleHeader_article-title__futDC h1, article h1');
+                if(titleEl) title = titleEl.innerText.trim();
+                else title = doc.title.replace(' - GeeksforGeeks', '').trim() || 'Technical Article';
+                
+                let lastUpdatedSpan = doc.querySelector('.last-updated, .modified-date, time[itemprop="dateModified"]');
+                let lastUpdated = lastUpdatedSpan ? lastUpdatedSpan.innerText.trim() : 'Not Available';
+                
+                let mainContent = doc.querySelector('.article-content, .entry-content, .text, main article, .content');
+                if(!mainContent) mainContent = doc.body;
+                const contentClone = mainContent.cloneNode(true);
+                contentClone.querySelectorAll('script, style, iframe, .ad, .google-auto-placed, .sidebar, .footer-links').forEach(el => el.remove());
+                
+                const academicMeta = extractAcademicFields(contentClone);
+                academicMeta.lastUpdated = lastUpdated;
+                const textFull = contentClone.innerText;
+                const wordCount = textFull.split(/\s+/).filter(w => w.length).length;
+                const headingCount = contentClone.querySelectorAll('h1, h2, h3').length;
+                const codeBlockCount = contentClone.querySelectorAll('pre, .code-block, .code-container').length;
+                academicMeta.codeBlocksCount = codeBlockCount;
+                currentMeta = {
+                    title: title,
+                    difficulty: academicMeta.difficulty,
+                    complexity: academicMeta.complexity,
+                    lastUpdated: lastUpdated,
+                    wordCount: wordCount,
+                    headingsCount: headingCount,
+                    codeBlocksCount: codeBlockCount,
+                    conceptsSummary: academicMeta.conceptsSummary,
+                    references: academicMeta.references
+                };
+                
+                const structuredPreviewDiv = document.createElement('div');
+                structuredPreviewDiv.className = 'academic-content';
+                structuredPreviewDiv.innerHTML = `<div class="article-meta"><span><strong>📌 Title:</strong> ${escapeHtml(title)}</span> <span><strong>⚡ Difficulty:</strong> ${escapeHtml(academicMeta.difficulty)}</span> <span><strong>🧠 Complexity:</strong> ${escapeHtml(academicMeta.complexity)}</span></div>`;
+                const conceptBlock = document.createElement('div');
+                conceptBlock.innerHTML = `<h2>📘 Core Concepts</h2><p>${escapeHtml(academicMeta.conceptsSummary)}</p>`;
+                structuredPreviewDiv.appendChild(conceptBlock);
+                const cleanedBody = document.createElement('div');
+                cleanedBody.innerHTML = contentClone.innerHTML;
+                structuredPreviewDiv.appendChild(cleanedBody);
+                if(academicMeta.references.length && academicMeta.references[0] !== 'Not Available') {
+                    let refHtml = `<h3>🔗 References</h3><ul>`;
+                    academicMeta.references.slice(0,4).forEach(r => refHtml += `<li>${escapeHtml(r)}</li>`);
+                    refHtml += `</ul>`;
+                    structuredPreviewDiv.innerHTML += refHtml;
+                }
+                const pdfReadyContent = buildAcademicHandout(title, cleanedBody.innerHTML, currentMeta);
+                pdfContainer.innerHTML = '';
+                pdfContainer.appendChild(pdfReadyContent.cloneNode(true));
+                previewDiv.innerHTML = '';
+                previewDiv.appendChild(structuredPreviewDiv);
+                
+                statTitleLen.innerText = title.length;
+                statWordCount.innerText = wordCount.toLocaleString();
+                statHeadings.innerText = headingCount;
+                statCodeBlocks.innerText = codeBlockCount;
+                statComplexitySpan.innerText = academicMeta.complexity.length > 45 ? academicMeta.complexity.slice(0,42)+'..' : academicMeta.complexity;
+                statsPanel.style.display = 'flex';
+                scrapedRawSuccess = true;
+                downloadBtn.disabled = false;
+                setProgress(100, 'Scraping complete! Ready for PDF.', 'success');
+                showToast(`✅ Extracted "${title}" — ${wordCount} words, ${codeBlockCount} code blocks.`);
+            } catch(err) {
+                console.error(err);
+                showToast(`Scraping failed: ${err.message}`, true);
+                updateProxyLog(`Critical error: ${err.message}`, true);
+                setProgress(0, 'Scraping failed', 'error');
+                setTimeout(() => { progressPanel.style.display = 'none'; }, 2000);
+            } finally {
+                setControlsDisabled(false);
+            }
+        }
+        
+        async function generatePdfFromScraped() {
+            if(!scrapedRawSuccess || pdfContainer.children.length === 0) {
+                showToast('No scraped content. Please scrape an article first.', true);
+                return;
+            }
+            setControlsDisabled(true);
+            progressPanel.style.display = 'block';
+            setProgress(20, 'Preparing academic PDF...', 'rendering');
+            try {
+                const elementToPrint = pdfContainer.children[0];
+                const opt = {
+                    margin: [0.6, 0.6, 0.6, 0.6],
+                    filename: `${currentMeta.title.replace(/[^a-z0-9]/gi, '_').slice(0,50)}_LearningModule.pdf`,
+                    image: { type: 'jpeg', quality: 0.95 },
+                    html2canvas: { scale: 2, backgroundColor: '#ffffff', logging: false },
+                    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
+                };
+                setProgress(55, 'Generating PDF...', 'html2pdf');
+                await html2pdf().set(opt).from(elementToPrint).save();
+                setProgress(100, 'PDF saved!', 'complete');
+                showToast('📚 PDF generated successfully — Academic handout ready (Pastel Blue Edition).');
+            } catch(pdfErr) {
+                showToast('PDF generation error: '+pdfErr.message, true);
+            } finally {
+                setControlsDisabled(false);
+                setTimeout(() => { progressPanel.style.display = 'none'; }, 1000);
+            }
+        }
+        
+        function setControlsDisabled(disabled) {
+            scrapeBtn.disabled = disabled;
+            downloadBtn.disabled = disabled || !scrapedRawSuccess;
+            urlInput.disabled = disabled;
+            clearBtn.disabled = disabled;
+        }
+        
+        function clearAll() {
+            previewDiv.innerHTML = '<p style="color:#2D6E89; text-align:center;">✨ Enter GFG article URL and click "Scrape & Extract".<br>The system extracts: Title, Difficulty, Concepts, Code, Complexity & References.</p>';
+            pdfContainer.innerHTML = '';
+            statsPanel.style.display = 'none';
+            scrapedRawSuccess = false;
+            downloadBtn.disabled = true;
+            currentMeta = { title: '', difficulty: 'N/A' };
+            showToast('Cleared all scraped data');
+            updateProxyLog('Ready to scrape again');
+        }
+        
+        scrapeBtn.addEventListener('click', startScraping);
+        downloadBtn.addEventListener('click', generatePdfFromScraped);
+        clearBtn.addEventListener('click', clearAll);
+        setControlsDisabled(false);
+    })();
+</script>
 </body>
 </html>
