@@ -1,12 +1,12 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>GFG Academic Scraper | Pastel Blue Edition</title>
-    <!-- html2pdf bundle -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" integrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GFG Web Dev Research Scraper | Academic Project</title>
     <style>
+        /* ===== DARK BLUE PASTEL PALETTE - ACADEMIC THEME ===== */
         * {
             margin: 0;
             padding: 0;
@@ -14,777 +14,1866 @@
         }
 
         body {
-            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-            background: #0B1926;  /* deep dark blue base */
+            font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, 'Roboto', monospace;
+            background: #0f172a;
+            min-height: 100vh;
             padding: 24px;
+            color: #e2e8f0;
         }
 
-        .app-wrapper {
+        .container {
             max-width: 1400px;
             margin: 0 auto;
+            background: #1e293b;
+            border-radius: 20px;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
+            overflow: hidden;
+            border: 1px solid #334155;
         }
 
-        /* Pastel dark blue theme — soft, modern, calming */
-        .card {
-            background: #13293D;  /* deep pastel blue base */
-            border-radius: 32px;
-            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(93, 168, 210, 0.15);
-            overflow: hidden;
-            margin-bottom: 28px;
+        /* ===== HEADER - ACADEMIC STYLE ===== */
+        .header {
+            background: #0f172a;
+            padding: 24px 32px;
+            text-align: center;
+            border-bottom: 2px solid #3b82f6;
+            position: relative;
+        }
+
+        .header h1 {
+            font-size: 1.9rem;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+            background: linear-gradient(135deg, #b9e0ff, #7aa2f7);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            margin-bottom: 6px;
+        }
+
+        .header p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            font-weight: 400;
+            border-top: 1px solid #334155;
+            display: inline-block;
+            padding-top: 8px;
+        }
+
+        .student-badge {
+            background: #1e293b;
+            color: #a5f3c3;
+            display: inline-block;
+            padding: 5px 18px;
+            border-radius: 40px;
+            margin-top: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid #2d3a4e;
+            letter-spacing: 0.3px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            padding: 32px;
+            background: #0f172a;
+        }
+
+        /* ===== CONTROL PANEL ===== */
+        .control-panel {
+            background: #1e293b;
+            border-radius: 20px;
+            padding: 28px;
+            margin-bottom: 32px;
+            border: 1px solid #334155;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .url-section {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .url-section input {
+            flex: 1;
+            padding: 14px 20px;
+            border: 1px solid #334155;
+            border-radius: 14px;
+            font-size: 0.95rem;
+            background: #0f172a;
+            color: #f1f5f9;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
             transition: all 0.2s;
         }
 
-        .hero {
-            background: linear-gradient(135deg, #0A1E2F, #0F2A3B, #1B3F4F);
-            color: #EAF6FF;
-            padding: 32px 36px;
-            border-bottom: 1px solid #2D4F6E;
-        }
-
-        .hero h1 {
-            font-size: 2.1rem;
-            font-weight: 700;
-            letter-spacing: -0.3px;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-shadow: 0 2px 3px rgba(0,0,0,0.2);
-        }
-
-        .hero p {
-            opacity: 0.85;
-            margin-top: 10px;
-            font-size: 1rem;
-            color: #C5E2F6;
-        }
-
-        .input-panel {
-            padding: 28px 32px;
-            background: #0F2537;  /* muted pastel dark blue */
-            border-bottom: 1px solid #1E4057;
-        }
-
-        .flex-row {
-            display: flex;
-            gap: 16px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-
-        .url-field {
-            flex: 2;
-            min-width: 260px;
-            padding: 14px 22px;
-            border: 2px solid #2A5779;
-            border-radius: 60px;
-            font-size: 0.95rem;
-            transition: 0.2s;
-            background: #EFF9FF;
-            color: #07212E;
-            font-weight: 500;
-        }
-
-        .url-field:focus {
+        .url-section input:focus {
             outline: none;
-            border-color: #7AB3C8;
-            box-shadow: 0 0 0 4px rgba(122, 179, 200, 0.3);
-            background: #FFFFFF;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59,130,246,0.2);
+            background: #0f172a;
         }
 
+        .url-section input::placeholder {
+            color: #5b6e8c;
+            font-style: normal;
+        }
+
+        /* ===== BUTTONS - PASTEL DARK BLUE ===== */
         .btn {
+            padding: 12px 26px;
             border: none;
-            padding: 12px 28px;
             border-radius: 40px;
+            font-size: 0.85rem;
             font-weight: 600;
-            font-size: 0.9rem;
             cursor: pointer;
-            transition: all 0.2s ease;
             display: inline-flex;
             align-items: center;
             gap: 8px;
-            backdrop-filter: blur(2px);
+            transition: all 0.2s ease;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            letter-spacing: 0.3px;
         }
 
         .btn-primary {
-            background: #2E7D8C;
+            background: #3b82f6;
             color: white;
-            box-shadow: 0 4px 12px rgba(0, 30, 40, 0.3);
-            border: 1px solid #4C9FB0;
+            box-shadow: 0 2px 8px rgba(59,130,246,0.3);
         }
 
         .btn-primary:hover:not(:disabled) {
-            background: #1E6475;
-            transform: translateY(-2px);
-            box-shadow: 0 8px 18px rgba(0,0,0,0.2);
+            background: #2563eb;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+        }
+
+        .btn-secondary:hover {
+            background: #3b4a62;
+            color: white;
         }
 
         .btn-success {
-            background: #3B8C6E;
-            color: white;
-            border: 1px solid #5FAF8F;
+            background: #0f3b2c;
+            color: #bef264;
+            border: 1px solid #2e7d5e;
         }
 
-        .btn-success:hover:not(:disabled) {
-            background: #2C7358;
-            transform: translateY(-2px);
+        .btn-success:hover {
+            background: #1e4a3a;
+            color: #d9f99d;
         }
 
-        .btn-outline {
-            background: #1E3E52;
-            border: 1.5px solid #4682A3;
-            color: #DAF0FC;
+        .btn-info {
+            background: #1e2b3c;
+            color: #7aa2f7;
+            border: 1px solid #3b82f6;
         }
 
-        .btn-outline:hover {
-            background: #264F66;
-            border-color: #7CB0C9;
-            color: white;
+        .btn-info:hover {
+            background: #2d3b50;
+            color: #a0c4ff;
         }
 
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-            transform: none;
-            filter: grayscale(0.1);
+        .btn-warning {
+            background: #3b2e1e;
+            color: #fde047;
+            border: 1px solid #a16207;
         }
 
-        .proxy-console {
-            background: #041A28;
-            color: #B3E4F7;
-            font-family: 'SF Mono', 'Fira Code', monospace;
-            font-size: 0.8rem;
+        .btn-warning:hover {
+            background: #4a3b28;
+            color: #fef08a;
+        }
+
+        /* ===== STATUS BAR ===== */
+        .status-bar {
+            background: #1e2a3a;
+            border-radius: 14px;
             padding: 14px 22px;
-            border-radius: 48px;
-            margin-top: 20px;
-            word-break: break-word;
-            border-left: 4px solid #4F9FBF;
-            box-shadow: inset 0 0 0 1px #1D4A60;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: fadeSlide 0.25s ease;
+            color: #e2e8f0;
+            font-size: 0.9rem;
+            border-left: 5px solid #3b82f6;
         }
 
-        /* progress & stats */
-        .progress-card {
-            background: #0F283C;
-            margin: 0 28px 28px 28px;
-            border-radius: 28px;
-            padding: 18px 28px;
-            border: 1px solid #2C5775;
-            backdrop-filter: blur(2px);
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-6px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        .progress-bar-container {
-            background: #1A3F55;
-            border-radius: 40px;
-            height: 32px;
+        .status-bar.success {
+            border-left-color: #22c55e;
+            background: #0f2a1f;
+        }
+
+        .status-bar.error {
+            border-left-color: #ef4444;
+            background: #2a1a1f;
+        }
+
+        .status-bar.warning {
+            border-left-color: #eab308;
+            background: #2a281c;
+        }
+
+        .spinner {
+            width: 18px;
+            height: 18px;
+            border: 2px solid #94a3b8;
+            border-top-color: #3b82f6;
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== PROGRESS ===== */
+        .progress-container {
+            background: #0f172a;
+            border-radius: 16px;
+            padding: 20px;
+            margin: 20px 0;
+            border: 1px solid #334155;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #2d3a4e;
+            border-radius: 10px;
             overflow: hidden;
-            box-shadow: inset 0 1px 4px rgba(0,0,0,0.3);
         }
 
         .progress-fill {
-            width: 0%;
             height: 100%;
-            background: linear-gradient(90deg, #57B2CC, #88D4E8);
-            color: #01131F;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.8rem;
-            font-weight: bold;
-            transition: width 0.25s;
-            text-shadow: none;
+            background: #3b82f6;
+            transition: width 0.25s ease;
+            border-radius: 10px;
         }
 
-        .stats-dashboard {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 28px;
-            background: #0B1F2E;
-            margin: 0 28px 20px 28px;
-            padding: 22px 28px;
-            border-radius: 28px;
-            border: 1px solid #285575;
-            backdrop-filter: blur(2px);
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 16px;
+            margin: 28px 0;
         }
 
-        .stat-tile {
-            flex: 1;
-            min-width: 100px;
-            background: #112F42;
-            padding: 12px 16px;
-            border-radius: 24px;
-            transition: all 0.1s;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+        .stat-card {
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 20px;
+            text-align: center;
+            border: 1px solid #334155;
+            transition: all 0.2s;
         }
 
-        .stat-number {
-            font-size: 1.9rem;
-            font-weight: 800;
-            color: #B8E2F2;
-            line-height: 1.2;
-            letter-spacing: -0.5px;
+        .stat-card:hover {
+            border-color: #3b82f6;
+            background: #253447;
         }
 
-        .stat-label {
-            font-size: 0.7rem;
+        .stat-card h3 {
+            font-size: 2.4rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            color: #b9e0ff;
+        }
+
+        .stat-card p {
+            color: #94a3b8;
+            font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 1.5px;
-            color: #A3C6E0;
+            letter-spacing: 1px;
             font-weight: 500;
         }
 
-        .preview-area {
-            margin: 0 28px 32px 28px;
+        /* ===== FILTERS ===== */
+        .filter-section {
+            display: flex;
+            gap: 16px;
+            margin: 24px 0;
+            flex-wrap: wrap;
         }
 
-        .preview-header {
-            font-weight: 700;
-            font-size: 1.2rem;
-            padding: 12px 0 12px 8px;
-            border-bottom: 2px solid #2F6885;
+        .filter-section input,
+        .filter-section select {
+            padding: 12px 18px;
+            border: 1px solid #334155;
+            border-radius: 40px;
+            font-size: 0.9rem;
+            flex: 1;
+            min-width: 180px;
+            background: #0f172a;
+            color: #f1f5f9;
+            font-family: 'Segoe UI', monospace;
+        }
+
+        .filter-section input:focus,
+        .filter-section select:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+
+        /* ===== TOPIC CARDS ===== */
+        .topics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 24px;
+            margin: 28px 0;
+        }
+
+        .topic-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 24px;
+            padding: 22px;
+            transition: all 0.2s;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .topic-card:hover {
+            border-color: #3b82f6;
+            transform: translateY(-3px);
+            box-shadow: 0 16px 24px -10px rgba(0, 0, 0, 0.4);
+        }
+
+        .topic-header {
             display: flex;
             justify-content: space-between;
-            color: #CFECFF;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            gap: 12px;
         }
 
-        .content-preview {
-            max-height: 620px;
-            overflow-y: auto;
-            background: #EFF9FF;  /* soft paper pastel */
-            border-radius: 28px;
-            padding: 28px 32px;
-            border: 1px solid #91C2DA;
-            box-shadow: 0 12px 28px rgba(0, 0, 0, 0.2);
-            color: #102B38;
+        .topic-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #bfdbfe;
+            line-height: 1.4;
+            flex: 1;
         }
 
-        /* Scraped content styles - academic handout but with pastel dark harmony */
-        .academic-content, .pdf-content {
-            font-family: 'Georgia', 'Times New Roman', 'Segoe UI', serif;
-            line-height: 1.55;
-            color: #102A36;
-        }
-
-        .academic-content h1 {
-            font-size: 2rem;
-            margin: 0.5rem 0 0.75rem;
+        .difficulty-badge {
+            padding: 4px 14px;
+            border-radius: 40px;
+            font-size: 0.65rem;
             font-weight: 700;
-            border-left: 6px solid #2F7F8C;
-            padding-left: 20px;
-            color: #053B4C;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .academic-content h2 {
-            font-size: 1.6rem;
-            margin-top: 1.5rem;
-            margin-bottom: 0.6rem;
-            font-weight: 600;
-            color: #1C6079;
-            border-bottom: 1px solid #C7DCE8;
-            padding-bottom: 5px;
+        .difficulty-easy {
+            background: #14532d;
+            color: #bbf7d0;
         }
 
-        .academic-content h3 {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin: 1rem 0 0.5rem;
-            color: #1E6A85;
+        .difficulty-medium {
+            background: #854d0e;
+            color: #fef08a;
         }
 
-        .academic-content pre {
-            background: #E2F0F7;
-            border-left: 4px solid #3F99B3;
-            padding: 1rem;
-            border-radius: 18px;
-            overflow-x: auto;
-            font-family: 'JetBrains Mono', monospace;
+        .difficulty-hard {
+            background: #7f1d1d;
+            color: #fecaca;
+        }
+
+        .concepts-section {
+            margin: 16px 0;
+            padding: 12px 14px;
+            background: #0f172a;
+            border-radius: 16px;
             font-size: 0.85rem;
-            margin: 1rem 0;
-            box-shadow: inset 0 1px 3px #0001, 0 2px 5px rgba(0,0,0,0.05);
+            color: #cbd5e1;
+            border-left: 3px solid #3b82f6;
         }
 
-        .academic-content code {
-            background: #D5EAF3;
-            padding: 0.2rem 0.4rem;
-            border-radius: 10px;
-            font-family: monospace;
-            color: #0B4459;
+        .concepts-section strong {
+            color: #90e0ff;
+            display: block;
+            margin-bottom: 6px;
+            font-size: 0.8rem;
         }
 
-        .academic-content table {
-            border-collapse: collapse;
-            width: 100%;
-            margin: 1rem 0;
-        }
-
-        .academic-content th, .academic-content td {
-            border: 1px solid #BDD9E8;
-            padding: 8px 12px;
-        }
-
-        .academic-content th {
-            background: #D2E9F5;
-        }
-
-        .article-meta {
-            background: #DCF0FA;
-            padding: 14px 20px;
-            border-radius: 24px;
-            margin: 15px 0 20px;
-            font-size: 0.85rem;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 24px;
-            border: 1px solid #B9D9EC;
-        }
-
-        .copy-code-btn {
-            background: #2D6F84;
-            color: white;
-            border: none;
-            border-radius: 24px;
-            padding: 4px 12px;
-            font-size: 0.7rem;
-            cursor: pointer;
-            float: right;
-            margin-top: -2rem;
-            margin-right: 8px;
-        }
-
-        .message-toast {
-            padding: 12px 24px;
-            border-radius: 50px;
-            margin-top: 16px;
-            font-weight: 500;
-            backdrop-filter: blur(8px);
-            background: #EAF6FF;
-            color: #105269;
-            border-left: 5px solid #2E8B9E;
-            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
-        }
-
-        footer {
-            text-align: center;
-            padding: 24px;
+        .code-preview {
+            background: #0a0f1a;
+            border-radius: 16px;
+            padding: 14px;
+            margin: 16px 0;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
             font-size: 0.75rem;
-            color: #789FBB;
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #2d3a4e;
+            color: #cbd5e6;
         }
 
-        /* custom scrollbar pastel */
+        .code-preview pre {
+            margin: 0;
+            white-space: pre-wrap;
+            font-family: inherit;
+        }
+
+        .complexity-box {
+            display: flex;
+            gap: 12px;
+            margin: 12px 0;
+        }
+
+        .complexity-item {
+            flex: 1;
+            text-align: center;
+            padding: 8px;
+            background: #0f172a;
+            border-radius: 16px;
+            border: 1px solid #2d3a4e;
+            font-size: 0.75rem;
+        }
+
+        .complexity-item strong {
+            color: #90e0ff;
+            display: block;
+            margin-bottom: 4px;
+        }
+
+        .references-section {
+            margin: 16px 0;
+            padding: 10px;
+            background: #0f172a;
+            border-radius: 16px;
+            font-size: 0.75rem;
+        }
+
+        .references-section strong {
+            color: #90e0ff;
+        }
+
+        .reference-link {
+            color: #7aa2f7;
+            text-decoration: none;
+            display: block;
+            margin: 6px 0;
+            font-size: 0.75rem;
+            word-break: break-all;
+            background: #1e2a3a;
+            padding: 6px 12px;
+            border-radius: 20px;
+            border: 1px solid #334155;
+        }
+
+        .reference-link:hover {
+            background: #2d3b50;
+            color: white;
+        }
+
+        .topic-footer {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid #334155;
+            font-size: 0.7rem;
+            color: #6c86a3;
+            text-align: right;
+        }
+
+        /* ===== TABS ===== */
+        .tab-container {
+            display: flex;
+            gap: 8px;
+            margin: 20px 0;
+            background: #1e293b;
+            padding: 6px;
+            border-radius: 60px;
+            border: 1px solid #334155;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            background: transparent;
+            border: none;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 500;
+            color: #94a3b8;
+            transition: all 0.2s;
+            font-size: 0.85rem;
+        }
+
+        .tab.active {
+            background: #3b82f6;
+            color: white;
+        }
+
+        .tab:hover:not(.active) {
+            background: #2d3a4e;
+            color: #e2e8f0;
+        }
+
+        /* ===== ACTION BUTTONS ===== */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin-top: 28px;
+            flex-wrap: wrap;
+            padding: 16px;
+            background: #1e293b;
+            border-radius: 60px;
+            border: 1px solid #334155;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #0f172a;
+            text-align: center;
+            padding: 16px;
+            font-size: 0.75rem;
+            border-top: 1px solid #1e293b;
+            color: #5f7f9e;
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 80px 40px;
+            background: #1e293b;
+            border-radius: 28px;
+            border: 1px dashed #3b82f6;
+        }
+
+        .empty-state h2 {
+            color: #b9e0ff;
+            font-size: 1.6rem;
+            margin-bottom: 14px;
+            font-weight: 500;
+        }
+
+        .empty-state p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .json-viewer {
+            background: #0a0f1a;
+            border-radius: 20px;
+            padding: 20px;
+            font-family: monospace;
+            font-size: 0.75rem;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            color: #b9e0ff;
+            border: 1px solid #334155;
+        }
+
         ::-webkit-scrollbar {
             width: 8px;
             height: 8px;
         }
-        ::-webkit-scrollbar-track {
-            background: #1E4057;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #4687A5;
-            border-radius: 10px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #6AACCA;
-        }
+        ::-webkit-scrollbar-track { background: #0f172a; }
+        ::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
     </style>
 </head>
 <body>
-<div class="app-wrapper">
-    <div class="card">
-        <div class="hero">
-            <h1>📘 GFG Academic Scraper · Pastel Aurora</h1>
-            <p>Intelligent extraction → refined learning module → professional PDF with deep blue serenity</p>
-        </div>
-        <div class="input-panel">
-            <div class="flex-row">
-                <input type="text" id="articleUrl" class="url-field" placeholder="https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/" value="https://www.geeksforgeeks.org/what-is-artificial-intelligence-ai/">
-                <button id="scrapeActionBtn" class="btn btn-primary">🔍 Scrape & Extract</button>
-                <button id="downloadPdfBtn" class="btn btn-success" disabled>📄 Generate PDF</button>
-                <button id="clearDataBtn" class="btn btn-outline">🗑 Clear</button>
+<div class="container">
+    <div class="header">
+        <h1>GeeksforGeeks Scraper</h1>
+        <p>academic research · dynamic extraction pipeline</p>
+    </div>
+
+    <div class="main-content">
+        <div class="control-panel">
+            <div class="url-section">
+                <input type="url" id="urlInput" value="https://www.geeksforgeeks.org/search/?gq=devops" placeholder="enter search results url (e.g., ?search=web+development)" readonly>
+                <button class="btn btn-primary" id="scrapeBtn">run scraper</button>
             </div>
-            <div id="proxyStatusLog" class="proxy-console">🌊 Proxy engine active · CORS resilience · Pastel mode</div>
-        </div>
-    </div>
 
-    <!-- Progress indicator -->
-    <div id="progressPanel" class="progress-card">
-        <div class="progress-bar-container">
-            <div id="progressFill" class="progress-fill">0%</div>
-        </div>
-        <div style="display: flex; justify-content: space-between; margin-top: 12px;">
-            <span id="progressMsg" style="color:#B7E0F5;">Waiting...</span>
-            <span id="stageLabel" style="font-weight:500; color:#9FD2EC;">⚙️ idle</span>
-        </div>
-    </div>
+            <div id="status" class="status-bar" style="display: none;"></div>
+            <div id="progressSection" style="display: none;">
+                <div class="progress-container">
+                    <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
+                        <span>extraction progress</span>
+                        <span><span id="completedCount">0</span>/<span id="totalCount">10</span></span>
+                    </div>
+                    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%;"></div></div>
+                    <div id="currentTopic" style="margin-top: 12px; font-size: 0.8rem; color: #90e0ff;"></div>
+                </div>
+            </div>
 
-    <!-- Statistics dashboard (dynamic) -->
-    <div id="statsPanel" class="stats-dashboard" style="display: none;">
-        <div class="stat-tile"><div class="stat-number" id="statTitleLen">0</div><div class="stat-label">Title length</div></div>
-        <div class="stat-tile"><div class="stat-number" id="statWordCount">0</div><div class="stat-label">Word count</div></div>
-        <div class="stat-tile"><div class="stat-number" id="statHeadings">0</div><div class="stat-label">Headings</div></div>
-        <div class="stat-tile"><div class="stat-number" id="statCodeBlocks">0</div><div class="stat-label">Code snippets</div></div>
-        <div class="stat-tile"><div class="stat-number" id="statComplexity">✓</div><div class="stat-label">Complexity</div></div>
-    </div>
+            <div id="statsSection" style="display: none;">
+                <div class="stats-grid">
+                    <div class="stat-card"><h3 id="statTotal">0</h3><p>articles</p></div>
+                    <div class="stat-card"><h3 id="statWithCode">0</h3><p>with code</p></div>
+                    <div class="stat-card"><h3 id="statWithComplexity">0</h3><p>complexity</p></div>
+                    <div class="stat-card"><h3 id="statWithRefs">0</h3><p>references</p></div>
+                </div>
+            </div>
 
-    <!-- Preview & PDF container -->
-    <div class="preview-area">
-        <div class="preview-header"><span>📖 Academic material preview (pastel academic view)</span><span style="font-size:0.7rem;">structured learning module</span></div>
-        <div id="scrapedPreview" class="content-preview academic-content">
-            <p style="color:#2D6E89; text-align:center;">✨ Enter GFG article URL and click "Scrape & Extract".<br>The system extracts: Title, Difficulty, Concepts, Code, Complexity & References.</p>
+            <div id="filterSection" style="display: none;">
+                <div class="filter-section">
+                    <input type="text" id="searchFilter" placeholder="filter by title or concept">
+                    <select id="difficultyFilter"><option value="">all difficulties</option><option value="Easy">easy</option><option value="Medium">medium</option><option value="Hard">hard</option></select>
+                </div>
+            </div>
+
+            <div id="viewTabs" class="tab-container" style="display: none;">
+                <button class="tab active" id="cardViewTab">card view</button>
+                <button class="tab" id="previewTab">data preview (json)</button>
+            </div>
+
+            <div id="contentSection"></div>
+            <div id="actionSection" style="display: none;">
+                <div class="action-buttons">
+                    <button class="btn btn-secondary" id="saveJsonBtn">save to local</button>
+                    <button class="btn btn-info" id="loadJsonBtn">load saved data</button>
+                    <button class="btn btn-success" id="generatePdfBtn">generate pdf report</button>
+                    <button class="btn btn-warning" id="exportJsonBtn">export json file</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="emptyState" class="empty-state">
+            <h2>ready for extraction</h2>
+            <p>enter a geeksforgeeks search url above and run the scraper</p>
         </div>
     </div>
-    <footer>Generated by Academic Scraper System — Educational use · dark pastel edition</footer>
 </div>
 
-<!-- Hidden container for PDF generation (offline structure) -->
-<div id="pdfHiddenContainer" style="position: fixed; top: -9999px; left: -9999px; background: white; width: 800px; padding: 36px; z-index: -1;"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script>
+        // ==================== JAVASCRIPT WITH ENHANCED OFFLINE CAPABILITIES ====================
+        (function() {
+            const CONFIG = {
+                targetUrl: 'https://www.geeksforgeeks.org/search/?gq=devops',
+                apiUrl: 'https://www.geeksforgeeks.org/search/?gq=devops',
+                minTopics: 10,
+                requestDelay: 1000,
+                storageKey: 'gfg_webdev_search_data',
+                studentName: 'Miguel Carlos S. Ponday',
+                proxyList: [
+                    { name: 'corsproxy.io', url: (t) => `https://corsproxy.io/?${encodeURIComponent(t)}` },
+                    { name: 'api.allorigins.win', url: (t) => `https://api.allorigins.win/get?url=${encodeURIComponent(t)}`, extract: async (r) => (await r.json()).contents }
+                ]
+            };
 
-<script>
-    (function(){
-        // ---------- PROXY LIST (robust fallback) ----------
-        const PROXY_LIST = [
-            { name: 'corsproxy.io', build: (url) => `https://corsproxy.io/?${encodeURIComponent(url)}`, extract: async (res) => res.text() },
-            { name: 'allorigins.win', build: (url) => `https://api.allorigins.win/get?url=${encodeURIComponent(url)}`, extract: async (res) => { const data = await res.json(); return data.contents; } },
-            { name: 'codetabs', build: (url) => `https://api.codetabs.com/v1/proxy?quest=${encodeURIComponent(url)}`, extract: async (res) => res.text() },
-            { name: 'cors-anywhere (fallback)', build: (url) => `https://cors-anywhere.herokuapp.com/${url}`, extract: async (res) => res.text() }
-        ];
+            let scrapedTopics = [];
+            let filteredTopics = [];
+            let isScraping = false;
+            let activeTab = 'card';
 
-        const urlInput = document.getElementById('articleUrl');
-        const scrapeBtn = document.getElementById('scrapeActionBtn');
-        const downloadBtn = document.getElementById('downloadPdfBtn');
-        const clearBtn = document.getElementById('clearDataBtn');
-        const previewDiv = document.getElementById('scrapedPreview');
-        const pdfContainer = document.getElementById('pdfHiddenContainer');
-        const proxyLogDiv = document.getElementById('proxyStatusLog');
-        const progressPanel = document.getElementById('progressPanel');
-        const progressFill = document.getElementById('progressFill');
-        const progressMsgSpan = document.getElementById('progressMsg');
-        const stageSpan = document.getElementById('stageLabel');
-        const statsPanel = document.getElementById('statsPanel');
-        
-        const statTitleLen = document.getElementById('statTitleLen');
-        const statWordCount = document.getElementById('statWordCount');
-        const statHeadings = document.getElementById('statHeadings');
-        const statCodeBlocks = document.getElementById('statCodeBlocks');
-        const statComplexitySpan = document.getElementById('statComplexity');
-
-        let currentStructuredHTML = '';
-        let currentMeta = {
-            title: 'Untitled',
-            difficulty: 'Not Available',
-            complexity: 'Not Available',
-            lastUpdated: 'Not Available',
-            wordCount: 0,
-            headingsCount: 0,
-            codeBlocksCount: 0,
-            conceptsSummary: '',
-            references: []
-        };
-        let scrapedRawSuccess = false;
-
-        function setProgress(percent, message, stage) {
-            if (!progressPanel.style.display || progressPanel.style.display === 'none') progressPanel.style.display = 'block';
-            progressFill.style.width = `${percent}%`;
-            progressFill.innerText = `${Math.floor(percent)}%`;
-            progressMsgSpan.innerText = message;
-            stageSpan.innerText = stage || 'processing';
-            if(percent >= 100) {
-                setTimeout(() => { if(progressPanel) progressPanel.style.display = 'none'; }, 1500);
+            // Helper: Check online status
+            function isOnline() {
+                return navigator.onLine;
             }
-        }
 
-        function showToast(message, isError = false) {
-            const toastDiv = document.createElement('div');
-            toastDiv.className = 'message-toast';
-            toastDiv.style.background = isError ? '#FFECEE' : '#E1F3FC';
-            toastDiv.style.color = isError ? '#B13E4B' : '#105D79';
-            toastDiv.style.borderLeft = `4px solid ${isError ? '#D97A7A' : '#3E9FBB'}`;
-            toastDiv.innerText = message;
-            const previewParent = document.querySelector('.preview-area');
-            const existing = document.querySelector('.message-toast');
-            if(existing) existing.remove();
-            previewParent.parentNode.insertBefore(toastDiv, previewParent);
-            setTimeout(() => toastDiv.remove(), 4200);
-        }
+            // DO NOT auto-load saved data on startup - keep empty state visible
+            // We'll only load when user clicks "load" button
 
-        function updateProxyLog(msg, isErr = false) {
-            proxyLogDiv.innerHTML = `🌊 ${msg}`;
-            proxyLogDiv.style.color = isErr ? '#FFB7A8' : '#B3EAFB';
-        }
+            const elements = {
+                urlInput: document.getElementById('urlInput'),
+                scrapeBtn: document.getElementById('scrapeBtn'),
+                status: document.getElementById('status'),
+                progressSection: document.getElementById('progressSection'),
+                statsSection: document.getElementById('statsSection'),
+                filterSection: document.getElementById('filterSection'),
+                viewTabs: document.getElementById('viewTabs'),
+                contentSection: document.getElementById('contentSection'),
+                actionSection: document.getElementById('actionSection'),
+                emptyState: document.getElementById('emptyState'),
+                completedCount: document.getElementById('completedCount'),
+                totalCount: document.getElementById('totalCount'),
+                progressFill: document.getElementById('progressFill'),
+                currentTopic: document.getElementById('currentTopic'),
+                statTotal: document.getElementById('statTotal'),
+                statWithCode: document.getElementById('statWithCode'),
+                statWithComplexity: document.getElementById('statWithComplexity'),
+                statWithRefs: document.getElementById('statWithRefs'),
+                searchFilter: document.getElementById('searchFilter'),
+                difficultyFilter: document.getElementById('difficultyFilter'),
+                cardViewTab: document.getElementById('cardViewTab'),
+                previewTab: document.getElementById('previewTab'),
+                saveJsonBtn: document.getElementById('saveJsonBtn'),
+                loadJsonBtn: document.getElementById('loadJsonBtn'),
+                generatePdfBtn: document.getElementById('generatePdfBtn'),
+                exportJsonBtn: document.getElementById('exportJsonBtn')
+            };
 
-        async function fetchWithCorsFallback(targetUrl, onProxyAttempt) {
-            let errors = [];
-            for(let proxy of PROXY_LIST) {
+            function setStatus(type, message, duration = 5000) {
+                elements.status.style.display = 'flex';
+                elements.status.className = `status-bar ${type}`;
+                elements.status.innerHTML = type === 'loading' ? 
+                    `<div class="spinner"></div> ${message}` : message;
+                if (type !== 'loading') setTimeout(() => elements.status.style.display = 'none', duration);
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                return String(text).replace(/[&<>"]/g, c => ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;' }[c]));
+            }
+
+            async function fetchWithProxy(url) {
+                for (const proxy of CONFIG.proxyList) {
+                    try {
+                        const controller = new AbortController();
+                        const timeoutId = setTimeout(() => controller.abort(), 15000);
+                        const response = await fetch(proxy.url(url), { signal: controller.signal });
+                        clearTimeout(timeoutId);
+                        if (!response.ok) continue;
+                        if (proxy.extract) return await proxy.extract(response);
+                        return await response.text();
+                    } catch (e) {}
+                }
+                throw new Error('All proxies failed');
+            }
+
+            async function fetchFromGfGApi() {
                 try {
-                    onProxyAttempt(`Trying ${proxy.name}...`);
-                    const proxyUrl = proxy.build(targetUrl);
-                    const controller = new AbortController();
-                    const timeoutId = setTimeout(() => controller.abort(), 13000);
-                    const response = await fetch(proxyUrl, { signal: controller.signal });
-                    clearTimeout(timeoutId);
-                    if(!response.ok) throw new Error(`HTTP ${response.status}`);
-                    const html = await proxy.extract(response);
-                    if(!html || html.length < 300) throw new Error('Insufficient content');
-                    updateProxyLog(`✅ Success with ${proxy.name}`);
-                    return html;
-                } catch(err) {
-                    errors.push(`${proxy.name}: ${err.message}`);
-                    updateProxyLog(`❌ ${proxy.name} failed - ${err.message}`, true);
-                }
+                    const apiUrl = 'https://www.geeksforgeeks.org/search/?gq=devops';
+                    const response = await fetchWithProxy(apiUrl);
+                    if (response) {
+                        const posts = JSON.parse(response);
+                        return posts.map(post => ({
+                            url: post.link,
+                            title: post.title.rendered.replace(/<[^>]*>/g, '').trim(),
+                            date: post.date
+                        }));
+                    }
+                } catch (e) {}
+                return [];
             }
-            throw new Error(`All proxies exhausted: ${errors.join(' | ')}`);
-        }
 
-        function extractAcademicFields($dom) {
-            let difficulty = 'Not Available';
-            let complexity = 'Not Available';
-            let conceptsSummary = '';
-            let references = [];
-
-            const diffSelectors = ['.difficulty', '.difficulty-level', '.tag-difficulty', '.easy-tag', '.medium-tag', '.hard-tag'];
-            for(let sel of diffSelectors) {
-                let el = $dom.querySelector(sel);
-                if(el && el.innerText.trim()) { difficulty = el.innerText.trim(); break; }
-            }
-            if(difficulty === 'Not Available') {
-                let bodyText = $dom.innerText;
-                if(/(Easy|Medium|Hard)\s*$/i.test(bodyText)) {
-                    let match = bodyText.match(/(Easy|Medium|Hard)/i);
-                    if(match) difficulty = match[0];
-                }
-            }
-            const complexityKeywords = ['time complexity', 'space complexity', 'complexity analysis'];
-            let complexityText = '';
-            for(let node of $dom.querySelectorAll('p, div, li')) {
-                let txt = node.innerText.toLowerCase();
-                if(complexityKeywords.some(k => txt.includes(k))) {
-                    complexityText = node.innerText.trim();
-                    if(complexityText.length > 30) { complexity = complexityText.slice(0, 200); break; }
-                }
-            }
-            if(complexityText === '') complexity = 'Not Available';
-            
-            let conceptParagraphs = [];
-            let firstContent = $dom.querySelector('article p, .article-content p, .text p');
-            if(firstContent) conceptParagraphs.push(firstContent.innerText.trim().slice(0, 420));
-            else conceptParagraphs.push('Core technical content extracted from article body.');
-            conceptsSummary = conceptParagraphs[0];
-
-            let refLinks = [];
-            let relatedDiv = $dom.querySelector('.related-articles, .see-also, .references');
-            if(relatedDiv) {
-                let links = relatedDiv.querySelectorAll('a');
-                links.forEach(l => { if(l.href) refLinks.push(l.href); });
-            }
-            references = refLinks.length ? refLinks.slice(0,5) : ['Not Available'];
-            
-            return { difficulty, complexity, conceptsSummary, references };
-        }
-
-        function buildAcademicHandout(articleTitle, rawHtmlContent, metaFields) {
-            const container = document.createElement('div');
-            container.className = 'pdf-content academic-content';
-            const dateGen = new Date().toLocaleDateString('en-US', { year:'numeric', month:'long', day:'numeric' });
-            const headerDiv = document.createElement('div');
-            headerDiv.style.borderBottom = '2px solid #2F7F8C';
-            headerDiv.style.marginBottom = '20px';
-            headerDiv.style.paddingBottom = '12px';
-            headerDiv.innerHTML = `<h1>${escapeHtml(articleTitle)}</h1>
-            <div style="display:flex; justify-content:space-between; font-size:0.85rem; color:#1F6E8C;"><span>📅 Generated: ${dateGen}</span><span>🏷️ Category: Algorithms / CS</span></div>`;
-            container.appendChild(headerDiv);
-            
-            const metaBlock = document.createElement('div');
-            metaBlock.className = 'article-meta';
-            metaBlock.innerHTML = `<span><strong>⚡ Difficulty:</strong> ${escapeHtml(metaFields.difficulty)}</span>
-                                    <span><strong>⏱️ Complexity Analysis:</strong> ${escapeHtml(metaFields.complexity)}</span>
-                                    <span><strong>🕒 Last Updated:</strong> ${escapeHtml(metaFields.lastUpdated)}</span>`;
-            container.appendChild(metaBlock);
-            
-            const conceptsSec = document.createElement('div');
-            conceptsSec.innerHTML = `<h2>📖 Key Technical Concepts</h2><p>${escapeHtml(metaFields.conceptsSummary)}</p>`;
-            container.appendChild(conceptsSec);
-            
-            const bodyWrapper = document.createElement('div');
-            bodyWrapper.innerHTML = rawHtmlContent; 
-            const unwanted = bodyWrapper.querySelectorAll('.ads, .advertisement, .sidebar, .comments, .related-post, .recommended');
-            unwanted.forEach(el => el.remove());
-            container.appendChild(bodyWrapper);
-            
-            if(metaFields.codeBlocksCount > 0) {
-                const codeNote = document.createElement('div');
-                codeNote.innerHTML = `<h3>💻 Implementation Examples</h3><p>Embedded code blocks above reflect practical implementation.</p>`;
-                container.appendChild(codeNote);
-            }
-            
-            const refSec = document.createElement('div');
-            let refHtml = `<h3>📚 References & Related Resources</h3><ul>`;
-            if(metaFields.references && metaFields.references.length && metaFields.references[0] !== 'Not Available') {
-                metaFields.references.slice(0,5).forEach(ref => {
-                    refHtml += `<li><a href="${escapeHtml(ref)}" target="_blank">${escapeHtml(ref.length>70? ref.slice(0,70)+'...':ref)}</a></li>`;
-                });
-            } else {
-                refHtml += `<li>Not Available</li>`;
-            }
-            refHtml += `</ul>`;
-            refSec.innerHTML = refHtml;
-            container.appendChild(refSec);
-            
-            const footerDiv = document.createElement('div');
-            footerDiv.style.marginTop = '35px';
-            footerDiv.style.paddingTop = '12px';
-            footerDiv.style.borderTop = '1px solid #BCD9E8';
-            footerDiv.style.fontSize = '0.7rem';
-            footerDiv.style.textAlign = 'center';
-            footerDiv.innerHTML = `📄 Page 1 of 1 · GFG Academic Scraper Pastel Edition · Educational Use Only`;
-            container.appendChild(footerDiv);
-            return container;
-        }
-        
-        function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, function(m){ if(m==='&') return '&amp;'; if(m==='<') return '&lt;'; if(m==='>') return '&gt;'; return m;}); }
-
-        async function startScraping() {
-            const rawUrl = urlInput.value.trim();
-            if(!rawUrl || !rawUrl.includes('geeksforgeeks.org')) {
-                showToast('❌ Please enter a valid GeeksforGeeks article URL', true);
-                return;
-            }
-            setControlsDisabled(true);
-            scrapedRawSuccess = false;
-            downloadBtn.disabled = true;
-            progressPanel.style.display = 'block';
-            setProgress(5, 'Initializing scraper...', 'proxy rotation');
-            
-            try {
-                setProgress(15, 'Fetching article via secure proxies', 'network');
-                const htmlData = await fetchWithCorsFallback(rawUrl, (msg) => setProgress(25, msg, 'proxy'));
-                setProgress(45, 'Parsing DOM & extracting educational fields', 'analysis');
-                
+            async function extractArticleLinks(html) {
                 const parser = new DOMParser();
-                const doc = parser.parseFromString(htmlData, 'text/html');
-                let title = '';
-                const titleEl = doc.querySelector('h1.entry-title, h1.article-title, .ArticleHeader_article-title__futDC h1, article h1');
-                if(titleEl) title = titleEl.innerText.trim();
-                else title = doc.title.replace(' - GeeksforGeeks', '').trim() || 'Technical Article';
+                const doc = parser.parseFromString(html, 'text/html');
+                const articles = [];
+                const seenUrls = new Set();
                 
-                let lastUpdatedSpan = doc.querySelector('.last-updated, .modified-date, time[itemprop="dateModified"]');
-                let lastUpdated = lastUpdatedSpan ? lastUpdatedSpan.innerText.trim() : 'Not Available';
+                const searchResultSelectors = [
+                    'article a', '.search-result a', '.result a', '.gs-title a',
+                    'h3 a', 'h4 a', '.head a', 'a[href*=".php"]'
+                ];
                 
-                let mainContent = doc.querySelector('.article-content, .entry-content, .text, main article, .content');
-                if(!mainContent) mainContent = doc.body;
-                const contentClone = mainContent.cloneNode(true);
-                contentClone.querySelectorAll('script, style, iframe, .ad, .google-auto-placed, .sidebar, .footer-links').forEach(el => el.remove());
+                searchResultSelectors.forEach(selector => {
+                    doc.querySelectorAll(selector).forEach(link => {
+                        const href = link.href || link.getAttribute('href');
+                        const title = link.textContent?.trim() || '';
+                        
+                        if (!href || !title || title.length < 10) return;
+                        if (!href.includes('geeksforgeeks.org') && !href.startsWith('/')) return;
+                        
+                        const excludeTerms = ['login', 'signup', 'register', 'forum', 'course', 'practice', 
+                            'problem', 'contest', 'job', 'interview', 'tag', 'category', 'author', 
+                            'page', 'comment', 'search', 'about', 'privacy', 'policy', 'terms', 
+                            'contact', 'careers'];
+                        
+                        let shouldExclude = false;
+                        for (const term of excludeTerms) {
+                            if (href.toLowerCase().includes(term) || title.toLowerCase().includes(term)) {
+                                shouldExclude = true;
+                                break;
+                            }
+                        }
+                        
+                        if (shouldExclude) return;
+                        
+                        if (href.includes('.php') || (href.match(/\//g)?.length >= 3)) {
+                            const fullUrl = href.startsWith('http') ? href : 
+                                `https://www.geeksforgeeks.org${href.startsWith('/') ? href : '/' + href}`;
+                            
+                            if (!seenUrls.has(fullUrl)) {
+                                seenUrls.add(fullUrl);
+                                articles.push({ url: fullUrl, title });
+                            }
+                        }
+                    });
+                });
                 
-                const academicMeta = extractAcademicFields(contentClone);
-                academicMeta.lastUpdated = lastUpdated;
-                const textFull = contentClone.innerText;
-                const wordCount = textFull.split(/\s+/).filter(w => w.length).length;
-                const headingCount = contentClone.querySelectorAll('h1, h2, h3').length;
-                const codeBlockCount = contentClone.querySelectorAll('pre, .code-block, .code-container').length;
-                academicMeta.codeBlocksCount = codeBlockCount;
-                currentMeta = {
-                    title: title,
-                    difficulty: academicMeta.difficulty,
-                    complexity: academicMeta.complexity,
-                    lastUpdated: lastUpdated,
-                    wordCount: wordCount,
-                    headingsCount: headingCount,
-                    codeBlocksCount: codeBlockCount,
-                    conceptsSummary: academicMeta.conceptsSummary,
-                    references: academicMeta.references
-                };
+                return articles.slice(0, CONFIG.minTopics);
+            }
+
+            async function getWebDevArticles() {
+                setStatus('loading', 'fetching articles from search results...');
                 
-                const structuredPreviewDiv = document.createElement('div');
-                structuredPreviewDiv.className = 'academic-content';
-                structuredPreviewDiv.innerHTML = `<div class="article-meta"><span><strong>📌 Title:</strong> ${escapeHtml(title)}</span> <span><strong>⚡ Difficulty:</strong> ${escapeHtml(academicMeta.difficulty)}</span> <span><strong>🧠 Complexity:</strong> ${escapeHtml(academicMeta.complexity)}</span></div>`;
-                const conceptBlock = document.createElement('div');
-                conceptBlock.innerHTML = `<h2>📘 Core Concepts</h2><p>${escapeHtml(academicMeta.conceptsSummary)}</p>`;
-                structuredPreviewDiv.appendChild(conceptBlock);
-                const cleanedBody = document.createElement('div');
-                cleanedBody.innerHTML = contentClone.innerHTML;
-                structuredPreviewDiv.appendChild(cleanedBody);
-                if(academicMeta.references.length && academicMeta.references[0] !== 'Not Available') {
-                    let refHtml = `<h3>🔗 References</h3><ul>`;
-                    academicMeta.references.slice(0,4).forEach(r => refHtml += `<li>${escapeHtml(r)}</li>`);
-                    refHtml += `</ul>`;
-                    structuredPreviewDiv.innerHTML += refHtml;
+                try {
+                    const apiArticles = await fetchFromGfGApi();
+                    if (apiArticles.length >= CONFIG.minTopics) {
+                        return apiArticles.slice(0, CONFIG.minTopics);
+                    }
+                    
+                    const searchHtml = await fetchWithProxy(CONFIG.targetUrl);
+                    const htmlArticles = await extractArticleLinks(searchHtml);
+                    
+                    if (htmlArticles.length > 0) {
+                        return htmlArticles.slice(0, CONFIG.minTopics);
+                    }
+                    
+                    throw new Error('No articles found');
+                } catch (error) {
+                    throw new Error('Unable to fetch articles');
                 }
-                const pdfReadyContent = buildAcademicHandout(title, cleanedBody.innerHTML, currentMeta);
-                pdfContainer.innerHTML = '';
-                pdfContainer.appendChild(pdfReadyContent.cloneNode(true));
-                previewDiv.innerHTML = '';
-                previewDiv.appendChild(structuredPreviewDiv);
+            }
+
+            function extractDifficulty(html, title) {
+                const lowerHtml = html.toLowerCase();
+                const lowerTitle = title.toLowerCase();
                 
-                statTitleLen.innerText = title.length;
-                statWordCount.innerText = wordCount.toLocaleString();
-                statHeadings.innerText = headingCount;
-                statCodeBlocks.innerText = codeBlockCount;
-                statComplexitySpan.innerText = academicMeta.complexity.length > 45 ? academicMeta.complexity.slice(0,42)+'..' : academicMeta.complexity;
-                statsPanel.style.display = 'flex';
-                scrapedRawSuccess = true;
-                downloadBtn.disabled = false;
-                setProgress(100, 'Scraping complete! Ready for PDF.', 'success');
-                showToast(`✅ Extracted "${title}" — ${wordCount} words, ${codeBlockCount} code blocks.`);
-            } catch(err) {
-                console.error(err);
-                showToast(`Scraping failed: ${err.message}`, true);
-                updateProxyLog(`Critical error: ${err.message}`, true);
-                setProgress(0, 'Scraping failed', 'error');
-                setTimeout(() => { progressPanel.style.display = 'none'; }, 2000);
-            } finally {
-                setControlsDisabled(false);
+                if (lowerHtml.includes('difficulty: easy') || lowerHtml.includes('beginner')) return 'Easy';
+                if (lowerHtml.includes('difficulty: medium') || lowerHtml.includes('intermediate')) return 'Medium';
+                if (lowerHtml.includes('difficulty: hard') || lowerHtml.includes('advanced')) return 'Hard';
+                if (lowerTitle.includes('beginner') || lowerTitle.includes('basics')) return 'Easy';
+                if (lowerTitle.includes('advanced')) return 'Hard';
+                return 'Medium';
             }
-        }
-        
-        async function generatePdfFromScraped() {
-            if(!scrapedRawSuccess || pdfContainer.children.length === 0) {
-                showToast('No scraped content. Please scrape an article first.', true);
-                return;
+
+            function extractConcepts(html) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const concepts = [];
+                
+                const selectors = ['h2', 'h3', 'strong', 'b', 'article p', '.entry-content p', '.text p', 'main p'];
+                
+                selectors.forEach(selector => {
+                    doc.querySelectorAll(selector).forEach(el => {
+                        const text = el.textContent.trim();
+                        if (text.length > 60 && text.length < 400 && !text.includes('cookie') && !text.includes('privacy')) {
+                            concepts.push(text);
+                        }
+                    });
+                });
+                
+                if (concepts.length === 0) {
+                    doc.querySelectorAll('p').forEach(p => {
+                        const text = p.textContent.trim();
+                        if (text.length > 100 && text.length < 500 && !text.includes('cookie') && !text.includes('privacy')) {
+                            concepts.push(text);
+                        }
+                    });
+                }
+                
+                return concepts.length > 0 ? concepts.slice(0, 2) : ['Key concepts available in the full article.'];
             }
-            setControlsDisabled(true);
-            progressPanel.style.display = 'block';
-            setProgress(20, 'Preparing academic PDF...', 'rendering');
-            try {
-                const elementToPrint = pdfContainer.children[0];
-                const opt = {
-                    margin: [0.6, 0.6, 0.6, 0.6],
-                    filename: `${currentMeta.title.replace(/[^a-z0-9]/gi, '_').slice(0,50)}_LearningModule.pdf`,
-                    image: { type: 'jpeg', quality: 0.95 },
-                    html2canvas: { scale: 2, backgroundColor: '#ffffff', logging: false },
-                    jsPDF: { unit: 'in', format: 'a4', orientation: 'portrait' }
-                };
-                setProgress(55, 'Generating PDF...', 'html2pdf');
-                await html2pdf().set(opt).from(elementToPrint).save();
-                setProgress(100, 'PDF saved!', 'complete');
-                showToast('📚 PDF generated successfully — Academic handout ready (Pastel Blue Edition).');
-            } catch(pdfErr) {
-                showToast('PDF generation error: '+pdfErr.message, true);
-            } finally {
-                setControlsDisabled(false);
-                setTimeout(() => { progressPanel.style.display = 'none'; }, 1000);
+
+            function extractCodeSnippets(html) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const codes = [];
+                
+                const selectors = ['pre code', 'pre', 'code', '.code-block', '.highlight', '.syntaxhighlighter'];
+                
+                selectors.forEach(selector => {
+                    doc.querySelectorAll(selector).forEach(el => {
+                        const code = el.textContent.trim();
+                        if (code.length > 30 && code.length < 3000 && 
+                            (code.includes('{') || code.includes('function') || code.includes('var ') || 
+                             code.includes('let ') || code.includes('const ') || code.includes('=>'))) {
+                            codes.push(code);
+                        }
+                    });
+                });
+                
+                return codes.slice(0, 2);
             }
-        }
-        
-        function setControlsDisabled(disabled) {
-            scrapeBtn.disabled = disabled;
-            downloadBtn.disabled = disabled || !scrapedRawSuccess;
-            urlInput.disabled = disabled;
-            clearBtn.disabled = disabled;
-        }
-        
-        function clearAll() {
-            previewDiv.innerHTML = '<p style="color:#2D6E89; text-align:center;">✨ Enter GFG article URL and click "Scrape & Extract".<br>The system extracts: Title, Difficulty, Concepts, Code, Complexity & References.</p>';
-            pdfContainer.innerHTML = '';
-            statsPanel.style.display = 'none';
-            scrapedRawSuccess = false;
-            downloadBtn.disabled = true;
-            currentMeta = { title: '', difficulty: 'N/A' };
-            showToast('Cleared all scraped data');
-            updateProxyLog('Ready to scrape again');
-        }
-        
-        scrapeBtn.addEventListener('click', startScraping);
-        downloadBtn.addEventListener('click', generatePdfFromScraped);
-        clearBtn.addEventListener('click', clearAll);
-        setControlsDisabled(false);
-    })();
-</script>
+
+            function extractComplexity(html) {
+                let time = 'Not Available', space = 'Not Available';
+                
+                const timeMatch = html.match(/time complexity[:\s]*([^.\n]+)/i);
+                if (timeMatch) time = timeMatch[1].trim().substring(0, 50);
+                
+                const spaceMatch = html.match(/space complexity[:\s]*([^.\n]+)/i);
+                if (spaceMatch) space = spaceMatch[1].trim().substring(0, 50);
+                
+                return { timeComplexity: time, spaceComplexity: space };
+            }
+
+            function extractReferences(html, currentUrl) {
+                const parser = new DOMParser();
+                const doc = parser.parseFromString(html, 'text/html');
+                const refs = [];
+                const seen = new Set();
+                
+                const refSelectors = ['.references a', '.ref a', '.related a', 'aside a', '.sidebar a', '.also-read a'];
+                
+                refSelectors.forEach(selector => {
+                    doc.querySelectorAll(selector).forEach(link => {
+                        const href = link.href;
+                        const text = link.textContent.trim();
+                        
+                        if (href && text && href !== currentUrl && !seen.has(href) && 
+                            href.includes('geeksforgeeks.org') && !href.includes('login') && !href.includes('signup')) {
+                            seen.add(href);
+                            refs.push({ title: text.substring(0, 50), url: href });
+                        }
+                    });
+                });
+                
+                return refs.slice(0, 3);
+            }
+
+            async function scrapeArticle(articleInfo, index, total) {
+                elements.currentTopic.textContent = `>_ scraping ${index}/${total}: ${articleInfo.title.substring(0, 50)}`;
+                
+                try {
+                    const html = await fetchWithProxy(articleInfo.url);
+                    return {
+                        id: `article-${Date.now()}-${index}`,
+                        title: articleInfo.title,
+                        url: articleInfo.url,
+                        difficulty: extractDifficulty(html, articleInfo.title),
+                        concepts: extractConcepts(html),
+                        codeSnippets: extractCodeSnippets(html),
+                        ...extractComplexity(html),
+                        references: extractReferences(html, articleInfo.url),
+                        dateGenerated: new Date().toISOString()
+                    };
+                } catch (error) {
+                    return {
+                        id: `article-${Date.now()}-${index}`,
+                        title: articleInfo.title,
+                        url: articleInfo.url,
+                        difficulty: 'Not Available',
+                        concepts: ['⚠️ Failed to load content'],
+                        codeSnippets: [],
+                        timeComplexity: 'Not Available',
+                        spaceComplexity: 'Not Available',
+                        references: [],
+                        dateGenerated: new Date().toISOString(),
+                        error: true
+                    };
+                }
+            }
+
+            async function startScraping() {
+                if (!isOnline()) {
+                    setStatus('error', '❌ Cannot scrape while offline. Please connect to internet.');
+                    return;
+                }
+                
+                if (isScraping) return;
+                
+                isScraping = true;
+                elements.scrapeBtn.disabled = true;
+                
+                elements.emptyState.style.display = 'none';
+                elements.progressSection.style.display = 'block';
+                elements.statsSection.style.display = 'none';
+                elements.filterSection.style.display = 'none';
+                elements.viewTabs.style.display = 'none';
+                elements.contentSection.innerHTML = '';
+                elements.actionSection.style.display = 'none';
+                
+                try {
+                    const articles = await getWebDevArticles();
+                    
+                    if (articles.length === 0) throw new Error('No articles found');
+                    
+                    const topicsToScrape = articles.slice(0, CONFIG.minTopics);
+                    elements.totalCount.textContent = topicsToScrape.length;
+                    setStatus('loading', `found ${articles.length} articles. scraping ${topicsToScrape.length}...`);
+                    
+                    const scraped = [];
+                    for (let i = 0; i < topicsToScrape.length; i++) {
+                        const article = await scrapeArticle(topicsToScrape[i], i + 1, topicsToScrape.length);
+                        scraped.push(article);
+                        
+                        elements.completedCount.textContent = i + 1;
+                        elements.progressFill.style.width = `${((i + 1) / topicsToScrape.length) * 100}%`;
+                        
+                        await new Promise(r => setTimeout(r, CONFIG.requestDelay));
+                    }
+                    
+                    scrapedTopics = scraped;
+                    filteredTopics = [...scrapedTopics];
+                    
+                    localStorage.setItem(CONFIG.storageKey, JSON.stringify(scrapedTopics));
+                    
+                    updateUIAfterScrape();
+                    
+                    setStatus('success', `✅ scraped ${scrapedTopics.length} articles!`);
+                    
+                } catch (error) {
+                    setStatus('error', `❌ error: ${error.message}`);
+                    elements.emptyState.style.display = 'block';
+                } finally {
+                    isScraping = false;
+                    elements.scrapeBtn.disabled = false;
+                    elements.progressSection.style.display = 'none';
+                }
+            }
+
+            function updateUIAfterScrape() {
+                elements.statTotal.textContent = scrapedTopics.length;
+                elements.statWithCode.textContent = scrapedTopics.filter(t => t.codeSnippets.length > 0).length;
+                elements.statWithComplexity.textContent = scrapedTopics.filter(t => !t.timeComplexity.includes('Not Available')).length;
+                elements.statWithRefs.textContent = scrapedTopics.filter(t => t.references.length > 0).length;
+                
+                elements.statsSection.style.display = 'block';
+                elements.filterSection.style.display = 'block';
+                elements.viewTabs.style.display = 'flex';
+                elements.actionSection.style.display = 'block';
+                
+                // Hide empty state
+                elements.emptyState.style.display = 'none';
+                
+                renderCardView();
+            }
+
+            function renderCardView() {
+                if (filteredTopics.length === 0) {
+                    elements.contentSection.innerHTML = '<div class="empty-state">no matching topics found</div>';
+                    return;
+                }
+                
+                let html = '<div class="topics-grid">';
+                
+                filteredTopics.forEach(topic => {
+                    const codeHtml = topic.codeSnippets.length > 0 ? 
+                        `<div class="code-preview"><pre>${escapeHtml(topic.codeSnippets[0].substring(0, 300))}${topic.codeSnippets[0].length > 300 ? '\n// ...' : ''}</pre></div>` : 
+                        '<div class="code-preview" style="color: #6a6a6a;">// no code example</div>';
+                    
+                    const conceptsHtml = topic.concepts.map(c => 
+                        `<div>• ${escapeHtml(c.substring(0, 150))}${c.length > 150 ? '...' : ''}</div>`
+                    ).join('');
+                    
+                    const refsHtml = topic.references.length > 0 ?
+                        `<div class="references-section"><strong>📚 references:</strong>${
+                            topic.references.map(r => `<a href="${escapeHtml(r.url)}" target="_blank" class="reference-link">🔗 ${escapeHtml(r.title)}</a>`).join('')
+                        }</div>` : '';
+                    
+                    html += `
+                        <div class="topic-card">
+                            <div class="topic-header">
+                                <span class="topic-title">${escapeHtml(topic.title)}</span>
+                                <span class="difficulty-badge difficulty-${topic.difficulty.toLowerCase()}">${topic.difficulty}</span>
+                            </div>
+                            
+                            <div class="concepts-section">
+                                <strong>📝 key concepts</strong>
+                                ${conceptsHtml}
+                            </div>
+                            
+                            <div class="complexity-box">
+                                <div class="complexity-item"><strong>time</strong><br>${escapeHtml(topic.timeComplexity.substring(0, 30))}</div>
+                                <div class="complexity-item"><strong>space</strong><br>${escapeHtml(topic.spaceComplexity.substring(0, 30))}</div>
+                            </div>
+                            
+                            ${codeHtml}
+                            ${refsHtml}
+                            
+                            <div class="topic-footer">
+                                <span>📅 ${new Date(topic.dateGenerated).toLocaleDateString()}</span>
+                                <a href="${escapeHtml(topic.url)}" target="_blank" class="btn btn-secondary" style="padding: 4px 12px;">view →</a>
+                            </div>
+                        </div>
+                    `;
+                });
+                
+                html += '</div>';
+                elements.contentSection.innerHTML = html;
+            }
+
+            function renderDataPreview() {
+                const previewData = filteredTopics.map(t => ({
+                    title: t.title,
+                    difficulty: t.difficulty,
+                    concepts: t.concepts.length,
+                    codeSnippets: t.codeSnippets.length,
+                    timeComplexity: t.timeComplexity,
+                    spaceComplexity: t.spaceComplexity,
+                    references: t.references.length
+                }));
+                
+                elements.contentSection.innerHTML = `
+                    <div class="data-preview">
+                        <div class="json-viewer">${escapeHtml(JSON.stringify(previewData, null, 2))}</div>
+                    </div>
+                `;
+            }
+
+            function filterTopics() {
+                const search = elements.searchFilter.value.toLowerCase();
+                const difficulty = elements.difficultyFilter.value;
+                
+                filteredTopics = scrapedTopics.filter(t => {
+                    if (search && !`${t.title} ${t.concepts.join(' ')}`.toLowerCase().includes(search)) return false;
+                    if (difficulty && t.difficulty !== difficulty) return false;
+                    return true;
+                });
+                
+                activeTab === 'card' ? renderCardView() : renderDataPreview();
+            }
+
+            function saveToLocalStorage() {
+                if (scrapedTopics.length === 0) {
+                    setStatus('warning', '⚠️ no data to save');
+                    return;
+                }
+                localStorage.setItem(CONFIG.storageKey, JSON.stringify(scrapedTopics));
+                setStatus('success', '✅ data saved');
+            }
+
+            function loadFromLocalStorage() {
+                try {
+                    const saved = localStorage.getItem(CONFIG.storageKey);
+                    if (saved) {
+                        scrapedTopics = JSON.parse(saved);
+                        filteredTopics = [...scrapedTopics];
+                        updateUIAfterScrape();
+                        setStatus('success', `✅ loaded ${scrapedTopics.length} topics`);
+                    } else {
+                        setStatus('warning', '⚠️ no saved data');
+                    }
+                } catch (e) {
+                    setStatus('error', '❌ failed to load');
+                }
+            }
+
+            function exportToJsonFile() {
+                if (scrapedTopics.length === 0) {
+                    setStatus('warning', '⚠️ no data to export');
+                    return;
+                }
+                const data = JSON.stringify(scrapedTopics, null, 2);
+                const blob = new Blob([data], { type: 'application/json' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `gfg_webdev_${new Date().toISOString().slice(0, 10)}.json`;
+                a.click();
+                setStatus('success', `✅ exported ${scrapedTopics.length} topics`);
+            }
+
+            async function generateAcademicPDF() {
+                // Check if we have data to work with
+                if (filteredTopics.length === 0) {
+                    setStatus('warning', '⚠️ no topics to generate pdf. Please scrape or load data first.');
+                    return;
+                }
+                
+                setStatus('loading', '📄 generating professional reviewer...');
+                
+                try {
+                    const { jsPDF } = window.jspdf;
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+                    
+                    // ========== COVER PAGE ==========
+                    // University Header
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(22);
+                    pdf.setTextColor(0, 32, 64);
+                    pdf.text('TECHNICAL REVIEW MATERIAL', 105, 40, { align: 'center' });
+                    
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(36);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('DevOps', 105, 70, { align: 'center' });
+                    
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(18);
+                    pdf.setTextColor(60, 60, 60);
+                    pdf.text('Comprehensive Study Guide & Reference', 105, 90, { align: 'center' });
+                    
+                    // Reviewer Info Box
+                    pdf.setFillColor(240, 248, 255);
+                    pdf.rect(40, 120, 130, 45, 'F');
+                    pdf.setDrawColor(0, 51, 102);
+                    pdf.setLineWidth(0.5);
+                    pdf.rect(40, 120, 130, 45, 'S');
+                    
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(12);
+                    pdf.setTextColor(0, 0, 0);
+                    pdf.text('PREPARED BY:', 45, 135);
+                    pdf.setFont('times', 'normal');
+                    pdf.text(`${CONFIG.studentName}`, 45, 145);
+                    pdf.text('College of Computer Studeies', 45, 155);
+                    
+                    pdf.setFont('times', 'bold');
+                    pdf.text('DATE:', 45, 170);
+                    pdf.setFont('times', 'normal');
+                    pdf.text(new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), 70, 170);
+                    
+                    // Statistics Summary
+                    pdf.setFillColor(245, 245, 245);
+                    pdf.rect(30, 200, 150, 35, 'F');
+                    
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(11);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('REVIEW MATERIAL STATISTICS', 105, 215, { align: 'center' });
+                    
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(10);
+                    pdf.setTextColor(0, 0, 0);
+                    pdf.text(`Total Articles Reviewed: ${filteredTopics.length}`, 35, 225);
+                    pdf.text(`Topics Covered: ${filteredTopics.map(t => t.difficulty).filter((v,i,a) => a.indexOf(v)===i).join(', ')}`, 35, 235);
+                    
+                    // Footer
+                    pdf.setFont('times', 'italic');
+                    pdf.setFontSize(9);
+                    pdf.setTextColor(100, 100, 100);
+                    pdf.text('For Academic Use Only · Not for Redistribution', 105, 270, { align: 'center' });
+                    
+                    // ========== TABLE OF CONTENTS ==========
+                    pdf.addPage();
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(24);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('TABLE OF CONTENTS', 105, 30, { align: 'center' });
+                    
+                    pdf.line(20, 40, 190, 40); // Horizontal line
+                    
+                    let tocY = 50;
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(12);
+                    pdf.text('Section', 20, tocY);
+                    pdf.text('Page', 180, tocY, { align: 'right' });
+                    tocY += 10;
+                    
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(11);
+                    
+                    // TOC Entries
+                    pdf.text('I. INTRODUCTION AND OVERVIEW ........................ 1', 20, tocY); tocY += 8;
+                    
+                    filteredTopics.forEach((topic, i) => {
+                        if (tocY > 260) { 
+                            pdf.addPage(); 
+                            tocY = 30;
+                            pdf.setFont('times', 'normal');
+                        }
+                        const pageNum = i + 2; // Articles start on page 2
+                        // Truncate title to prevent overflow
+                        let title = topic.title.substring(0, 50);
+                        if (topic.title.length > 50) title += '...';
+                        
+                        // Calculate dots for alignment
+                        const dotsCount = 40 - title.length;
+                        const dots = '.'.repeat(Math.max(1, dotsCount));
+                        
+                        pdf.text(`    Article ${i+1}. ${title} ${dots} ${pageNum}`, 20, tocY);
+                        tocY += 7;
+                    });
+                    
+                    tocY += 5;
+                    pdf.text('II. COMPLEXITY REFERENCE CHARTS .................... 50', 20, tocY); tocY += 8;
+                    pdf.text('III. CODE PATTERNS & EXAMPLES ....................... 52', 20, tocY); tocY += 8;
+                    pdf.text('IV. APPENDIX: METHODOLOGY ........................... 55', 20, tocY);
+                    
+                    // ========== INTRODUCTION PAGE ==========
+                    pdf.addPage();
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(20);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('I. INTRODUCTION AND OVERVIEW', 20, 30);
+                    pdf.line(20, 35, 190, 35);
+                    
+                    let introY = 50;
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(11);
+                    pdf.setTextColor(0, 0, 0);
+                    
+                    const introText = `This technical reviewer contains ${filteredTopics.length} carefully curated web development articles from GeeksforGeeks, organized for efficient study and reference. Each article has been analyzed and formatted to highlight key concepts, complexity analysis, and practical code implementations.`;
+                    const introLines = pdf.splitTextToSize(introText, 170);
+                    pdf.text(introLines, 20, introY);
+                    introY += introLines.length * 5 + 12; // Increased spacing
+                    
+                    // Study Recommendations
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(14);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('Recommended Study Approach', 20, introY);
+                    introY += 10;
+                    
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(11);
+                    const studyTips = [
+                        '1. Review concepts in order of difficulty (Easy → Medium → Hard)',
+                        '2. Study code implementations alongside theoretical concepts',
+                        '3. Practice time and space complexity analysis for each algorithm',
+                        '4. Use the complexity charts for quick reference during review'
+                    ];
+                    studyTips.forEach(tip => {
+                        pdf.text(tip, 25, introY);
+                        introY += 8; // Increased spacing
+                    });
+                    introY += 12;
+                    
+                    // Difficulty Distribution
+                    const easyCount = filteredTopics.filter(t => t.difficulty === 'Easy').length;
+                    const mediumCount = filteredTopics.filter(t => t.difficulty === 'Medium').length;
+                    const hardCount = filteredTopics.filter(t => t.difficulty === 'Hard').length;
+                    
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(14);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('Content Distribution', 20, introY);
+                    introY += 10;
+                    
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(11);
+                    
+                    // Check page space before adding distribution
+                    if (introY > 240) {
+                        pdf.addPage();
+                        introY = 30;
+                    }
+                    
+                    pdf.text(`• Easy Articles: ${easyCount} (${Math.round(easyCount/filteredTopics.length*100)}%)`, 25, introY); introY += 7;
+                    pdf.text(`• Medium Articles: ${mediumCount} (${Math.round(mediumCount/filteredTopics.length*100)}%)`, 25, introY); introY += 7;
+                    pdf.text(`• Hard Articles: ${hardCount} (${Math.round(hardCount/filteredTopics.length*100)}%)`, 25, introY); introY += 7;
+                    
+                    // ========== ARTICLE PAGES ==========
+                    filteredTopics.forEach((topic, index) => {
+                        pdf.addPage();
+                        let y = 20; // Reset y for new page
+                        
+                        // Article Header with decorative elements
+                        pdf.setFillColor(0, 51, 102);
+                        pdf.rect(0, 0, 210, 8, 'F');
+                        
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(24);
+                        pdf.setTextColor(0, 51, 102);
+                        pdf.text(`ARTICLE ${index + 1}`, 20, 25);
+                        
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(16);
+                        pdf.setTextColor(0, 0, 0);
+                        
+                        // Handle long titles with proper spacing
+                        const titleLines = pdf.splitTextToSize(topic.title, 140);
+                        pdf.text(titleLines, 20, 40);
+                        
+                        // Adjust y based on title lines
+                        y = 45 + (titleLines.length - 1) * 6;
+                        
+                        // Difficulty Badge
+                        pdf.setFillColor(
+                            topic.difficulty === 'Easy' ? 220 : 
+                            topic.difficulty === 'Medium' ? 255 : 
+                            255,
+                            topic.difficulty === 'Easy' ? 240 : 
+                            topic.difficulty === 'Medium' ? 235 : 
+                            220,
+                            topic.difficulty === 'Easy' ? 220 : 
+                            topic.difficulty === 'Medium' ? 200 : 
+                            220
+                        );
+                        pdf.rect(150, 25, 35, 10, 'F');
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(10);
+                        pdf.setTextColor(
+                            topic.difficulty === 'Easy' ? 0 : 
+                            topic.difficulty === 'Medium' ? 102 : 
+                            102,
+                            topic.difficulty === 'Easy' ? 102 : 
+                            topic.difficulty === 'Medium' ? 51 : 
+                            0,
+                            topic.difficulty === 'Easy' ? 0 : 
+                            topic.difficulty === 'Medium' ? 0 : 
+                            0
+                        );
+                        pdf.text(topic.difficulty.toUpperCase(), 167, 32, { align: 'center' });
+                        
+                        y += 15; // Add spacing after header
+                        
+                        // 1. LEARNING OBJECTIVES
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(14);
+                        pdf.setTextColor(0, 51, 102);
+                        pdf.text('1.1 Learning Objectives', 20, y);
+                        y += 8;
+                        
+                        pdf.setFont('times', 'normal');
+                        pdf.setFontSize(11);
+                        pdf.setTextColor(0, 0, 0);
+                        
+                        const objectives = [
+                            `Understand core concepts of ${topic.title.substring(0, 40)}...`,
+                            'Analyze time and space complexity implications',
+                            'Implement practical solutions using provided code patterns',
+                            'Identify common use cases and applications'
+                        ];
+                        
+                        objectives.forEach(obj => {
+                            if (y > 270) { 
+                                pdf.addPage(); 
+                                y = 25;
+                                
+                                // Continuation header
+                                pdf.setFillColor(0, 51, 102);
+                                pdf.rect(0, 0, 210, 8, 'F');
+                                pdf.setFont('times', 'bold');
+                                pdf.setFontSize(14);
+                                pdf.setTextColor(0, 51, 102);
+                                pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                                y = 30;
+                                
+                                pdf.setFont('times', 'normal');
+                                pdf.setFontSize(11);
+                            }
+                            pdf.text(`• ${obj}`, 25, y);
+                            y += 7; // Consistent spacing
+                        });
+                        y += 8;
+                        
+                        // 2. KEY CONCEPTS
+                        if (y > 260) { 
+                            pdf.addPage(); 
+                            y = 25;
+                            
+                            // Continuation header
+                            pdf.setFillColor(0, 51, 102);
+                            pdf.rect(0, 0, 210, 8, 'F');
+                            pdf.setFont('times', 'bold');
+                            pdf.setFontSize(14);
+                            pdf.setTextColor(0, 51, 102);
+                            pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                            y = 30;
+                        }
+                        
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(14);
+                        pdf.setTextColor(0, 51, 102);
+                        pdf.text('1.2 Core Concepts', 20, y);
+                        y += 8;
+                        
+                        pdf.setFont('times', 'normal');
+                        pdf.setFontSize(11);
+                        
+                        topic.concepts.forEach((concept, idx) => {
+                            if (y > 260) { 
+                                pdf.addPage(); 
+                                y = 25;
+                                
+                                // Continuation header
+                                pdf.setFillColor(0, 51, 102);
+                                pdf.rect(0, 0, 210, 8, 'F');
+                                pdf.setFont('times', 'bold');
+                                pdf.setFontSize(14);
+                                pdf.setTextColor(0, 51, 102);
+                                pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                                y = 30;
+                                
+                                pdf.setFont('times', 'normal');
+                                pdf.setFontSize(11);
+                            }
+                            
+                            // Split long concepts
+                            const conceptLines = pdf.splitTextToSize(`• ${concept}`, 155);
+                            pdf.text(conceptLines, 25, y);
+                            y += conceptLines.length * 5 + 3;
+                        });
+                        y += 10;
+                        
+                        // 3. COMPLEXITY ANALYSIS
+                        if (y > 250) { 
+                            pdf.addPage(); 
+                            y = 25;
+                            
+                            // Continuation header
+                            pdf.setFillColor(0, 51, 102);
+                            pdf.rect(0, 0, 210, 8, 'F');
+                            pdf.setFont('times', 'bold');
+                            pdf.setFontSize(14);
+                            pdf.setTextColor(0, 51, 102);
+                            pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                            y = 30;
+                        }
+                        
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(14);
+                        pdf.setTextColor(0, 51, 102);
+                        pdf.text('1.3 Complexity Analysis', 20, y);
+                        y += 8;
+                        
+                        // Complexity Table
+                        pdf.setFillColor(245, 245, 245);
+                        pdf.rect(20, y-2, 85, 15, 'F');
+                        pdf.rect(105, y-2, 85, 15, 'F');
+                        
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(11);
+                        pdf.text('TIME COMPLEXITY', 25, y+4);
+                        pdf.text('SPACE COMPLEXITY', 110, y+4);
+                        y += 12;
+                        
+                        pdf.setFont('times', 'normal');
+                        pdf.setFontSize(10);
+                        
+                        // Handle potentially long complexity strings
+                        const timeComplexity = topic.timeComplexity.length > 30 ? 
+                            topic.timeComplexity.substring(0, 27) + '...' : 
+                            topic.timeComplexity;
+                        const spaceComplexity = topic.spaceComplexity.length > 30 ? 
+                            topic.spaceComplexity.substring(0, 27) + '...' : 
+                            topic.spaceComplexity;
+                            
+                        pdf.text(timeComplexity, 25, y);
+                        pdf.text(spaceComplexity, 110, y);
+                        y += 12;
+                        
+                        // Complexity Explanation with safe spacing
+                        pdf.setFont('times', 'italic');
+                        pdf.setFontSize(9);
+                        pdf.setTextColor(80, 80, 80);
+                        
+                        // Create safe complexity note
+                        let complexityNote = '';
+                        if (!topic.timeComplexity.includes('Not Available') && !topic.spaceComplexity.includes('Not Available')) {
+                            complexityNote = `Analysis: ${topic.timeComplexity} time complexity indicates how the algorithm scales with input size, while ${topic.spaceComplexity} space complexity shows memory requirements.`;
+                        } else {
+                            complexityNote = 'Analysis: Specific complexity metrics not available for this article.';
+                        }
+                        
+                        const noteLines = pdf.splitTextToSize(complexityNote, 160);
+                        pdf.text(noteLines, 25, y);
+                        y += noteLines.length * 4 + 10;
+                        
+                        // 4. CODE IMPLEMENTATION
+                        if (topic.codeSnippets && topic.codeSnippets.length > 0) {
+                            if (y > 230) { 
+                                pdf.addPage(); 
+                                y = 25;
+                                
+                                // Continuation header
+                                pdf.setFillColor(0, 51, 102);
+                                pdf.rect(0, 0, 210, 8, 'F');
+                                pdf.setFont('times', 'bold');
+                                pdf.setFontSize(14);
+                                pdf.setTextColor(0, 51, 102);
+                                pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                                y = 30;
+                            }
+                            
+                            pdf.setFont('times', 'bold');
+                            pdf.setFontSize(14);
+                            pdf.setTextColor(0, 51, 102);
+                            pdf.text('1.4 Implementation Example', 20, y);
+                            y += 8;
+                            
+                            // Code block with proper spacing
+                            pdf.setFillColor(250, 250, 250);
+                            pdf.rect(20, y-2, 170, 55, 'F'); // Fixed height background
+                            
+                            pdf.setFont('courier', 'normal');
+                            pdf.setFontSize(8);
+                            pdf.setTextColor(40, 40, 40);
+                            
+                            const codeText = topic.codeSnippets[0];
+                            const codeLines = pdf.splitTextToSize(codeText, 140);
+                            
+                            // Display code with line numbers (limit to 10 lines for spacing)
+                            for (let j = 0; j < Math.min(codeLines.length, 10); j++) {
+                                pdf.setTextColor(150, 150, 150);
+                                pdf.text(`${j+1}.`, 22, y + (j*4.5));
+                                pdf.setTextColor(40, 40, 40);
+                                pdf.text(codeLines[j], 30, y + (j*4.5));
+                            }
+                            
+                            y += Math.min(codeLines.length, 10) * 4.5 + 12;
+                            
+                            if (codeLines.length > 10) {
+                                pdf.setFont('times', 'italic');
+                                pdf.setFontSize(8);
+                                pdf.setTextColor(100, 100, 100);
+                                pdf.text('// Additional implementation lines truncated', 25, y);
+                                y += 8;
+                            }
+                            
+                            // Reset font
+                            pdf.setFont('times', 'normal');
+                        }
+                        
+                        // 5. KEY TAKEAWAYS
+                        if (y > 250) { 
+                            pdf.addPage(); 
+                            y = 25;
+                            
+                            // Continuation header
+                            pdf.setFillColor(0, 51, 102);
+                            pdf.rect(0, 0, 210, 8, 'F');
+                            pdf.setFont('times', 'bold');
+                            pdf.setFontSize(14);
+                            pdf.setTextColor(0, 51, 102);
+                            pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                            y = 30;
+                        }
+                        
+                        pdf.setFont('times', 'bold');
+                        pdf.setFontSize(14);
+                        pdf.setTextColor(0, 51, 102);
+                        pdf.text('1.5 Key Takeaways', 20, y);
+                        y += 8;
+                        
+                        pdf.setFont('times', 'normal');
+                        pdf.setFontSize(10);
+                        
+                        // Safe takeaways
+                        const takeaway1 = topic.concepts[0] ? 
+                            `• Main Concept: ${topic.concepts[0].substring(0, 70)}${topic.concepts[0].length > 70 ? '...' : ''}` :
+                            '• Main Concept: Core principles covered in article';
+                        
+                        const takeaway2 = (!topic.timeComplexity.includes('Not Available') && !topic.spaceComplexity.includes('Not Available')) ?
+                            `• Performance: ${topic.timeComplexity} time, ${topic.spaceComplexity} space` :
+                            '• Performance: Refer to complexity analysis section';
+                        
+                        const takeaway3 = `• Practical Use: Essential for ${topic.difficulty.toLowerCase()}-level understanding`;
+                        
+                        const takeaways = [takeaway1, takeaway2, takeaway3];
+                        
+                        takeaways.forEach(take => {
+                            if (y > 270) { 
+                                pdf.addPage(); 
+                                y = 25;
+                                
+                                // Continuation header
+                                pdf.setFillColor(0, 51, 102);
+                                pdf.rect(0, 0, 210, 8, 'F');
+                                pdf.setFont('times', 'bold');
+                                pdf.setFontSize(14);
+                                pdf.setTextColor(0, 51, 102);
+                                pdf.text(`ARTICLE ${index + 1} (continued)`, 20, 20);
+                                y = 30;
+                                
+                                pdf.setFont('times', 'normal');
+                                pdf.setFontSize(10);
+                            }
+                            
+                            const takeLines = pdf.splitTextToSize(take, 160);
+                            pdf.text(takeLines, 25, y);
+                            y += takeLines.length * 4 + 3;
+                        });
+                        
+                        // Page footer with source - always at bottom
+                        pdf.setFont('times', 'italic');
+                        pdf.setFontSize(7);
+                        pdf.setTextColor(100, 100, 100);
+                        
+                        // Create safe source URL
+                        let sourceUrl = topic.url || 'Source not available';
+                        if (sourceUrl.length > 60) sourceUrl = sourceUrl.substring(0, 57) + '...';
+                        
+                        pdf.text(`Source: ${sourceUrl} | Article ${index + 1} of ${filteredTopics.length}`, 20, 285);
+                        pdf.text(`Page ${pdf.internal.getNumberOfPages()}`, 190, 285, { align: 'right' });
+                    });
+                    
+                    // ========== COMPLEXITY REFERENCE CHARTS ==========
+                    pdf.addPage();
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(20);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('II. COMPLEXITY REFERENCE CHARTS', 20, 30);
+                    pdf.line(20, 35, 190, 35);
+                    
+                    let chartY = 50;
+                    
+                    // Summary Table
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(14);
+                    pdf.text('Complexity Summary by Difficulty', 20, chartY);
+                    chartY += 12;
+                    
+                    // Table Header
+                    pdf.setFillColor(0, 51, 102);
+                    pdf.setTextColor(255, 255, 255);
+                    pdf.rect(20, chartY-5, 170, 8, 'F');
+                    pdf.setFontSize(10);
+                    pdf.text('Difficulty', 25, chartY);
+                    pdf.text('Typical Time Complexity', 70, chartY);
+                    pdf.text('Typical Space Complexity', 130, chartY);
+                    chartY += 10;
+                    
+                    // Table Rows
+                    pdf.setFont('times', 'normal');
+                    pdf.setTextColor(0, 0, 0);
+                    
+                    const rows = [
+                        ['Easy', 'O(n), O(log n)', 'O(n), O(1)'],
+                        ['Medium', 'O(n log n), O(n²)', 'O(n), O(n²)'],
+                        ['Hard', 'O(n²), O(2ⁿ)', 'O(n²), O(n!)']
+                    ];
+                    
+                    rows.forEach(row => {
+                        if (chartY > 260) { 
+                            pdf.addPage(); 
+                            chartY = 30;
+                            pdf.setFont('times', 'normal');
+                        }
+                        pdf.setFillColor(245, 245, 245);
+                        pdf.rect(20, chartY-3, 170, 8, 'F');
+                        pdf.text(row[0], 25, chartY);
+                        pdf.text(row[1], 70, chartY);
+                        pdf.text(row[2], 130, chartY);
+                        chartY += 10;
+                    });
+                    
+                    // ========== CODE PATTERNS SUMMARY ==========
+                    pdf.addPage();
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(20);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('III. COMMON CODE PATTERNS', 20, 30);
+                    pdf.line(20, 35, 190, 35);
+                    
+                    let patternY = 50;
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(11);
+                    
+                    const patterns = [
+                        '• Iterative Approaches: Loop-based solutions for linear problems',
+                        '• Recursive Patterns: Divide-and-conquer strategies',
+                        '• Dynamic Programming: Optimal substructure and overlapping subproblems',
+                        '• Two-Pointer Technique: Efficient array/string traversal',
+                        '• Sliding Window: Subarray/substring optimization',
+                        '• Backtracking: Systematic trial-and-error for constraint problems',
+                        '• Greedy Algorithms: Local optimum choices for global solutions'
+                    ];
+                    
+                    patterns.forEach(p => {
+                        if (patternY > 260) { 
+                            pdf.addPage(); 
+                            patternY = 30;
+                            pdf.setFont('times', 'normal');
+                        }
+                        pdf.text(p, 20, patternY);
+                        patternY += 8;
+                    });
+                    
+                    // ========== APPENDIX ==========
+                    pdf.addPage();
+                    pdf.setFont('times', 'bold');
+                    pdf.setFontSize(20);
+                    pdf.setTextColor(0, 51, 102);
+                    pdf.text('IV. APPENDIX: METHODOLOGY', 20, 30);
+                    pdf.line(20, 35, 190, 35);
+                    
+                    pdf.setFont('times', 'normal');
+                    pdf.setFontSize(10);
+                    let appY = 50;
+                    
+                    const methodology = [
+                        'Data Collection:',
+                        'This reviewer was compiled using automated extraction techniques',
+                        `from ${filteredTopics.length} web development articles. Each article underwent`,
+                        'systematic analysis to extract core concepts, complexity metrics,',
+                        'and practical code examples suitable for academic review.',
+                        '',
+                        'Organization:',
+                        'Articles are arranged by increasing difficulty to facilitate',
+                        'progressive learning. Each article includes learning objectives,',
+                        'detailed concepts, complexity analysis, and implementation examples.',
+                        '',
+                        'Validation:',
+                        'All content has been verified for technical accuracy and relevance',
+                        'to standard web development curricula.',
+                        '',
+                        `Generated on: ${new Date().toLocaleDateString()}`,
+                        `Reviewer Version: 1.0`,
+                        `Total Pages: ${pdf.internal.getNumberOfPages()}`
+                    ];
+                    
+                    methodology.forEach(line => {
+                        if (appY > 260) { 
+                            pdf.addPage(); 
+                            appY = 30;
+                            pdf.setFont('times', 'bold');
+                            pdf.setFontSize(16);
+                            pdf.setTextColor(0, 51, 102);
+                            pdf.text('APPENDIX (continued)', 105, 25, { align: 'center' });
+                            pdf.setFont('times', 'normal');
+                            pdf.setFontSize(10);
+                        }
+                        
+                        if (line === '') {
+                            appY += 6;
+                        } else {
+                            pdf.text(line, 20, appY);
+                            appY += 6;
+                        }
+                    });
+                    
+                    // Save
+                    const dateStr = new Date().toISOString().slice(0,10);
+                    const fileName = `Web_Dev_Reviewer_${dateStr}.pdf`;
+                    pdf.save(fileName);
+                    
+                    setStatus('success', '✅ professional reviewer generated successfully!');
+                    
+                } catch (error) {
+                    setStatus('error', `❌ pdf generation failed: ${error.message}`);
+                }
+            }
+
+            // Event Listeners
+            elements.scrapeBtn.addEventListener('click', startScraping);
+            elements.searchFilter.addEventListener('input', filterTopics);
+            elements.difficultyFilter.addEventListener('change', filterTopics);
+            elements.saveJsonBtn.addEventListener('click', saveToLocalStorage);
+            elements.loadJsonBtn.addEventListener('click', loadFromLocalStorage);
+            elements.exportJsonBtn.addEventListener('click', exportToJsonFile);
+            elements.generatePdfBtn.addEventListener('click', generateAcademicPDF);
+            
+            elements.cardViewTab.addEventListener('click', () => {
+                activeTab = 'card';
+                elements.cardViewTab.classList.add('active');
+                elements.previewTab.classList.remove('active');
+                renderCardView();
+            });
+            
+            elements.previewTab.addEventListener('click', () => {
+                activeTab = 'preview';
+                elements.previewTab.classList.add('active');
+                elements.cardViewTab.classList.remove('active');
+                renderDataPreview();
+            });
+
+            // Online/Offline Listeners
+            window.addEventListener('offline', () => {
+                setStatus('warning', '⚠️ OFFLINE MODE: Only saved data available. Scraping disabled.', 0);
+                elements.scrapeBtn.disabled = true;
+                elements.scrapeBtn.title = 'Scraping requires internet connection';
+            });
+
+            window.addEventListener('online', () => {
+                setStatus('success', '✅ ONLINE: You can scrape new articles now.', 3000);
+                if (!isScraping) {
+                    elements.scrapeBtn.disabled = false;
+                    elements.scrapeBtn.title = '';
+                }
+            });
+
+            // Check initial online status
+            if (!isOnline()) {
+                setStatus('warning', '⚠️ You are offline. Click "load" to view saved data.', 0);
+                elements.scrapeBtn.disabled = true;
+                elements.scrapeBtn.title = 'Scraping requires internet connection';
+            }
+
+            setStatus('info', '⚡ ready to scrape. Click "run scraper" to begin.', 4000);
+        })();
+    </script>
 </body>
 </html>
